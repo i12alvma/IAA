@@ -1,4 +1,3 @@
-
 using Plots
 include("optimizacion_energia.jl")  # reutiliza funciones y dataset
 
@@ -11,7 +10,7 @@ include("optimizacion_energia.jl")  # reutiliza funciones y dataset
 # - αosc : oscila antes de estabilizar
 # - αfail: diverge (crece el error)
 
-mkpath("outputs")
+mkpath("P1/outputs")
 
 # 1) Dataset base
 X, y = make_dataset()
@@ -23,7 +22,7 @@ batch_fixed = 32
 n_epochs = 120
 
 alphas = Dict(
-    "A_alpha_slow" => 0.01,
+    "A_alpha_slow" => 1e-4,
     "B_alpha_opt"  => 0.2,
     "C_alpha_osc"  => 0.8,
     "D_alpha_fail" => 2.0
@@ -34,7 +33,7 @@ for (tag, α) in alphas
     p = plot(history_loss,
         title="Convergencia ($tag, α=$α, batch=$batch_fixed)",
         xlabel="Épocas", ylabel="Coste J(θ)", lw=2, legend=false)
-    savefig(p, joinpath("outputs", "alpha_" * tag * "_a$(α).png"))
+    savefig(p, joinpath("P1/outputs", "alpha_" * tag * "_a$(α).png"))
 end
 
 # 3) Experimentos batch (usa αopt)
@@ -50,7 +49,7 @@ for (tag, bsz) in batches
     p = plot(history_loss,
         title="Convergencia ($tag, α=$αopt, batch=$bsz)",
         xlabel="Épocas", ylabel="Coste J(θ)", lw=2, legend=false)
-    savefig(p, joinpath("outputs", "batch_" * tag * "_b$(bsz).png"))
+    savefig(p, joinpath("P1/outputs", "batch_" * tag * "_b$(bsz).png"))
 end
 
 # 4) Reto: criterio de parada (ejemplo)
@@ -59,6 +58,6 @@ tol = 1e-5
 p = plot(history_loss,
     title="Early stop (α=$αopt, batch=32, tol=$tol)",
     xlabel="Épocas", ylabel="Coste J(θ)", lw=2, legend=false)
-savefig(p, joinpath("outputs", "reto_early_stop.png"))
+savefig(p, joinpath("P1/outputs", "reto_early_stop.png"))
 
 println("Listo. Figuras generadas en outputs/")
