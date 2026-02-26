@@ -15,7 +15,7 @@ def add_bias(X_norm):
     n = X_norm.shape[0]
     return np.hstack([np.ones((n, 1)), X_norm])
 
-def minibatch_gd(X_b, y, alpha=0.5, n_epochs=100, batch_size=32, seed=42, tol=None):
+def minibatch_gd(X_b, y, alpha=0.2, n_epochs=100, batch_size=32, seed=42, tol=None):
     rng = np.random.default_rng(seed)
     m, n = X_b.shape
     theta = rng.normal(size=(n, 1))
