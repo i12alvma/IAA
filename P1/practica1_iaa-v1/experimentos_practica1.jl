@@ -23,9 +23,9 @@ n_epochs = 120
 
 alphas = Dict(
     "A_alpha_slow" => 1e-4,
-    "B_alpha_opt"  => 0.2,
-    "C_alpha_osc"  => 0.8,
-    "D_alpha_fail" => 2.0
+    "B_alpha_opt"  => 0.01,
+    "C_alpha_osc"  => 0.13,
+    "D_alpha_fail" => 1.1
 )
 
 for (tag, α) in alphas
