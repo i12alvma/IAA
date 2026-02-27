@@ -3,7 +3,7 @@
 **Asignatura:** Introducción al Aprendizaje Automático (3º Ing. Informática)  
 **Curso:** 2025/2026  
 **Alumno/a:** Juan Luis y Alberto  
-**Fecha:** ______________________________
+**Fecha:** 02/2026
 
 ## Objetivo
 Comprender la dinámica de la optimización mediante gradiente descendente y el impacto de los hiperparámetros en la convergencia.
@@ -16,7 +16,7 @@ Comprender la dinámica de la optimización mediante gradiente descendente y el 
 - **Valor elegido:** α = 1e-4
 - **Figura:** `outputs/alpha_A_alpha_slow_...png`
 
-![αslow](outputs/alpha_A_alpha_slow_a0.01.png)
+![αslow](/P1/outputs/alpha_A_alpha_slow_a0.0001.png)
 
 **Análisis (obligatorio):**
 - ¿Por qué la curva baja tan lentamente?

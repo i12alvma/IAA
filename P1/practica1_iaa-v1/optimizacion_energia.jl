@@ -102,7 +102,7 @@ p = plot(history_loss,
 display(p)
 
 # Guarda la figura (útil para el Cuaderno de Laboratorio)
-mkpath("outputs")
-savefig(p, joinpath("outputs", "loss_alpha_$(α)_batch_$(batch_size).png"))
+mkpath("P1/outputs")
+savefig(p, joinpath("P1/outputs", "loss_alpha_$(α)_batch_$(batch_size).png"))
 println("Figura guardada en outputs/")
 println("Épocas ejecutadas: ", epochs_run)
