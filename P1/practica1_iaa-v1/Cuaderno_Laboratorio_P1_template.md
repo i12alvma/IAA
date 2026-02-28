@@ -23,11 +23,11 @@ Comprender la dinámica de la optimización mediante gradiente descendente y el 
 **Análisis (obligatorio):**
 - ¿Por qué la curva baja tan lentamente?
 
-Con α = 1e-4, cada actualización de pesos es muy pequeña, por eso el descenso del coste es casi lineal y muy suave. El algoritmo avanza en la dirección correcta, pero con pasos demasiado cortos.
+   Con α = 1e-4, cada actualización de pesos es muy pequeña, por eso el descenso del coste es casi lineal y muy suave. El algoritmo avanza en la dirección correcta, pero con pasos demasiado cortos.
 
 - ¿Cuántas iteraciones estimas que harían falta para llegar cerca del mínimo? Justifica.
 
-Tomando la pendiente media observada en la curva, el número de iteraciones para acercarse al mínimo sería **muy alto (del orden de \(10^4\)–\(10^5\) iteraciones)**, claramente poco eficiente en tiempo de entrenamiento.
+   Tomando la pendiente media observada en la curva, el número de iteraciones para acercarse al mínimo sería **muy alto (del orden de \(10^4\)–\(10^5\) iteraciones)**, claramente poco eficiente en tiempo de entrenamiento.
 
 ### 1.2 Escenario B (αopt): “curva de codo”
 - **Valor elegido:** α = 0.01
@@ -38,7 +38,7 @@ Tomando la pendiente media observada en la curva, el número de iteraciones para
 **Análisis (obligatorio):**
 - Describe la “curva de codo” y qué te dice sobre estabilidad y rapidez.
 
-La curva muestra una bajada rápida al principio (reducción fuerte del error) y después una meseta estable. Ese “codo” indica un buen equilibrio entre **rapidez** y **estabilidad**: el modelo llega pronto a una zona cercana al mínimo y luego hace ajustes finos sin oscilar de forma excesiva.
+   La curva muestra una bajada rápida al principio (reducción fuerte del error) y después una meseta estable. Ese “codo” indica un buen equilibrio entre **rapidez** y **estabilidad**: el modelo llega pronto a una zona cercana al mínimo y luego hace ajustes finos sin oscilar de forma excesiva.
 
 ### 1.3 Escenario C (αosc): oscilación amortiguada
 - **Valor elegido:** α = 0.13
@@ -50,8 +50,8 @@ La curva muestra una bajada rápida al principio (reducción fuerte del error) y
 - ¿Qué está ocurriendo “físicamente” con los pesos θ en el espacio de búsqueda?
 - Explica por qué puede oscilar y aun así estabilizarse.
 
-Aquí los pesos θ “rebotan” alrededor del valle de la función de coste: en cada paso se sobrepasa el mínimo local y se cruza al otro lado, generando subidas y bajadas del error.
-Físicamente, en el espacio de búsqueda hay un movimiento en zig-zag por usar un paso grande. Aun así, la oscilación se amortigua porque la tendencia global sigue apuntando hacia una región de menor coste.
+   Aquí los pesos θ “rebotan” alrededor del valle de la función de coste: en cada paso se sobrepasa el mínimo local y se cruza al otro lado, generando subidas y bajadas del error. <br>
+   Físicamente, en el espacio de búsqueda hay un movimiento en zig-zag por usar un paso grande. Aun así, la oscilación se amortigua porque la tendencia global sigue apuntando hacia una región de menor coste.
 
 ### 1.4 Escenario D (αfail): divergencia
 - **Valor elegido:** α = 1.1
@@ -62,7 +62,7 @@ Físicamente, en el espacio de búsqueda hay un movimiento en zig-zag por usar u
 **Análisis (obligatorio):**
 - ¿Por qué el error crece? Relaciónalo con “pasarse” del mínimo.
 
-Con α = 1.1, el tamaño de paso es demasiado grande: el algoritmo se “pasa” sistemáticamente del mínimo y cada actualización puede alejar más los pesos de la zona estable. Por eso la oscilación no se amortigua y el coste termina creciendo (divergencia), en lugar de converger.
+   Con α = 1.1, el tamaño de paso es demasiado grande: el algoritmo se “pasa” sistemáticamente del mínimo y cada actualización puede alejar más los pesos de la zona estable. Por eso la oscilación no se amortigua y el coste termina creciendo (divergencia), en lugar de converger.
 
 
 ---
@@ -128,18 +128,20 @@ $|J_t - J_{t-1}| < 10^{-5}$
 Resume en 8–12 líneas lo que has aprendido sobre:
 - relación entre α y estabilidad:
 
-Durante los experimentos, se ha observado que la tasa de aprendizaje α controla el tamaño de cada paso en el espacio de parámetros:
-- Si α es muy pequeña, el entrenamiento es estable pero extremadamente lento.
-En ese caso, la curva de coste desciende casi en línea recta y requiere muchas iteraciones.
+   Durante los experimentos, se ha observado que la tasa de aprendizaje α controla el tamaño de cada paso en el espacio de parámetros:
+   - Si α es muy pequeña, el entrenamiento es estable pero extremadamente lento.
+   En ese caso, la curva de coste desciende casi en línea recta y requiere muchas iteraciones.
 
-- Si α toma un valor intermedio, aparece la “curva de codo”: caída rápida y estabilización.
-Ese régimen es el más eficiente porque combina velocidad de convergencia y buen control del error.
+   - Si α toma un valor intermedio, aparece la “curva de codo”: caída rápida y estabilización.
+   Ese régimen es el más eficiente porque combina velocidad de convergencia y buen control del error.
 
-- Si α toma un valor muy alto, el coste empieza a oscilar por sobrepasar el mínimo en cada actualización. &nbsp; <br>
-Si esta oscilación se amortigua, el modelo aún puede converger, aunque con menor precisión temporal. <br>
-Cuando α supera un umbral crítico, la oscilación no se amortigua y el entrenamiento diverge.
+   - Si α toma un valor muy alto, el coste empieza a oscilar por sobrepasar el mínimo en cada actualización. <br>
+   Si esta oscilación se amortigua, el modelo aún puede converger, aunque con menor precisión temporal. <br>
+   Cuando α supera un umbral crítico, la oscilación no se amortigua y el entrenamiento diverge.
 
-Por tanto, α define el equilibrio clave entre rapidez, estabilidad y fiabilidad del aprendizaje.
+   Por tanto, α define el equilibrio clave entre rapidez, estabilidad y fiabilidad del aprendizaje. 
+   
+<br>
 
 - Efecto del batch en ruido/velocidad:
 
@@ -147,6 +149,8 @@ Por tanto, α define el equilibrio clave entre rapidez, estabilidad y fiabilidad
    - El batch completo produce una curva muy suave porque el gradiente se calcula usando toda la información del dataset. 
    - El mini-batch introduce un pequeño ruido que puede ayudar a escapar de mínimos locales, manteniendo un buen equilibrio entre estabilidad y velocidad. 
    - El método estocástico es el más ruidoso porque cada actualización se basa en un solo ejemplo.
+   
+<br>
 
 - Utilidad de un criterio de parada:
 

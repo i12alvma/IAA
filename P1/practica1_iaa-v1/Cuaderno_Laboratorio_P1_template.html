@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cuaderno_Laboratorio_P1_template.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<div style="text-align: justify;">
+<h1 id="cuaderno-de-laboratorio--pr%C3%A1ctica-1-la-f%C3%ADsica-del-aprendizaje-autom%C3%A1tico">Cuaderno de Laboratorio — Práctica 1: La Física del Aprendizaje Automático</h1>
+<p><strong>Asignatura:</strong> Introducción al Aprendizaje Automático (3º Ing. Informática)<br>
+<strong>Curso:</strong> 2025/2026<br>
+<strong>Alumno/a:</strong> Juan Luis Prieto Panadero y Alberto Álvarez Mejías <br>
+<strong>Fecha:</strong> 27/02/2026</p>
+<h2 id="objetivo">Objetivo</h2>
+<p>Comprender la dinámica de la optimización mediante gradiente descendente y el impacto de los hiperparámetros en la convergencia.</p>
+<hr>
+<h2 id="1-tarea-1--la-importancia-de-la-tasa-de-aprendizaje-%CE%B1">1. Tarea 1 — La importancia de la tasa de aprendizaje (α)</h2>
+<h3 id="11-escenario-a-%CE%B1slow-convergencia-lenta">1.1 Escenario A (αslow): convergencia lenta</h3>
+<ul>
+<li><strong>Valor elegido:</strong> α = 1e-4</li>
+<li><strong>Figura:</strong> <code>outputs/alpha_A_alpha_slow_...png</code></li>
+</ul>
+<p><img src="/P1/outputs/alpha_A_alpha_slow_a0.0001.png" alt="αslow"></p>
+<p><strong>Análisis (obligatorio):</strong></p>
+<ul>
+<li>
+<p>¿Por qué la curva baja tan lentamente?</p>
+<p>Con α = 1e-4, cada actualización de pesos es muy pequeña, por eso el descenso del coste es casi lineal y muy suave. El algoritmo avanza en la dirección correcta, pero con pasos demasiado cortos.</p>
+</li>
+<li>
+<p>¿Cuántas iteraciones estimas que harían falta para llegar cerca del mínimo? Justifica.</p>
+<p>Tomando la pendiente media observada en la curva, el número de iteraciones para acercarse al mínimo sería <strong>muy alto (del orden de (10^4)–(10^5) iteraciones)</strong>, claramente poco eficiente en tiempo de entrenamiento.</p>
+</li>
+</ul>
+<h3 id="12-escenario-b-%CE%B1opt-curva-de-codo">1.2 Escenario B (αopt): “curva de codo”</h3>
+<ul>
+<li><strong>Valor elegido:</strong> α = 0.01</li>
+<li><strong>Figura:</strong> <code>outputs/alpha_B_alpha_opt_...png</code></li>
+</ul>
+<p><img src="/P1/outputs/alpha_B_alpha_opt_a0.01.png" alt="αopt"></p>
+<p><strong>Análisis (obligatorio):</strong></p>
+<ul>
+<li>
+<p>Describe la “curva de codo” y qué te dice sobre estabilidad y rapidez.</p>
+<p>La curva muestra una bajada rápida al principio (reducción fuerte del error) y después una meseta estable. Ese “codo” indica un buen equilibrio entre <strong>rapidez</strong> y <strong>estabilidad</strong>: el modelo llega pronto a una zona cercana al mínimo y luego hace ajustes finos sin oscilar de forma excesiva.</p>
+</li>
+</ul>
+<h3 id="13-escenario-c-%CE%B1osc-oscilaci%C3%B3n-amortiguada">1.3 Escenario C (αosc): oscilación amortiguada</h3>
+<ul>
+<li><strong>Valor elegido:</strong> α = 0.13</li>
+<li><strong>Figura:</strong> <code>outputs/alpha_C_alpha_osc_...png</code></li>
+</ul>
+<p><img src="/P1/outputs/alpha_C_alpha_osc_a0.13.png" alt="αosc"></p>
+<p><strong>Análisis (obligatorio):</strong></p>
+<ul>
+<li>
+<p>¿Qué está ocurriendo “físicamente” con los pesos θ en el espacio de búsqueda?</p>
+</li>
+<li>
+<p>Explica por qué puede oscilar y aun así estabilizarse.</p>
+<p>Aquí los pesos θ “rebotan” alrededor del valle de la función de coste: en cada paso se sobrepasa el mínimo local y se cruza al otro lado, generando subidas y bajadas del error. <br>
+Físicamente, en el espacio de búsqueda hay un movimiento en zig-zag por usar un paso grande. Aun así, la oscilación se amortigua porque la tendencia global sigue apuntando hacia una región de menor coste.</p>
+</li>
+</ul>
+<h3 id="14-escenario-d-%CE%B1fail-divergencia">1.4 Escenario D (αfail): divergencia</h3>
+<ul>
+<li><strong>Valor elegido:</strong> α = 1.1</li>
+<li><strong>Figura:</strong> <code>outputs/alpha_D_alpha_fail_...png</code></li>
+</ul>
+<p><img src="/P1/outputs/alpha_D_alpha_fail_a1.1.png" alt="αfail"></p>
+<p><strong>Análisis (obligatorio):</strong></p>
+<ul>
+<li>
+<p>¿Por qué el error crece? Relaciónalo con “pasarse” del mínimo.</p>
+<p>Con α = 1.1, el tamaño de paso es demasiado grande: el algoritmo se “pasa” sistemáticamente del mínimo y cada actualización puede alejar más los pesos de la zona estable. Por eso la oscilación no se amortigua y el coste termina creciendo (divergencia), en lugar de converger.</p>
+</li>
+</ul>
+<hr>
+<h2 id="2-tarea-2--el-compromiso-del-mini-batch">2. Tarea 2 — El compromiso del Mini-batch</h2>
+<p>Usa tu <strong>αopt</strong> (del escenario B) y compara:</p>
+<h3 id="21-batch-completo">2.1 Batch completo</h3>
+<p><img src="/P1/outputs/batch_Batch_completo_b500.png" alt="Batch completo"></p>
+<h3 id="22-mini-batch-32-o-16">2.2 Mini-batch (32 o 16)</h3>
+<p><img src="/P1/outputs/batch_Mini_batch_32_b32.png" alt="Mini-batch"></p>
+<h3 id="23-estoc%C3%A1stico-puro-batch1">2.3 Estocástico puro (batch=1)</h3>
+<p><img src="/P1/outputs/batch_Estocastico_1_b1.png" alt="Estocástico"></p>
+<p><strong>Preguntas de reflexión (obligatorio):</strong></p>
+<ol>
+<li>
+<p>¿Cuál de las tres curvas es más “ruidosa” y por qué?</p>
+<p>La más ruidosa es la del método <strong>estocástico (batch = 1)</strong>.<br>
+Esto pasa porque en cada paso solo se usa un dato para calcular el gradiente. Entonces, cada actualización cambia bastante y la función de coste sube y baja continuamente.</p>
+<p>El <strong>batch completo</strong> es el más suave, porque usa todos los datos y el gradiente es mucho más estable.</p>
+<p>El <strong>mini-batch</strong> está en medio: no es tan estable como el batch completo, pero tampoco tan inestable como el estocástico.</p>
+</li>
+</ol>
+<hr>
+<ol start="2">
+<li>
+<p>A nivel de tiempo de ejecución (CPU), ¿cuál ha sido más eficiente?<br>
+Justifica basándote en computación vectorial y número de actualizaciones.</p>
+<p>El más eficiente ha sido el <strong>mini-batch</strong>.</p>
+<p>El batch completo aprovecha bien las operaciones con matrices grandes, pero cada iteración tarda más.</p>
+<p>El estocástico hace muchísimas actualizaciones pequeñas y no aprovecha tanto la vectorización, por lo que puede ser menos eficiente.</p>
+<p>El mini-batch combina lo mejor de los dos: operaciones suficientemente grandes para ser eficientes y menos coste por iteración que el batch completo.</p>
+</li>
+</ol>
+<hr>
+<h2 id="3-el-reto--ajuste-de-precisi%C3%B3n-criterio-de-parada">3. El reto — “Ajuste de Precisión” (criterio de parada)</h2>
+<p>Modifica el script para que el entrenamiento se detenga automáticamente cuando:</p>
+<p>$|J_t - J_{t-1}| &lt; 10^{-5}$</p>
+<ul>
+<li><strong>Mejor combinación encontrada:</strong> α = 0.01 ; batch = 32</li>
+<li><strong>Épocas hasta parar:</strong> 77</li>
+<li><strong>Figura (opcional):</strong> <br>
+<img src="/P1/outputs/reto_early_stop.png" alt="Early stop"></li>
+</ul>
+<p><strong>Conclusión:</strong></p>
+<ul>
+<li>
+<p>¿Qué combinación para antes con error aceptable?</p>
+<p>La combinación que ha mostrado mejor comportamiento ha sido <strong>α = 0.01 y batch = 32</strong>, ya que consigue detener el entrenamiento en menos épocas y el error final es prácticamente el mismo que el del batch completo.</p>
+</li>
+<li>
+<p>¿Qué sacrificas (si algo) para conseguirlo?</p>
+<p>Al usar mini-batch se introduce un poco más de variabilidad en el cálculo del gradiente porque no se usan todos los datos en cada actualización. Aun así, esta variabilidad no afecta mucho al resultado final y permite que el modelo converja más rápido.</p>
+</li>
+</ul>
+<hr>
+<h2 id="4-conclusiones-finales-obligatorio">4. Conclusiones finales (obligatorio)</h2>
+<p>Resume en 8–12 líneas lo que has aprendido sobre:</p>
+<ul>
+<li>
+<p>relación entre α y estabilidad:</p>
+<p>Durante los experimentos, se ha observado que la tasa de aprendizaje α controla el tamaño de cada paso en el espacio de parámetros:</p>
+<ul>
+<li>
+<p>Si α es muy pequeña, el entrenamiento es estable pero extremadamente lento.
+En ese caso, la curva de coste desciende casi en línea recta y requiere muchas iteraciones.</p>
+</li>
+<li>
+<p>Si α toma un valor intermedio, aparece la “curva de codo”: caída rápida y estabilización.
+Ese régimen es el más eficiente porque combina velocidad de convergencia y buen control del error.</p>
+</li>
+<li>
+<p>Si α toma un valor muy alto, el coste empieza a oscilar por sobrepasar el mínimo en cada actualización. <br>
+Si esta oscilación se amortigua, el modelo aún puede converger, aunque con menor precisión temporal. <br>
+Cuando α supera un umbral crítico, la oscilación no se amortigua y el entrenamiento diverge.</p>
+</li>
+</ul>
+<p>Por tanto, α define el equilibrio clave entre rapidez, estabilidad y fiabilidad del aprendizaje.</p>
+</li>
+</ul>
+<br>
+<ul>
+<li>
+<p>Efecto del batch en ruido/velocidad:</p>
+<p>El tamaño del batch influye directamente en el ruido del entrenamiento.</p>
+<ul>
+<li>El batch completo produce una curva muy suave porque el gradiente se calcula usando toda la información del dataset.</li>
+<li>El mini-batch introduce un pequeño ruido que puede ayudar a escapar de mínimos locales, manteniendo un buen equilibrio entre estabilidad y velocidad.</li>
+<li>El método estocástico es el más ruidoso porque cada actualización se basa en un solo ejemplo.</li>
+</ul>
+</li>
+</ul>
+<br>
+<ul>
+<li>
+<p>Utilidad de un criterio de parada:</p>
+<p>El criterio de parada es muy útil porque evita seguir entrenando el modelo cuando la mejora entre una iteración y la siguiente es muy pequeña. Esto permite ahorrar tiempo de cálculo y recursos computacionales.</p>
+<p>En esta práctica se ha utilizado el criterio $|J_t - J_{t-1}| &lt; 10^{-5}$, que detiene el entrenamiento cuando el coste prácticamente deja de cambiar.</p>
+<p>De esta forma se evita realizar iteraciones innecesarias una vez que el modelo ha alcanzado una zona de convergencia, manteniendo un error aceptable y reduciendo el tiempo de entrenamiento.</p>
+</li>
+</ul>
+
+</body>
+</html>
