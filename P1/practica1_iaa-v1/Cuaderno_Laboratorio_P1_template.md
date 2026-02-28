@@ -89,6 +89,7 @@ Usa tu **αopt** (del escenario B) y compara:
    El **batch completo** es el más suave, porque usa todos los datos y el gradiente es mucho más estable.
 
    El **mini-batch** está en medio: no es tan estable como el batch completo, pero tampoco tan inestable como el estocástico.
+---
 
 2. A nivel de tiempo de ejecución (CPU), ¿cuál ha sido más eficiente?  
    Justifica basándote en computación vectorial y número de actualizaciones.
@@ -108,15 +109,19 @@ Modifica el script para que el entrenamiento se detenga automáticamente cuando:
 
 \[ |J_t - J_{t-1}| < 10^{-5} \]
 
-- **Mejor combinación encontrada:** α = _______ ; batch = _______
-- **Épocas hasta parar:** _______
+- **Mejor combinación encontrada:** α = 0.01 ; batch = 32
+- **Épocas hasta parar:** 77
 - **Figura (opcional):**
 ![Early stop](/P1/outputs/reto_early_stop.png)
 
 **Conclusión:**
 - ¿Qué combinación para antes con error aceptable?
-- ¿Qué sacrificas (si algo) para conseguirlo?
+  
+  La combinación que ha mostrado mejor comportamiento ha sido **α = 0.01 y batch = 32**, ya que consigue detener el entrenamiento en menos épocas y el error final es prácticamente el mismo que el del batch completo.
 
+- ¿Qué sacrificas (si algo) para conseguirlo?
+  
+   Al usar mini-batch se introduce un poco más de variabilidad en el cálculo del gradiente porque no se usan todos los datos en cada actualización. Aun así, esta variabilidad no afecta mucho al resultado final y permite que el modelo converja más rápido.
 ---
 
 ## 4. Conclusiones finales (obligatorio)
@@ -136,10 +141,19 @@ Cuando α supera un umbral crítico, la oscilación no se amortigua y el entrena
 
 Por tanto, α define el equilibrio clave entre rapidez, estabilidad y fiabilidad del aprendizaje.
 
-- efecto del batch en ruido/velocidad:
+- Efecto del batch en ruido/velocidad:
 
+   El tamaño del batch influye directamente en el ruido del entrenamiento. 
+   - El batch completo produce una curva muy suave porque el gradiente se calcula usando toda la información del dataset. 
+   - El mini-batch introduce un pequeño ruido que puede ayudar a escapar de mínimos locales, manteniendo un buen equilibrio entre estabilidad y velocidad. 
+   - El método estocástico es el más ruidoso porque cada actualización se basa en un solo ejemplo.
 
+- Utilidad de un criterio de parada:
 
-- utilidad de un criterio de parada:
+   El criterio de parada es muy útil porque evita seguir entrenando el modelo cuando la mejora entre una iteración y la siguiente es muy pequeña. Esto permite ahorrar tiempo de cálculo y recursos computacionales.
+
+   En esta práctica se ha utilizado el criterio |J_t - J_{t-1}| < 10^-5, que detiene el entrenamiento cuando el coste prácticamente deja de cambiar.
+
+   De esta forma se evita realizar iteraciones innecesarias una vez que el modelo ha alcanzado una zona de convergencia, manteniendo un error aceptable y reduciendo el tiempo de entrenamiento.
 
 

@@ -54,10 +54,26 @@ end
 
 # 4) Reto: criterio de parada (ejemplo)
 tol = 1e-5
-θ, history_loss, epochs_run = minibatch_gd(X_b, y; α=αopt, n_epochs=10_000, batch_size=32, tol=tol)
-p = plot(history_loss,
-    title="Early stop (α=$αopt, batch=32, tol=$tol)",
-    xlabel="Épocas", ylabel="Coste J(θ)", lw=2, legend=false)
-savefig(p, joinpath("P1/outputs", "reto_early_stop.png"))
+αopt = alphas["B_alpha_opt"]
 
-println("Listo. Figuras generadas en outputs/")
+batches = Dict(
+    "Batch_completo" => size(X_b, 1),
+    "Mini_batch_32"  => 32,
+    "Estocastico_1"  => 1
+)
+
+for (tag, bsz) in batches
+    println("\nEjecutando: $tag (batch=$bsz)")
+
+    θ, history_loss, epochs_run =
+        minibatch_gd(X_b, y; α=αopt, n_epochs=10_000, batch_size=bsz, tol=tol)
+
+    println("Épocas hasta parar: ", epochs_run)
+    println("Error final: ", history_loss[end])
+
+    p = plot(history_loss,
+        title="Early stop ($tag, α=$αopt, batch=$bsz)",
+        xlabel="Épocas", ylabel="Coste J(θ)", lw=2, legend=false)
+
+    savefig(p, joinpath("P1/outputs", "reto_" * tag * ".png"))
+end
