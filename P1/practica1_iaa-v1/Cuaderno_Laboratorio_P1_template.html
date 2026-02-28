@@ -354,9 +354,47 @@ code {
 
 </style>
 
+<style>
+  @media print {
+    .no-print { display: none !important; }
+  }
+</style>
+
+<style>
+  @page {
+    margin-bottom: 1cm;
+    @bottom-right {
+      content: "Página " counter(page) " de " counter(pages);
+      font-size: 10pt;
+      color: #666;
+    }
+
+	@bottom-center{
+	  content: "Juan Luis Prieto Panadero y Alberto Álvarez Mejías";
+	  font-size: 10pt;
+	  color: #666;
+	}
+
+	margin-top: 1cm;
+	@top-center {
+	  content: "Práctica 1 - IAA - Escuela Politécnica Superior de Córdoba";
+	  font-size: 10pt;
+	  color: #666;
+	}
+  }
+   
+    .header-content {
+      display: flex;
+      justify-content: center;
+    }
+
+</style>
+
 <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+
 </head>
 <body>
+
   <script>
     mermaid.initialize({
       startOnLoad: true,
@@ -365,8 +403,15 @@ code {
           : 'default'
     });
   </script>
+
+<button class="no-print" id="btn-pdf">📄 Guardar como PDF</button>
+<p class="no-print" style="margin-top:-10px; color:#555; font-size:10pt;">
+  Al pulsar, elige destino: <strong>Guardar como PDF</strong>.
+</p>
+<!-- ...existing code... -->
+
 <div style="text-align: justify;">
-<h1 id="cuaderno-de-laboratorio--pr%C3%A1ctica-1-la-f%C3%ADsica-del-aprendizaje-autom%C3%A1tico">Cuaderno de Laboratorio — Práctica 1: La Física del Aprendizaje Automático</h1>
+<h1 style = "margin-top: -15px;" id="cuaderno-de-laboratorio--pr%C3%A1ctica-1-la-f%C3%ADsica-del-aprendizaje-autom%C3%A1tico">Cuaderno de Laboratorio — Práctica 1: La Física del Aprendizaje Automático</h1>
 <p><strong>Asignatura:</strong> Introducción al Aprendizaje Automático (3º Ing. Informática)<br>
 <strong>Curso:</strong> 2025/2026<br>
 <strong>Alumnos:</strong> Juan Luis Prieto Panadero y Alberto Álvarez Mejías <br>
@@ -381,15 +426,15 @@ code {
 <li><strong>Figura:</strong> <code>outputs/alpha_A_alpha_slow_...png</code></li>
 </ul>
 <p><img src="/P1/outputs/alpha_A_alpha_slow_a0.0001.png" alt="αslow"></p>
-<p><strong>Análisis (obligatorio):</strong></p>
+<p style = "margin-top: -30px;"><strong>Análisis (obligatorio):</strong></p>
 <ul>
 <li>
-<b><p>¿Por qué la curva baja tan lentamente?</p></b>
-<p>Con α = 1e-4, cada actualización de pesos es muy pequeña, por eso el descenso del coste es casi lineal y muy suave. El algoritmo avanza en la dirección correcta, pero con pasos demasiado cortos.</p>
+<b><p style = "margin-top: -10px;"></p>¿Por qué la curva baja tan lentamente?</p></b>
+<p style = "margin-top: -10px;">Con α = 1e-4, cada actualización de pesos es muy pequeña, por eso el descenso del coste es casi lineal y muy suave. El algoritmo avanza en la dirección correcta, pero con pasos demasiado cortos.</p>
 </li>
 <li>
 <b><p>¿Cuántas iteraciones estimas que harían falta para llegar cerca del mínimo? Justifica.</p> </b>
-<p>Tomando la pendiente media observada en la curva, el número de iteraciones para acercarse al mínimo sería <em>muy alto (del orden de 10<sup>4</sup>–10<sup>5</sup> iteraciones)</em>, claramente poco eficiente en tiempo de entrenamiento.</p>
+<p style = "margin-top: -10px;">Tomando la pendiente media observada en la curva, el número de iteraciones para acercarse al mínimo sería <em>muy alto (del orden de 10<sup>4</sup>–10<sup>5</sup> iteraciones)</em>, claramente poco eficiente en tiempo de entrenamiento.</p>
 </li>
 </ul>
 <h3 id="12-escenario-b-%CE%B1opt-curva-de-codo">1.2 Escenario B (αopt): “curva de codo”</h3>
@@ -405,6 +450,9 @@ code {
 <p>La curva muestra una bajada rápida al principio (reducción fuerte del error) y después una meseta estable. Ese “codo” indica un buen equilibrio entre <strong>rapidez</strong> y <strong>estabilidad</strong>: el modelo llega pronto a una zona cercana al mínimo y luego hace ajustes finos sin oscilar de forma excesiva.</p>
 </li>
 </ul>
+
+<div class="page"></div>
+
 <h3 id="13-escenario-c-%CE%B1osc-oscilaci%C3%B3n-amortiguada">1.3 Escenario C (αosc): oscilación amortiguada</h3>
 <ul>
 <li><strong>Valor elegido:</strong> α = 0.13</li>
@@ -422,6 +470,9 @@ code {
 Físicamente, en el espacio de búsqueda hay un movimiento en zig-zag por usar un paso grande. Aun así, la oscilación se amortigua porque la tendencia global sigue apuntando hacia una región de menor coste.</p>
 </li>
 </ul>
+
+<div class="page"></div>
+
 <b><h3 id="14-escenario-d-%CE%B1fail-divergencia">1.4 Escenario D (αfail): divergencia</h3></b>
 <ul>
 <li><strong>Valor elegido:</strong> α = 1.1</li>
@@ -435,12 +486,15 @@ Físicamente, en el espacio de búsqueda hay un movimiento en zig-zag por usar u
 <p>Con α = 1.1, el tamaño de paso es demasiado grande: el algoritmo se “pasa” sistemáticamente del mínimo y cada actualización puede alejar más los pesos de la zona estable. Por eso la oscilación no se amortigua y el coste termina creciendo (divergencia), en lugar de converger.</p>
 </li>
 </ul>
-<hr>
+
+<div class="page"></div>
+
 <h2 id="2-tarea-2--el-compromiso-del-mini-batch">2. Tarea 2 — El compromiso del Mini-batch</h2>
 <p>Usa tu <strong>αopt</strong> (del escenario B) y compara:</p>
 <h3 id="21-batch-completo">2.1 Batch completo</h3>
 <p><img src="/P1/outputs/batch_Batch_completo_b500.png" alt="Batch completo"></p>
 <h3 id="22-mini-batch-32-o-16">2.2 Mini-batch (32 o 16)</h3>
+<br>
 <p><img src="/P1/outputs/batch_Mini_batch_32_b32.png" alt="Mini-batch"></p>
 <h3 id="23-estoc%C3%A1stico-puro-batch1">2.3 Estocástico puro (batch=1)</h3>
 <p><img src="/P1/outputs/batch_Estocastico_1_b1.png" alt="Estocástico"></p>
@@ -462,7 +516,7 @@ Esto pasa porque en cada paso solo se usa un dato para calcular el gradiente. En
 <p>El <em>mini-batch</em> está en medio: no es tan estable como el batch completo, pero tampoco tan inestable como el estocástico.</p>
 </li>
 </ol>
-<hr>
+
 <ol start="2" class="preguntas">
 <li>
 <p><b>A nivel de tiempo de ejecución (CPU), ¿cuál ha sido más eficiente?<br>
@@ -473,14 +527,16 @@ Justifica basándote en computación vectorial y número de actualizaciones.</p>
 <p>El mini-batch combina lo mejor de los dos: operaciones suficientemente grandes para ser eficientes y menos coste por iteración que el batch completo.</p>
 </li>
 </ol>
-<hr>
+
+<div class="page"></div>
+
 <h2 id="3-el-reto--ajuste-de-precisi%C3%B3n-criterio-de-parada">3. El reto — “Ajuste de Precisión” (criterio de parada)</h2>
 <b><p>Modifica el script para que el entrenamiento se detenga automáticamente cuando:</p></b>
 <em><p>|J<sub>t</sub> - J<sub>t-1</sub>| &lt; 10<sup>-5</sup></p></em>
 <ul>
 <li><strong>Mejor combinación encontrada:</strong> α = 0.01 ; batch = 32</li>
 <li><strong>Épocas hasta parar:</strong> 77</li>
-<li><strong>Figura (opcional):</strong> <br>
+<li><strong>Figura (opcional):</strong> <p></p>
 <img src="/P1/outputs/reto_early_stop.png" alt="Early stop"></li>
 </ul>
 <p><strong>Conclusión:</strong></p>
@@ -494,7 +550,9 @@ Justifica basándote en computación vectorial y número de actualizaciones.</p>
 <p>Al usar mini-batch se introduce un poco más de variabilidad en el cálculo del gradiente porque no se usan todos los datos en cada actualización. Aun así, esta variabilidad no afecta mucho al resultado final y permite que el modelo converja más rápido.</p>
 </li>
 </ul>
-<hr>
+
+<div class="page"></div>
+
 <h2 id="4-conclusiones-finales-obligatorio">4. Conclusiones finales (obligatorio)</h2>
 <b><p>Resume en 8–12 líneas lo que has aprendido sobre:</p></b>
 <ul>
@@ -540,6 +598,13 @@ Cuando α supera un umbral crítico, la oscilación no se amortigua y el entrena
 <p>De esta forma se evita realizar iteraciones innecesarias una vez que el modelo ha alcanzado una zona de convergencia, manteniendo un error aceptable y reduciendo el tiempo de entrenamiento.</p>
 </li>
 </ul>
+
+<script>
+  const btn = document.getElementById('btn-pdf');
+  btn.addEventListener('click', () => {
+    window.print();
+  });
+</script>
 
 </body>
 </html>
