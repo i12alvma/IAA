@@ -80,9 +80,24 @@ Usa tu **αopt** (del escenario B) y compara:
 
 **Preguntas de reflexión (obligatorio):**
 1. ¿Cuál de las tres curvas es más “ruidosa” y por qué?
+   
+   La más ruidosa es la del método **estocástico (batch = 1)**.  
+   Esto pasa porque en cada paso solo se usa un dato para calcular el gradiente. Entonces, cada actualización cambia bastante y la función de coste sube y baja continuamente.
+
+   El **batch completo** es el más suave, porque usa todos los datos y el gradiente es mucho más estable.
+
+   El **mini-batch** está en medio: no es tan estable como el batch completo, pero tampoco tan inestable como el estocástico.
+
 2. A nivel de tiempo de ejecución (CPU), ¿cuál ha sido más eficiente?  
    Justifica basándote en computación vectorial y número de actualizaciones.
 
+   El más eficiente ha sido el **mini-batch**.
+
+   El batch completo aprovecha bien las operaciones con matrices grandes, pero cada iteración tarda más.
+   
+   El estocástico hace muchísimas actualizaciones pequeñas y no aprovecha tanto la vectorización, por lo que puede ser menos eficiente.
+
+   El mini-batch combina lo mejor de los dos: operaciones suficientemente grandes para ser eficientes y menos coste por iteración que el batch completo.
 ---
 
 ## 3. El reto — “Ajuste de Precisión” (criterio de parada)
