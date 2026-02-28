@@ -1,8 +1,10 @@
+<div style="text-align: justify;">
+
 # Cuaderno de Laboratorio — Práctica 1: La Física del Aprendizaje Automático
 
 **Asignatura:** Introducción al Aprendizaje Automático (3º Ing. Informática)  
 **Curso:** 2025/2026  
-**Alumno/a:** Juan Luis Prieto Panadero y Alberto Álvarez Mejías
+**Alumno/a:** Juan Luis Prieto Panadero y Alberto Álvarez Mejías <br>
 **Fecha:** 27/02/2026
 
 ## Objetivo
@@ -119,6 +121,25 @@ Modifica el script para que el entrenamiento se detenga automáticamente cuando:
 
 ## 4. Conclusiones finales (obligatorio)
 Resume en 8–12 líneas lo que has aprendido sobre:
-- relación entre α y estabilidad,
-- efecto del batch en ruido/velocidad,
-- utilidad de un criterio de parada.
+- relación entre α y estabilidad:
+
+Durante los experimentos, se ha observado que la tasa de aprendizaje α controla el tamaño de cada paso en el espacio de parámetros:
+- Si α es muy pequeña, el entrenamiento es estable pero extremadamente lento.
+En ese caso, la curva de coste desciende casi en línea recta y requiere muchas iteraciones.
+
+- Si α toma un valor intermedio, aparece la “curva de codo”: caída rápida y estabilización.
+Ese régimen es el más eficiente porque combina velocidad de convergencia y buen control del error.
+
+- Si α toma un valor muy alto, el coste empieza a oscilar por sobrepasar el mínimo en cada actualización. &nbsp; <br>
+Si esta oscilación se amortigua, el modelo aún puede converger, aunque con menor precisión temporal. <br>
+Cuando α supera un umbral crítico, la oscilación no se amortigua y el entrenamiento diverge.
+
+Por tanto, α define el equilibrio clave entre rapidez, estabilidad y fiabilidad del aprendizaje.
+
+- efecto del batch en ruido/velocidad:
+
+
+
+- utilidad de un criterio de parada:
+
+
