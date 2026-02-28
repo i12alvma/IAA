@@ -133,9 +133,9 @@ h1 {
 	border-bottom-style: solid;
 }
 
-h1, h2, h3 {
+/*h1, h2, h3 {
 	font-weight: normal;
-}
+}*/
 
 table {
 	border-collapse: collapse;
@@ -342,7 +342,7 @@ code {
 
 /* for inline code */
 :not(pre):not(.hljs) > code {
-	color: #C9AE75; /* Change the old color so it seems less like an error */
+	color: #6b6b6b; /* Change the old color so it seems less like an error */
 	font-size: inherit;
 }
 
@@ -369,8 +369,8 @@ code {
 <h1 id="cuaderno-de-laboratorio--pr%C3%A1ctica-1-la-f%C3%ADsica-del-aprendizaje-autom%C3%A1tico">Cuaderno de Laboratorio — Práctica 1: La Física del Aprendizaje Automático</h1>
 <p><strong>Asignatura:</strong> Introducción al Aprendizaje Automático (3º Ing. Informática)<br>
 <strong>Curso:</strong> 2025/2026<br>
-<strong>Alumno/a:</strong> Juan Luis Prieto Panadero y Alberto Álvarez Mejías <br>
-<strong>Fecha:</strong> 27/02/2026</p>
+<strong>Alumnos:</strong> Juan Luis Prieto Panadero y Alberto Álvarez Mejías <br>
+<strong>Fecha:</strong> 28/02/2026</p>
 <h2 id="objetivo">Objetivo</h2>
 <p>Comprender la dinámica de la optimización mediante gradiente descendente y el impacto de los hiperparámetros en la convergencia.</p>
 <hr>
@@ -384,12 +384,12 @@ code {
 <p><strong>Análisis (obligatorio):</strong></p>
 <ul>
 <li>
-<p>¿Por qué la curva baja tan lentamente?</p>
+<b><p>¿Por qué la curva baja tan lentamente?</p></b>
 <p>Con α = 1e-4, cada actualización de pesos es muy pequeña, por eso el descenso del coste es casi lineal y muy suave. El algoritmo avanza en la dirección correcta, pero con pasos demasiado cortos.</p>
 </li>
 <li>
-<p>¿Cuántas iteraciones estimas que harían falta para llegar cerca del mínimo? Justifica.</p>
-<p>Tomando la pendiente media observada en la curva, el número de iteraciones para acercarse al mínimo sería <strong>muy alto (del orden de (10^4)–(10^5) iteraciones)</strong>, claramente poco eficiente en tiempo de entrenamiento.</p>
+<b><p>¿Cuántas iteraciones estimas que harían falta para llegar cerca del mínimo? Justifica.</p> </b>
+<p>Tomando la pendiente media observada en la curva, el número de iteraciones para acercarse al mínimo sería <em>muy alto (del orden de 10<sup>4</sup>–10<sup>5</sup> iteraciones)</em>, claramente poco eficiente en tiempo de entrenamiento.</p>
 </li>
 </ul>
 <h3 id="12-escenario-b-%CE%B1opt-curva-de-codo">1.2 Escenario B (αopt): “curva de codo”</h3>
@@ -414,15 +414,15 @@ code {
 <p><strong>Análisis (obligatorio):</strong></p>
 <ul>
 <li>
-<p>¿Qué está ocurriendo “físicamente” con los pesos θ en el espacio de búsqueda?</p>
+<b><p>¿Qué está ocurriendo “físicamente” con los pesos θ en el espacio de búsqueda?</p></b>
 </li>
 <li>
-<p>Explica por qué puede oscilar y aun así estabilizarse.</p>
+<b><p>Explica por qué puede oscilar y aun así estabilizarse.</p></b>
 <p>Aquí los pesos θ “rebotan” alrededor del valle de la función de coste: en cada paso se sobrepasa el mínimo local y se cruza al otro lado, generando subidas y bajadas del error. <br>
 Físicamente, en el espacio de búsqueda hay un movimiento en zig-zag por usar un paso grande. Aun así, la oscilación se amortigua porque la tendencia global sigue apuntando hacia una región de menor coste.</p>
 </li>
 </ul>
-<h3 id="14-escenario-d-%CE%B1fail-divergencia">1.4 Escenario D (αfail): divergencia</h3>
+<b><h3 id="14-escenario-d-%CE%B1fail-divergencia">1.4 Escenario D (αfail): divergencia</h3></b>
 <ul>
 <li><strong>Valor elegido:</strong> α = 1.1</li>
 <li><strong>Figura:</strong> <code>outputs/alpha_D_alpha_fail_...png</code></li>
@@ -431,7 +431,7 @@ Físicamente, en el espacio de búsqueda hay un movimiento en zig-zag por usar u
 <p><strong>Análisis (obligatorio):</strong></p>
 <ul>
 <li>
-<p>¿Por qué el error crece? Relaciónalo con “pasarse” del mínimo.</p>
+<b><p>¿Por qué el error crece? Relaciónalo con “pasarse” del mínimo.</p></b>
 <p>Con α = 1.1, el tamaño de paso es demasiado grande: el algoritmo se “pasa” sistemáticamente del mínimo y cada actualización puede alejar más los pesos de la zona estable. Por eso la oscilación no se amortigua y el coste termina creciendo (divergencia), en lugar de converger.</p>
 </li>
 </ul>
@@ -445,21 +445,29 @@ Físicamente, en el espacio de búsqueda hay un movimiento en zig-zag por usar u
 <h3 id="23-estoc%C3%A1stico-puro-batch1">2.3 Estocástico puro (batch=1)</h3>
 <p><img src="/P1/outputs/batch_Estocastico_1_b1.png" alt="Estocástico"></p>
 <p><strong>Preguntas de reflexión (obligatorio):</strong></p>
-<ol>
+
+<style>
+/* ...existing code... */
+ol.preguntas > li::marker {
+  font-weight: 700;   /* pone en negrita el 1., 2., ... */
+}
+</style>
+
+<ol class="preguntas">
 <li>
-<p>¿Cuál de las tres curvas es más “ruidosa” y por qué?</p>
-<p>La más ruidosa es la del método <strong>estocástico (batch = 1)</strong>.<br>
+<p><b>¿Cuál de las tres curvas es más “ruidosa” y por qué?</p></b>
+<p>La más ruidosa es la del método <em>estocástico (batch = 1)</em>.<br>
 Esto pasa porque en cada paso solo se usa un dato para calcular el gradiente. Entonces, cada actualización cambia bastante y la función de coste sube y baja continuamente.</p>
-<p>El <strong>batch completo</strong> es el más suave, porque usa todos los datos y el gradiente es mucho más estable.</p>
-<p>El <strong>mini-batch</strong> está en medio: no es tan estable como el batch completo, pero tampoco tan inestable como el estocástico.</p>
+<p>El <em>batch completo</em> es el más suave, porque usa todos los datos y el gradiente es mucho más estable.</p>
+<p>El <em>mini-batch</em> está en medio: no es tan estable como el batch completo, pero tampoco tan inestable como el estocástico.</p>
 </li>
 </ol>
 <hr>
-<ol start="2">
+<ol start="2" class="preguntas">
 <li>
-<p>A nivel de tiempo de ejecución (CPU), ¿cuál ha sido más eficiente?<br>
-Justifica basándote en computación vectorial y número de actualizaciones.</p>
-<p>El más eficiente ha sido el <strong>mini-batch</strong>.</p>
+<p><b>A nivel de tiempo de ejecución (CPU), ¿cuál ha sido más eficiente?<br>
+Justifica basándote en computación vectorial y número de actualizaciones.</p></b>
+<p>El más eficiente ha sido el <em>mini-batch</em>.</p>
 <p>El batch completo aprovecha bien las operaciones con matrices grandes, pero cada iteración tarda más.</p>
 <p>El estocástico hace muchísimas actualizaciones pequeñas y no aprovecha tanto la vectorización, por lo que puede ser menos eficiente.</p>
 <p>El mini-batch combina lo mejor de los dos: operaciones suficientemente grandes para ser eficientes y menos coste por iteración que el batch completo.</p>
@@ -467,8 +475,8 @@ Justifica basándote en computación vectorial y número de actualizaciones.</p>
 </ol>
 <hr>
 <h2 id="3-el-reto--ajuste-de-precisi%C3%B3n-criterio-de-parada">3. El reto — “Ajuste de Precisión” (criterio de parada)</h2>
-<p>Modifica el script para que el entrenamiento se detenga automáticamente cuando:</p>
-<p>$|J_t - J_{t-1}| &lt; 10^{-5}$</p>
+<b><p>Modifica el script para que el entrenamiento se detenga automáticamente cuando:</p></b>
+<em><p>|J<sub>t</sub> - J<sub>t-1</sub>| &lt; 10<sup>-5</sup></p></em>
 <ul>
 <li><strong>Mejor combinación encontrada:</strong> α = 0.01 ; batch = 32</li>
 <li><strong>Épocas hasta parar:</strong> 77</li>
@@ -478,20 +486,20 @@ Justifica basándote en computación vectorial y número de actualizaciones.</p>
 <p><strong>Conclusión:</strong></p>
 <ul>
 <li>
-<p>¿Qué combinación para antes con error aceptable?</p>
-<p>La combinación que ha mostrado mejor comportamiento ha sido <strong>α = 0.01 y batch = 32</strong>, ya que consigue detener el entrenamiento en menos épocas y el error final es prácticamente el mismo que el del batch completo.</p>
+<b><p>¿Qué combinación para antes con error aceptable?</p></b>
+<p>La combinación que ha mostrado mejor comportamiento ha sido <em> α = 0.01 y batch = 32 </em>, ya que consigue detener el entrenamiento en menos épocas y el error final es prácticamente el mismo que el del batch completo.</p>
 </li>
 <li>
-<p>¿Qué sacrificas (si algo) para conseguirlo?</p>
+<b><p>¿Qué sacrificas (si algo) para conseguirlo?</p></b>
 <p>Al usar mini-batch se introduce un poco más de variabilidad en el cálculo del gradiente porque no se usan todos los datos en cada actualización. Aun así, esta variabilidad no afecta mucho al resultado final y permite que el modelo converja más rápido.</p>
 </li>
 </ul>
 <hr>
 <h2 id="4-conclusiones-finales-obligatorio">4. Conclusiones finales (obligatorio)</h2>
-<p>Resume en 8–12 líneas lo que has aprendido sobre:</p>
+<b><p>Resume en 8–12 líneas lo que has aprendido sobre:</p></b>
 <ul>
 <li>
-<p>relación entre α y estabilidad:</p>
+<b><p>Relación entre α y estabilidad:</p></b>
 <p>Durante los experimentos, se ha observado que la tasa de aprendizaje α controla el tamaño de cada paso en el espacio de parámetros:</p>
 <ul>
 <li>
@@ -514,7 +522,7 @@ Cuando α supera un umbral crítico, la oscilación no se amortigua y el entrena
 <br>
 <ul>
 <li>
-<p>Efecto del batch en ruido/velocidad:</p>
+<b><p>Efecto del batch en ruido/velocidad:</p></b>
 <p>El tamaño del batch influye directamente en el ruido del entrenamiento.</p>
 <ul>
 <li>El batch completo produce una curva muy suave porque el gradiente se calcula usando toda la información del dataset.</li>
@@ -526,9 +534,9 @@ Cuando α supera un umbral crítico, la oscilación no se amortigua y el entrena
 <br>
 <ul>
 <li>
-<p>Utilidad de un criterio de parada:</p>
+<b> <p>Utilidad de un criterio de parada:</p></b>
 <p>El criterio de parada es muy útil porque evita seguir entrenando el modelo cuando la mejora entre una iteración y la siguiente es muy pequeña. Esto permite ahorrar tiempo de cálculo y recursos computacionales.</p>
-<p>En esta práctica se ha utilizado el criterio $|J_t - J_{t-1}| &lt; 10^{-5}$, que detiene el entrenamiento cuando el coste prácticamente deja de cambiar.</p>
+<p>En esta práctica se ha utilizado el criterio <em>|J<sub>t</sub> - J<sub>t-1</sub>| &lt; 10<sup>-5</sup></em>, que detiene el entrenamiento cuando el coste prácticamente deja de cambiar.</p>
 <p>De esta forma se evita realizar iteraciones innecesarias una vez que el modelo ha alcanzado una zona de convergencia, manteniendo un error aceptable y reduciendo el tiempo de entrenamiento.</p>
 </li>
 </ul>

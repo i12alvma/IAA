@@ -4,7 +4,7 @@
 
 **Asignatura:** Introducción al Aprendizaje Automático (3º Ing. Informática)  
 **Curso:** 2025/2026  
-**Alumno/a:** Juan Luis Prieto Panadero y Alberto Álvarez Mejías <br>
+**Alumnos:** Juan Luis Prieto Panadero y Alberto Álvarez Mejías <br>
 **Fecha:** 27/02/2026
 
 ## Objetivo
@@ -149,7 +149,7 @@ Resume en 8–12 líneas lo que has aprendido sobre:
    - El batch completo produce una curva muy suave porque el gradiente se calcula usando toda la información del dataset. 
    - El mini-batch introduce un pequeño ruido que puede ayudar a escapar de mínimos locales, manteniendo un buen equilibrio entre estabilidad y velocidad. 
    - El método estocástico es el más ruidoso porque cada actualización se basa en un solo ejemplo.
-   
+
 <br>
 
 - Utilidad de un criterio de parada:
