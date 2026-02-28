@@ -107,11 +107,11 @@ Usa tu **αopt** (del escenario B) y compara:
 
 Modifica el script para que el entrenamiento se detenga automáticamente cuando:
 
-\[ |J_t - J_{t-1}| < 10^{-5} \]
+$|J_t - J_{t-1}| < 10^{-5}$
 
 - **Mejor combinación encontrada:** α = 0.01 ; batch = 32
 - **Épocas hasta parar:** 77
-- **Figura (opcional):**
+- **Figura (opcional):** <br>
 ![Early stop](/P1/outputs/reto_early_stop.png)
 
 **Conclusión:**
@@ -152,7 +152,7 @@ Por tanto, α define el equilibrio clave entre rapidez, estabilidad y fiabilidad
 
    El criterio de parada es muy útil porque evita seguir entrenando el modelo cuando la mejora entre una iteración y la siguiente es muy pequeña. Esto permite ahorrar tiempo de cálculo y recursos computacionales.
 
-   En esta práctica se ha utilizado el criterio |J_t - J_{t-1}| < 10^-5, que detiene el entrenamiento cuando el coste prácticamente deja de cambiar.
+   En esta práctica se ha utilizado el criterio $|J_t - J_{t-1}| < 10^{-5}$, que detiene el entrenamiento cuando el coste prácticamente deja de cambiar.
 
    De esta forma se evita realizar iteraciones innecesarias una vez que el modelo ha alcanzado una zona de convergencia, manteniendo un error aceptable y reduciendo el tiempo de entrenamiento.
 
