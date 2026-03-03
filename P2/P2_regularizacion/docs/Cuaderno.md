@@ -21,93 +21,93 @@ Se parte del script `seleccion_modelos_viviendas.py` (o `.jl`), que incluye:
 
 ### Configuración común
 
-- **Modelo usado:** _________________ (regresión lineal sin regularización)
-- **Métrica:** _________________ (RMSE)
-- **Semilla(s) / aleatoriedad:** _________________
+- **Modelo usado:** Regresión lineal estándar (`LinearRegression`, sin regularización)
+- **Métrica:** RMSE (raíz del error cuadrático medio)
+- **Semilla(s) / aleatoriedad:** `KFold(shuffle=True)` con semillas distintas en K=2 (`1, 7, 21, 42, 99`) y semilla fija `42` en K=10 y K=100
 
 ### Hipótesis inicial (antes de ejecutar)
 
 ¿Crees que el RMSE será estable al cambiar K? ¿Por qué?
 
-_____________________________________________________________________________
+Espero que con **K pequeño (K=2)** el RMSE sea más inestable porque cada fold usa muy pocos datos para entrenar y el resultado depende mucho de cómo se haga la partición.
 
-_____________________________________________________________________________
+Con **K mayor (K=10 o K=100)** debería ser más estable (menor varianza de la estimación), aunque el coste computacional aumentará al tener que entrenar más veces.
 
 ### Experimento A — K = 2 (Validación simple): variabilidad entre ejecuciones
 
 Ejecuta el modelo **varias veces** con K=2 (por ejemplo 5–10) y registra el RMSE.
 
-![Imagen: kfold_K2_rmse_runs](outputs/kfold_K2_rmse_runs.png)
+![Imagen: kfold_K2_rmse_runs](/P2/P2_regularizacion/outputs/kfold_K2_rmse_runs.png)
 
 #### Registro de resultados (rellena):
 
 | Ejecución | RMSE |
 |-----------|------|
-| 1 | _________________ |
-| 2 | _________________ |
-| 3 | _________________ |
-| 4 | _________________ |
-| 5 | _________________ |
+| 1 (seed=1) | 5.2015 |
+| 2 (seed=7) | 5.2142 |
+| 3 (seed=21) | 5.1064 |
+| 4 (seed=42) | 5.2059 |
+| 5 (seed=99) | 5.0154 |
 
 #### Análisis:
 
 - ¿Por qué el error varía tanto entre ejecuciones?
 - ¿Es fiable esta métrica (con K=2) para tomar una decisión técnica?
 
-_____________________________________________________________________________
+Con K=2, cada división deja solo la mitad de los datos para entrenamiento y la otra mitad para validación. Si por azar una partición concentra más casos "fáciles" o "difíciles", el RMSE cambia bastante.
 
-_____________________________________________________________________________
+Por eso, K=2 sirve como referencia rápida, pero **no es la opción más fiable** para decisiones técnicas finas: tiene más varianza y depende mucho de la semilla.
 
 ### Experimento B — K = 10 (estándar): RMSE más estable
 
 Ejecuta el modelo con K=10 y anota el RMSE.
 
-![Imagen: kfold_K10_rmse](outputs/kfold_K10_rmse.png)
+![Imagen: kfold_K10_rmse](/P2/P2_regularizacion/outputs/kfold_K10_rmse.png)
 
-**RMSE observado (K=10):** _________________
+**RMSE observado (K=10):** 5.0101
 
 #### Análisis:
 
 Describe si el resultado parece más estable que en K=2 y por qué.
 
-_____________________________________________________________________________
+Sí, se observa más estabilidad que en K=2. Al promediar el error sobre 10 particiones, el RMSE depende menos de una división concreta y representa mejor el comportamiento medio del modelo.
 
-_____________________________________________________________________________
+Es un buen compromiso entre estabilidad estadística y tiempo de ejecución, por eso se usa como valor estándar en muchos problemas.
 
 ### Experimento C — K = 100 (Leave-One-Out): coste vs. precisión
 
 Ejecuta el modelo con K=100 (LOOCV) y observa el RMSE y el tiempo.
 
-![Imagen: kfold_K100_loocv_rmse](outputs/kfold_K100_loocv_rmse.png)
+![Imagen: kfold_K100_loocv_rmse](/P2/P2_regularizacion/outputs/kfold_K100_loocv_rmse.png)
 
-**RMSE observado (K=100):** _________________ 
-**Tiempo aproximado:** _________________
+**RMSE observado (K=100):** 4.9929 
+**Tiempo aproximado:** 111.28 ms (frente a 11.82 ms en K=10)
 
 #### Análisis:
 
 Compara el coste computacional frente a K=10. ¿Merece la pena el tiempo extra para mejorar la precisión obtenida?
 
-_____________________________________________________________________________
+El coste sube casi 10 veces respecto a K=10 (de ~11.82 ms a ~111.28 ms), porque hay que entrenar 100 modelos en lugar de 10.
 
-_____________________________________________________________________________
+La mejora de RMSE es muy pequeña (de 5.0101 a 4.9929), así que en este caso **normalmente no compensa** el tiempo extra salvo que necesitemos máxima precisión en la estimación.
 
 ### Resumen comparativo (K = 2 vs 10 vs 100)
 
 | K | RMSE | Comentario de estabilidad/coste |
 |---|------|----------------------------------|
-| 2 | _________________ | _________________________________ |
-| 10 | _________________ | _________________________________ |
-| 100 | _________________ | _________________________________ |
+| 2 | 5.01–5.21 (según semilla) | Muy variable, rápido, alta dependencia de la partición |
+| 10 | 5.0101 | Estable y coste moderado; buen compromiso práctico |
+| 100 | 4.9929 | Muy estable, pero coste alto para una mejora marginal |
 
 #### Conclusión Tarea 1 (3–6 líneas):
 
 ¿Cuál elegirías para este problema y por qué?
 
-_____________________________________________________________________________
+Elegiría **K=10** para este problema.
 
-_____________________________________________________________________________
+Con K=2 la métrica cambia bastante entre ejecuciones, así que la decisión puede depender demasiado de la semilla. Con K=100 el RMSE mejora muy poco respecto a K=10, pero el tiempo aumenta de forma notable.
 
-_____________________________________________________________________________
+Por tanto, K=10 ofrece el mejor equilibrio entre **fiabilidad del RMSE** y **coste computacional**.
 
 ---
 
@@ -120,75 +120,80 @@ Fijamos K = 10 y comparamos:
 - **Ridge Regression** (penalización L2)
 - **Lasso Regression** (penalización L1)
 
+Parámetros del script (`01_regularizacion_cv.py`):
+- `metodo`: `"ridge"` o `"lasso"`
+- `valor_lambda`: intensidad de regularización
+- `k_folds`: número de particiones de validación cruzada
+
 ### Ridge (L2) — λ = 0.1, 10, 100
 
 **Resultados:** captura el gráfico de barras de coeficientes para cada λ.
 
-![Imagen: ridge_lambda_0.1_coeffs](outputs/ridge_lambda_0.1_coeffs.png)
+![Imagen: ridge_lambda_0.1_K10_coeffs](/P2/P2_regularizacion/outputs/ridge_lambda_0.1_K10_coeffs.png)
 
-**RMSE Ridge (λ=0.1):** _________________
+**RMSE Ridge (λ=0.1):** 5.0099
 
-![Imagen: ridge_lambda_10_coeffs](outputs/ridge_lambda_10_coeffs.png)
+![Imagen: ridge_lambda_10_K10_coeffs](/P2/P2_regularizacion/outputs/ridge_lambda_10_K10_coeffs.png)
 
-**RMSE Ridge (λ=10):** _________________
+**RMSE Ridge (λ=10):** 5.9613
 
-![Imagen: ridge_lambda_100_coeffs](outputs/ridge_lambda_100_coeffs.png)
+![Imagen: ridge_lambda_100_K10_coeffs](/P2/P2_regularizacion/outputs/ridge_lambda_100_K10_coeffs.png)
 
-**RMSE Ridge (λ=100):** _________________
+**RMSE Ridge (λ=100):** 22.5189
 
 #### Análisis:
 
 ¿Llegan a valer **cero** los coeficientes de las variables ruidosas (`Var_4` a `Var_10`)? Explica qué observas y por qué pasa (o no pasa).
 
-_____________________________________________________________________________
+No. En Ridge (L2) los coeficientes se **encogen**, pero en general no se vuelven exactamente cero.
 
-_____________________________________________________________________________
+Al aumentar λ (0.1 → 10 → 100), los pesos se reducen y el modelo se vuelve más rígido; por eso termina subiendo el RMSE cuando la penalización es demasiado fuerte.
 
-_____________________________________________________________________________
+Ridge mejora estabilidad, pero no hace selección dura de variables: mantiene todas activas con pesos pequeños.
 
 ### Lasso (L1) — λ = 0.1, 10, 100
 
 **Resultados:** captura el gráfico de barras de coeficientes para cada λ.
 
-![Imagen: lasso_lambda_0.1_coeffs](outputs/lasso_lambda_0.1_coeffs.png)
+![Imagen: lasso_lambda_0.1_K10_coeffs](/P2/P2_regularizacion/outputs/lasso_lambda_0.1_K10_coeffs.png)
 
-**RMSE Lasso (λ=0.1):** _________________
+**RMSE Lasso (λ=0.1):** 4.9990
 
-![Imagen: lasso_lambda_10_coeffs](outputs/lasso_lambda_10_coeffs.png)
+![Imagen: lasso_lambda_10_K10_coeffs](/P2/P2_regularizacion/outputs/lasso_lambda_10_K10_coeffs.png)
 
-**RMSE Lasso (λ=10):** _________________
+**RMSE Lasso (λ=10):** 17.5753
 
-![Imagen: lasso_lambda_100_coeffs](outputs/lasso_lambda_100_coeffs.png)
+![Imagen: lasso_lambda_100_K10_coeffs](/P2/P2_regularizacion/outputs/lasso_lambda_100_K10_coeffs.png)
 
-**RMSE Lasso (λ=100):** _________________
+**RMSE Lasso (λ=100):** 62.9825
 
 #### Análisis clave:
 
 1. Identifica para qué valor de λ el modelo **Lasso** consigue **eliminar** (poner a cero) las 7 variables ruidosas, quedándose solo con las 3 importantes:
 
-   **λ* = _________________**
+   **λ* = 10**
 
 2. Variables con coeficiente distinto de cero (modelo Lasso con λ*):
 
-   _________________________________________________________________
+   `Var_0`, `Var_1`, `Var_2`
 
 ### El dilema de la complejidad — λ demasiado alto (ej. 1000)
 
 Prueba un valor extremo, por ejemplo λ = 1000, y registra qué ocurre.
 
-![Imagen: lasso_lambda_1000_coeffs](outputs/lasso_lambda_1000_coeffs.png)
+![Imagen: lasso_lambda_1000_K10_coeffs](/P2/P2_regularizacion/outputs/lasso_lambda_1000_K10_coeffs.png)
 
-**RMSE (λ=1000):** _________________
+**RMSE (λ=1000):** 62.9825
 
 #### Análisis:
 
 Explica qué ocurre con el RMSE si aplicas un λ demasiado alto. ¿Estamos ante un caso de **sesgo alto** o **varianza alta**? Justifica.
 
-_____________________________________________________________________________
+Con λ=1000 (igual que con λ=100 en este caso), Lasso anula prácticamente todos los coeficientes y el modelo queda sin capacidad predictiva útil.
 
-_____________________________________________________________________________
+El RMSE se dispara porque el modelo es excesivamente simple: no capta la relación entre variables y precio.
 
-_____________________________________________________________________________
+Esto es un caso claro de **sesgo alto** (underfitting), no de varianza alta.
 
 ---
 

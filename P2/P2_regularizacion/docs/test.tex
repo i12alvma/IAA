@@ -1,17 +1,29 @@
-\documentclass[12pt]{book}
+\documentclass[12pt,oneside]{book}
 \usepackage[spanish]{babel}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{array}
 \usepackage{booktabs}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@makechapterhead}{\vspace*{50\p@}}{\vspace*{0\p@}}{}{}
+\patchcmd{\@makeschapterhead}{\vspace*{50\p@}}{\vspace*{0\p@}}{}{}
+\makeatother
+\pagestyle{plain}
 
 \title{Práctica 2: Regularización}
-\author{Alumnos}
+\author{Alumnos:\\ 
+Juan Luis Prieto Panadero\\
+Alberto Álvarez Mejías}
 \date{2026}
 
 \begin{document}
 
 \maketitle
+\thispagestyle{empty}
+\clearpage
+\setcounter{page}{1}
 
 % =========================================================
 % CAPÍTULO PRINCIPAL
@@ -39,23 +51,25 @@ Ajusta los nombres de fichero a los que obtengas tú.
 \section{Tarea 1 — Estabilidad de la Validación Cruzada (K-Fold)}
 
 \subsection*{Configuración común}
-Modelo usado: \underline{\hspace{6cm}} (regresión lineal sin regularización)\\
-Métrica: \underline{\hspace{3cm}} (RMSE)\\
-Semilla(s) / aleatoriedad: \underline{\hspace{6cm}}\\
+\noindent{Modelo usado: \textbf{Minimos Cuadrados Ordinarios} (regresión lineal sin regularización)}\\
+Métrica: \underline{4.99} (RMSE)\\
+Semilla(s) / aleatoriedad: \underline{\textbf{61}} \\ \\
 
-\vspace{0.3cm}
+\newpage
+
 \noindent\textbf{Hipótesis inicial (antes de ejecutar):}
-¿Crees que el RMSE será estable al cambiar K? ¿Por qué?
-\vspace{1.4cm}
+¿Crees que el RMSE será estable al cambiar K? ¿Por qué? \\ \\
+Se esperaba cierta variabilidad del RMSE al cambiar K, pero al fijar la semilla aleatoria los resultados se vuelven reproducibles y el RMSE permanece constante entre ejecuciones.
 
 \subsection{Experimento A — K = 2 (Validación simple): variabilidad entre ejecuciones}
 
 \noindent Ejecuta el modelo \textbf{varias veces} con K=2 (por ejemplo 5--10) y registra el RMSE.
 
-\vspace{0.2cm}
 \begin{center}
-\includegraphics[width=0.90\linewidth]{outputs/kfold_K2_rmse_runs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/kfold_K2_rmse_runs.png}
 \end{center}
+
+\vspace{-1cm}
 
 \noindent\textbf{Registro de resultados (rellena):}
 \begin{center}
@@ -63,11 +77,11 @@ Semilla(s) / aleatoriedad: \underline{\hspace{6cm}}\\
 \hline
 Ejecución & RMSE \\
 \hline
-1 & \underline{\hspace{2.5cm}} \\
-2 & \underline{\hspace{2.5cm}} \\
-3 & \underline{\hspace{2.5cm}} \\
-4 & \underline{\hspace{2.5cm}} \\
-5 & \underline{\hspace{2.5cm}} \\
+1 & \underline{5.21} \\
+2 & \underline{5.32} \\
+3 & \underline{5.55} \\
+4 & \underline{5.16} \\
+5 & \underline{4.81} \\
 \hline
 \end{tabular}
 \end{center}
@@ -75,26 +89,30 @@ Ejecución & RMSE \\
 \vspace{0.2cm}
 \noindent\textbf{Análisis:}
 \begin{itemize}
-    \item ¿Por qué el error varía tanto entre ejecuciones?
-    \item ¿Es fiable esta métrica (con K=2) para tomar una decisión técnica?
+    \item \textbf{¿Por qué el error varía tanto entre ejecuciones?}\\ \\
+    Con $K = 2$ ocurre lo siguiente: el dataset se divide en 50\% entrenamiento y 50\% test. Cada vez que se cambia la semilla, cambia completamente la partición aleatoria de los datos. El modelo se entrena solo con la mitad de la información disponible.
+
+    \item \textbf{¿Es fiable esta métrica (con $K=2$) para tomar una decisión técnica?}\\ \\
+    Con $K=2$ se observa que el RMSE puede variar bastante entre ejecuciones porque el modelo se entrena solo con la mitad de los datos. Al depender de cómo se realiza la división del conjunto de entrenamiento y test, los resultados cambian y el error de validación no es totalmente estable. Por esta razón, esta métrica no es muy fiable para tomar decisiones técnicas.
 \end{itemize}
 
-\vspace{1.4cm}
+\newpage
 
 \subsection{Experimento B — K = 10 (estándar): RMSE más estable}
 
 \noindent Ejecuta el modelo con K=10 y anota el RMSE.
 
-\vspace{0.2cm}
 \begin{center}
-\includegraphics[width=0.90\linewidth]{outputs/kfold_K10_rmse.png}
+%\includegraphics[width=0.90\linewidth]{outputs/kfold_K10_rmse.png}
 \end{center}
 
-\noindent RMSE observado (K=10): \underline{\hspace{3cm}}
+\noindent RMSE observado (K=10): \underline{4.96}
 
 \vspace{0.4cm}
 \noindent\textbf{Análisis:}
-Describe si el resultado parece más estable que en K=2 y por qué.
+Describe si el resultado parece más estable que en K=2 y por qué. \\ \\
+El resultado con $K=10$ muestra una mayor estabilidad del RMSE en comparación con $K=2$, ya que las variaciones entre ejecuciones son pequeñas (aproximadamente ±0.1). Esto se debe a que en cada iteración el modelo se entrena con el 90\% de los datos, lo que reduce la sensibilidad del modelo a la partición aleatoria del conjunto de entrenamiento y test. Por tanto, la validación cruzada con $K=10$ proporciona una estimación más robusta del error de generalización.
+
 \vspace{1.2cm}
 
 \subsection{Experimento C — K = 100 (Leave-One-Out): coste vs. precisión}
@@ -103,7 +121,7 @@ Describe si el resultado parece más estable que en K=2 y por qué.
 
 \vspace{0.2cm}
 \begin{center}
-\includegraphics[width=0.90\linewidth]{outputs/kfold_K100_loocv_rmse.png}
+%\includegraphics[width=0.90\linewidth]{outputs/kfold_K100_loocv_rmse.png}
 \end{center}
 
 \noindent RMSE observado (K=100): \underline{\hspace{3cm}} \quad
@@ -153,19 +171,19 @@ Fijamos K = 10 y comparamos:
 
 \vspace{0.2cm}
 \begin{center}
-\includegraphics[width=0.90\linewidth]{outputs/ridge_lambda_0.1_coeffs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/ridge_lambda_0.1_coeffs.png}
 \end{center}
 \noindent RMSE Ridge ($\lambda=0.1$): \underline{\hspace{3cm}}
 
 \vspace{0.4cm}
 \begin{center}
-\includegraphics[width=0.90\linewidth]{outputs/ridge_lambda_10_coeffs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/ridge_lambda_10_coeffs.png}
 \end{center}
 \noindent RMSE Ridge ($\lambda=10$): \underline{\hspace{3cm}}
 
 \vspace{0.4cm}
 \begin{center}
-\includegraphics[width=0.90\linewidth]{outputs/ridge_lambda_100_coeffs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/ridge_lambda_100_coeffs.png}
 \end{center}
 \noindent RMSE Ridge ($\lambda=100$): \underline{\hspace{3cm}}
 
@@ -181,19 +199,19 @@ Explica qué observas y por qué pasa (o no pasa).
 
 \vspace{0.2cm}
 \begin{center}
-\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_0.1_coeffs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_0.1_coeffs.png}
 \end{center}
 \noindent RMSE Lasso ($\lambda=0.1$): \underline{\hspace{3cm}}
 
 \vspace{0.4cm}
 \begin{center}
-\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_10_coeffs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_10_coeffs.png}
 \end{center}
 \noindent RMSE Lasso ($\lambda=10$): \underline{\hspace{3cm}}
 
 \vspace{0.4cm}
 \begin{center}
-\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_100_coeffs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_100_coeffs.png}
 \end{center}
 \noindent RMSE Lasso ($\lambda=100$): \underline{\hspace{3cm}}
 
@@ -217,7 +235,7 @@ Explica qué observas y por qué pasa (o no pasa).
 
 \vspace{0.2cm}
 \begin{center}
-\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_1000_coeffs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_1000_coeffs.png}
 \end{center}
 
 \noindent RMSE ($\lambda=1000$): \underline{\hspace{3cm}}
@@ -259,7 +277,7 @@ que mantenga un RMSE inferior a un umbral:
 
 \vspace{0.5cm}
 \begin{center}
-\includegraphics[width=0.90\linewidth]{outputs/reto_best_model_coeffs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/reto_best_model_coeffs.png}
 \end{center}
 
 \vspace{0.3cm}

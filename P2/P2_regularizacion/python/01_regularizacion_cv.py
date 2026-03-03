@@ -32,6 +32,7 @@ from sklearn.linear_model import Ridge, Lasso
 from sklearn.preprocessing import StandardScaler
 
 DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "precios_viviendas.csv"
+OUTPUT_DIR = Path(__file__).resolve().parent.parent / "outputs"
 
 def main() -> None:
     # -----------------------
@@ -62,7 +63,7 @@ def main() -> None:
     # -----------------------
     # 3) Validación cruzada (K-Fold)
     # -----------------------
-    kf = KFold(n_splits=k_folds, shuffle=True, random_state=42)
+    kf = KFold(n_splits=k_folds, shuffle=True, random_state=np.random.randint(1,1000))
 
     # Scoring: sklearn devuelve MSE negativo (porque maximiza scores)
     scores = cross_val_score(modelo, X_std, y, cv=kf, scoring="neg_mean_squared_error")
@@ -82,6 +83,12 @@ def main() -> None:
     plt.ylabel("Peso del coeficiente")
     plt.grid(axis="y", linestyle="--")
     plt.tight_layout()
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    output_path = OUTPUT_DIR / f"{metodo.lower()}_lambda_{valor_lambda}_K{k_folds}_coeffs.png"
+    plt.savefig(output_path, dpi=150)
+    print(f"Gráfica guardada en: {output_path}")
+
     plt.show()
 
 if __name__ == "__main__":

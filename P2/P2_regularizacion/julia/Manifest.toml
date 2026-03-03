@@ -958,7 +958,7 @@ uuid = "85a6dd25-e78a-55b7-8502-1745935b8125"
 version = "0.2.4"
 
 [[deps.Practica1IAA]]
-deps = ["CSV", "DataFrames", "Plots", "Random", "Statistics"]
+deps = ["CSV", "DataFrames", "MLJLinearModels", "Plots", "Random", "Statistics"]
 path = "."
 uuid = "b9c1a2a1-9b86-4f8e-8f6e-9c6b1d4b6c3d"
 version = "0.1.0"

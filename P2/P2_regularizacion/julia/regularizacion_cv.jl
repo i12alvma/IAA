@@ -25,7 +25,7 @@ y = df.Precio
 # 2) Configuración (MODIFICA ESTO)
 # -----------------------
 metodo = "lasso"  # "lasso" o "ridge"
-λ = 1.0           # parámetro de regularización
+λ = 10           # parámetro de regularización
 k = 10            # folds
 
 # -----------------------
