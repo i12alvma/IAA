@@ -51,14 +51,15 @@ Ajusta los nombres de fichero a los que obtengas tú.
 \section{Tarea 1 — Estabilidad de la Validación Cruzada (K-Fold)}
 
 \subsection*{Configuración común}
-\noindent{Modelo usado: \textbf{Minimos Cuadrados Ordinarios} (regresión lineal sin regularización)}\\
-Métrica: \underline{4.99} (RMSE)\\
-Semilla(s) / aleatoriedad: \underline{\textbf{61}} \\ \\
+\noindent\textbf{Modelo usado:} Minimos Cuadrados Ordinarios (regresión lineal sin regularización)\\
+\textbf{Métrica:} \underline{4.99} (RMSE)\\
+\textbf{Semilla(s) / aleatoriedad:} \underline{61}
 
 \newpage
 
-\noindent\textbf{Hipótesis inicial (antes de ejecutar):}
-¿Crees que el RMSE será estable al cambiar K? ¿Por qué? \\ \\
+\noindent\textbf{Hipótesis inicial (antes de ejecutar):
+¿Crees que el RMSE será estable al cambiar K? ¿Por qué? }
+
 Se esperaba cierta variabilidad del RMSE al cambiar K, pero al fijar la semilla aleatoria los resultados se vuelven reproducibles y el RMSE permanece constante entre ejecuciones.
 
 \subsection{Experimento A — K = 2 (Validación simple): variabilidad entre ejecuciones}
@@ -68,8 +69,6 @@ Se esperaba cierta variabilidad del RMSE al cambiar K, pero al fijar la semilla 
 \begin{center}
 %\includegraphics[width=0.90\linewidth]{outputs/kfold_K2_rmse_runs.png}
 \end{center}
-
-\vspace{-1cm}
 
 \noindent\textbf{Registro de resultados (rellena):}
 \begin{center}
@@ -89,10 +88,12 @@ Ejecución & RMSE \\
 \vspace{0.2cm}
 \noindent\textbf{Análisis:}
 \begin{itemize}
-    \item \textbf{¿Por qué el error varía tanto entre ejecuciones?}\\ \\
+    \item \textbf{¿Por qué el error varía tanto entre ejecuciones?}
+    
     Con $K = 2$ ocurre lo siguiente: el dataset se divide en 50\% entrenamiento y 50\% test. Cada vez que se cambia la semilla, cambia completamente la partición aleatoria de los datos. El modelo se entrena solo con la mitad de la información disponible.
 
-    \item \textbf{¿Es fiable esta métrica (con $K=2$) para tomar una decisión técnica?}\\ \\
+    \item \textbf{¿Es fiable esta métrica (con $K=2$) para tomar una decisión técnica?}
+    
     Con $K=2$ se observa que el RMSE puede variar bastante entre ejecuciones porque el modelo se entrena solo con la mitad de los datos. Al depender de cómo se realiza la división del conjunto de entrenamiento y test, los resultados cambian y el error de validación no es totalmente estable. Por esta razón, esta métrica no es muy fiable para tomar decisiones técnicas.
 \end{itemize}
 
@@ -110,7 +111,8 @@ Ejecución & RMSE \\
 
 \vspace{0.4cm}
 \noindent\textbf{Análisis:}
-Describe si el resultado parece más estable que en K=2 y por qué. \\ \\
+\textbf{Describe si el resultado parece más estable que en K=2 y por qué.}
+
 El resultado con $K=10$ muestra una mayor estabilidad del RMSE en comparación con $K=2$, ya que las variaciones entre ejecuciones son pequeñas (aproximadamente ±0.1). Esto se debe a que en cada iteración el modelo se entrena con el 90\% de los datos, lo que reduce la sensibilidad del modelo a la partición aleatoria del conjunto de entrenamiento y test. Por tanto, la validación cruzada con $K=10$ proporciona una estimación más robusta del error de generalización.
 
 \vspace{1.2cm}
@@ -124,14 +126,16 @@ El resultado con $K=10$ muestra una mayor estabilidad del RMSE en comparación c
 %\includegraphics[width=0.90\linewidth]{outputs/kfold_K100_loocv_rmse.png}
 \end{center}
 
-\noindent RMSE observado (K=100): \underline{\hspace{3cm}} \quad
-Tiempo aproximado: \underline{\hspace{3cm}}
+\noindent RMSE observado (K=100): \underline{5.00} \quad
+Tiempo aproximado: \underline{3.56}
 
 \vspace{0.4cm}
 \noindent\textbf{Análisis:}
-Compara el coste computacional frente a K=10. ¿Merece la pena el tiempo extra para mejorar la precisión obtenida?
-\vspace{1.2cm}
+\textbf{Compara el coste computacional frente a K=10. ¿Merece la pena el tiempo extra para mejorar la precisión obtenida?} \\
 
+Con $K=100$ (LOOCV) el RMSE obtenido es muy similar al observado con $K=10$, situándose alrededor de 5.00. Sin embargo, el coste computacional aumenta considerablemente, ya que el modelo debe entrenarse una vez por cada observación del dataset. En comparación, con $K=10$ solo se realizan diez entrenamientos del modelo. \\
+
+Por tanto, aunque LOOCV puede ofrecer una estimación ligeramente más precisa del error, en este caso la mejora es mínima y no compensa el incremento en tiempo de cálculo. En la práctica, $K=10$ suele ser una opción más eficiente al proporcionar un buen equilibrio entre estabilidad del error y coste computacional.
 \subsection{Resumen comparativo (K = 2 vs 10 vs 100)}
 
 \begin{center}
@@ -139,17 +143,18 @@ Compara el coste computacional frente a K=10. ¿Merece la pena el tiempo extra p
 \hline
 K & RMSE & Comentario de estabilidad/coste \\
 \hline
-2 & \underline{\hspace{2.5cm}} & \underline{\hspace{6cm}} \\
-10 & \underline{\hspace{2.5cm}} & \underline{\hspace{6cm}} \\
-100 & \underline{\hspace{2.5cm}} & \underline{\hspace{6cm}} \\
+2 & \underline{5.1} & \underline{Mucho error y coste bajo} \\
+10 & \underline{5} & \underline{Apenas sin error y coste medio} \\
+100 & \underline{5} & \underline{Sin error y coste muy alto} \\
 \hline
 \end{tabular}
 \end{center}
 
 \vspace{0.3cm}
-\noindent\textbf{Conclusión Tarea 1 (3--6 líneas):}
-¿Cuál elegirías para este problema y por qué?
-\vspace{1.6cm}
+\noindent\textbf{Conclusión Tarea 1 (3--6 líneas):
+¿Cuál elegirías para este problema y por qué?}
+
+Para este problema elegiría K=10, ya que proporciona una estimación del RMSE bastante estable sin incrementar demasiado el coste computacional. Con K=2 el error varía mucho entre ejecuciones porque el modelo se entrena con pocos datos, mientras que con K=100 el tiempo de cálculo aumenta considerablemente y la mejora en precisión es mínima. Por tanto, K=10 ofrece el mejor equilibrio entre estabilidad del error y eficiencia computacional.
 
 \newpage
 
@@ -169,62 +174,65 @@ Fijamos K = 10 y comparamos:
 
 \noindent\textbf{Resultados:} captura el gráfico de barras de coeficientes para cada $\lambda$.
 
-\vspace{0.2cm}
 \begin{center}
-%\includegraphics[width=0.90\linewidth]{outputs/ridge_lambda_0.1_coeffs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/ridge_lambda_0.1_K10_coeffs.png}
 \end{center}
-\noindent RMSE Ridge ($\lambda=0.1$): \underline{\hspace{3cm}}
+\noindent RMSE Ridge ($\lambda=0.1$): \underline{5.0099}
+
+\begin{center}
+%\includegraphics[width=0.90\linewidth]{outputs/ridge_lambda_10_K10_coeffs.png}
+\end{center}
+\noindent RMSE Ridge ($\lambda=10$): \underline{5.9613}
 
 \vspace{0.4cm}
 \begin{center}
-%\includegraphics[width=0.90\linewidth]{outputs/ridge_lambda_10_coeffs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/ridge_lambda_100_K10_coeffs.png}
 \end{center}
-\noindent RMSE Ridge ($\lambda=10$): \underline{\hspace{3cm}}
-
-\vspace{0.4cm}
-\begin{center}
-%\includegraphics[width=0.90\linewidth]{outputs/ridge_lambda_100_coeffs.png}
-\end{center}
-\noindent RMSE Ridge ($\lambda=100$): \underline{\hspace{3cm}}
+\noindent RMSE Ridge ($\lambda=100$): \underline{22.5189}
 
 \vspace{0.4cm}
 \noindent\textbf{Análisis:}
-¿Llegan a valer \textbf{cero} los coeficientes de las variables ruidosas (\texttt{Var\_4} a \texttt{Var\_10})?
-Explica qué observas y por qué pasa (o no pasa).
-\vspace{1.6cm}
+\textbf{¿Llegan a valer \textbf{cero} los coeficientes de las variables ruidosas (\texttt{Var\_4} a \texttt{Var\_10})?
+Explica qué observas y por qué pasa (o no pasa).}
 
+No. En Ridge (L2) los coeficientes se encogen, pero en general no se vuelven exactamente cero.
+Al aumentar $\lambda$ (0.1 → 10 → 100), los pesos se reducen y el modelo se vuelve más rígido; por eso termina subiendo el RMSE cuando la penalización es demasiado fuerte.
+Ridge mejora estabilidad, pero no hace selección dura de variables: mantiene todas activas con pesos pequeños.
+
+
+\newpage
 \subsection{Lasso (L1) — $\lambda = 0.1,\, 10,\, 100$}
 
 \noindent\textbf{Resultados:} captura el gráfico de barras de coeficientes para cada $\lambda$.
 
 \vspace{0.2cm}
 \begin{center}
-%\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_0.1_coeffs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_0.1_K10_coeffs.png}
 \end{center}
-\noindent RMSE Lasso ($\lambda=0.1$): \underline{\hspace{3cm}}
+\noindent RMSE Lasso ($\lambda=0.1$): \underline{4.9990}
 
 \vspace{0.4cm}
 \begin{center}
-%\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_10_coeffs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_10_K10_coeffs.png}
 \end{center}
-\noindent RMSE Lasso ($\lambda=10$): \underline{\hspace{3cm}}
+\noindent RMSE Lasso ($\lambda=10$): \underline{17.5753}
 
 \vspace{0.4cm}
 \begin{center}
-%\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_100_coeffs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_100_K10_coeffs.png}
 \end{center}
-\noindent RMSE Lasso ($\lambda=100$): \underline{\hspace{3cm}}
+\noindent RMSE Lasso ($\lambda=100$): \underline{62.9825}
 
-\vspace{0.4cm}
+\newpage
 \noindent\textbf{Análisis clave:}
 \begin{enumerate}
-    \item Identifica para qué valor de $\lambda$ el modelo \textbf{Lasso} consigue \textbf{eliminar} (poner a cero)
-    las 7 variables ruidosas, quedándose solo con las 3 importantes:
+    \item \textbf{Identifica para qué valor de $\lambda$ el modelo \textbf{Lasso} consigue \textbf{eliminar} (poner a cero)
+    las 7 variables ruidosas, quedándose solo con las 3 importantes:}
     \[
-    \lambda^{*} = \underline{\hspace{2.5cm}}
+    \lambda^{*} = \underline{10}
     \]
-    \item Variables con coeficiente distinto de cero (modelo Lasso con $\lambda^{*}$):\\
-    \underline{\hspace{13cm}}
+    \item \textbf{Variables con coeficiente distinto de cero (modelo Lasso con $\lambda^{*}$):}\\
+    \underline{Var0, Var1, Var2}
 \end{enumerate}
 
 \vspace{1.0cm}
@@ -235,45 +243,48 @@ Explica qué observas y por qué pasa (o no pasa).
 
 \vspace{0.2cm}
 \begin{center}
-%\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_1000_coeffs.png}
+%\includegraphics[width=0.90\linewidth]{outputs/lasso_lambda_1000_K10_coeffs.png}
 \end{center}
 
-\noindent RMSE ($\lambda=1000$): \underline{\hspace{3cm}}
+\noindent RMSE ($\lambda=1000$): \underline{62.9825}
 
 \vspace{0.4cm}
-\noindent\textbf{Análisis:}
+\noindent\textbf{Análisis:
 Explica qué ocurre con el RMSE si aplicas un $\lambda$ demasiado alto.
-¿Estamos ante un caso de \textbf{sesgo alto} o \textbf{varianza alta}? Justifica.
-\vspace{1.8cm}
+¿Estamos ante un caso de \textbf{sesgo alto} o \textbf{varianza alta}? Justifica.}
+
+Con $\lambda$=1000 (igual que con $\lambda$=100 en este caso), Lasso anula prácticamente todos los coeficientes y el modelo queda sin capacidad predictiva útil.\\
+El RMSE se dispara porque el modelo es excesivamente simple: no capta la relación entre variables y precio.\\
+Esto es un caso claro de \textit{sesgo alto} (underfitting), no de varianza alta.
 
 \newpage
 
 % =========================================================
 % RETO
 % =========================================================
-\section{Reto — El "Cazador de Variables"}
+\section{Reto — El Cazador de Variables}
 
 \noindent\textbf{Contexto:} Imagina que cada variable incluida en tu modelo tiene un \textbf{coste de mantenimiento}.
 Tu objetivo es encontrar el modelo \textbf{más sencillo posible} (menos variables con coeficientes $\neq 0$)
 que mantenga un RMSE inferior a un umbral:
 
 \[
-\text{RMSE} < \underline{\hspace{2.5cm}} \quad (\text{umbral del profesor})
+\text{RMSE} < \underline{20} \quad (\text{umbral del profesor})
 \]
 
 \vspace{0.3cm}
 \noindent\textbf{Mejor solución encontrada (rellena):}
 \[
-\lambda = \underline{\hspace{2.5cm}}
+\lambda = \underline{0.5918}
 \quad\quad
-\text{\#Variables activas} = \underline{\hspace{2.5cm}}
+\text{\#Variables activas} = \underline{3}
 \quad\quad
-\text{RMSE} = \underline{\hspace{2.5cm}}
+\text{RMSE} = \underline{5.0460}
 \]
 
 \vspace{0.3cm}
 \noindent Variables seleccionadas (coeficiente $\neq 0$):
-\underline{\hspace{13cm}}
+\underline{Var0, Var1, Var2}
 
 \vspace{0.5cm}
 \begin{center}
@@ -281,19 +292,36 @@ que mantenga un RMSE inferior a un umbral:
 \end{center}
 
 \vspace{0.3cm}
-\noindent\textbf{Justificación técnica (6--10 líneas):}
-¿Por qué este modelo es el mejor compromiso entre simplicidad (coste) y rendimiento (RMSE)?
-\vspace{2.2cm}
+\noindent\textbf{Justificación técnica (6--10 líneas):}\\
+\textbf{¿Por qué este modelo es el mejor compromiso entre simplicidad (coste) y rendimiento (RMSE)?}
 
+El modelo con $\lambda$ = 0.5918 es un buen equilibrio entre simplicidad y capacidad de predicción. Permite eliminar las variables ruidosas y quedarse solo con las tres variables más importantes (Var1, Var2 y Var3), lo que hace el modelo más fácil de interpretar y reduce su complejidad. Aunque el RMSE es un poco mayor que en modelos con menos regularización, el modelo sigue capturando las relaciones principales del problema. Si se usara una regularización demasiado alta, el modelo podría perder información útil y empeorar su capacidad predictiva. Por eso, este valor de $\lambda$ es una buena opción para mantener un modelo sencillo pero con buen rendimiento.
+\vspace{2.2cm}
+\newpage
 % =========================================================
 % CONCLUSIONES
 % =========================================================
 \section{Conclusiones finales}
-Resume en 8--12 líneas lo aprendido sobre:
+\textbf{Resume en 8--12 líneas lo aprendido sobre:}
 \begin{itemize}
-    \item Estabilidad de K-Fold al variar K (K=2 vs K=10 vs LOOCV).
-    \item Diferencias prácticas entre Ridge y Lasso (coeficientes, selección de variables).
-    \item Relación entre $\lambda$ grande y el sesgo/varianza.
+    \item \textbf{Estabilidad de K-Fold al variar K (K=2 vs K=10 vs LOOCV).}
+    
+    La estabilidad del modelo mejora al aumentar K. Con K=2 el RMSE varía bastante entre ejecuciones porque el modelo se entrena con pocos datos, lo que hace que la estimación del error sea menos fiable. Con K=10 el resultado es más estable y representa un buen equilibrio entre precisión y coste computacional. Con LOOCV (K=100) el error es muy similar al de K=10, pero el tiempo de cálculo es mucho mayor, por lo que no compensa en la práctica.
+    
+    \item \textbf{Diferencias prácticas entre Ridge y Lasso (coeficientes, selección de variables).}
+
+    En la práctica, \textit{Ridge (L2)} reduce todos los coeficientes de forma suave, pero casi nunca los lleva exactamente a cero; por eso mejora estabilidad cuando hay ruido o colinealidad, manteniendo todas las variables en el modelo. En cambio, \textit{Lasso (L1)} sí puede anular coeficientes, actuando como método de \textit{selección de variables} y dejando un modelo más simple e interpretable. La contrapartida es que, si $\lambda$ es demasiado alto, Lasso puede eliminar demasiada información útil y degradar fuertemente el RMSE.
+    
+    \item \textbf{Relación entre $\lambda$ grande y el sesgo/varianza.}
+    
+    Con valores de $\lambda$ grandes, la regularización se vuelve muy fuerte y el modelo pierde capacidad para ajustarse a los datos.
+
+    Esto provoca underfitting: los coeficientes se reducen en exceso (en Lasso incluso pueden quedar en cero) y el RMSE aumenta de forma notable.
+
+    En términos de sesgo-varianza, al crecer $\lambda$ suele aumentar el sesgo y disminuir la varianza.
+
+    Por tanto, un $\lambda$ demasiado alto no mejora la generalización, sino que degrada el rendimiento porque el modelo queda demasiado simple para capturar la relación real entre variables y objetivo.
+    
 \end{itemize}
 
 \vspace{3.0cm}
