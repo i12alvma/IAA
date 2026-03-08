@@ -203,29 +203,28 @@ Esto es un caso claro de **sesgo alto** (underfitting), no de varianza alta.
 
 Imagina que cada variable incluida en tu modelo tiene un **coste de mantenimiento**. Tu objetivo es encontrar el modelo **más sencillo posible** (menos variables con coeficientes ≠ 0) que mantenga un RMSE inferior a un umbral:
 
-**RMSE < _________________ (umbral del profesor)**
+**RMSE < 20** (umbral usado para el reto)
 
 ### Mejor solución encontrada (rellena):
 
-- **λ = _________________**
-- **#Variables activas = _________________**
-- **RMSE = _________________**
+- **λ = 0.5918**
+- **#Variables activas = 3**
+- **RMSE = 5.0460**
 
 ### Variables seleccionadas (coeficiente ≠ 0):
+`Var_0`, `Var_1`, `Var_2`
 
-_________________________________________________________________
-
-![Imagen: reto_best_model_coeffs](outputs/reto_best_model_coeffs.png)
+![Imagen: reto_best_model_coeffs](/P2/P2_regularizacion/outputs/reto_best_model_coeffs.png)
 
 ### Justificación técnica (6–10 líneas):
 
 ¿Por qué este modelo es el mejor compromiso entre simplicidad (coste) y rendimiento (RMSE)?
 
-_____________________________________________________________________________
-
-_____________________________________________________________________________
-
-_____________________________________________________________________________
+El mejor compromiso encontrado es un modelo **Lasso** con solo **3 variables activas**, que coincide con las variables realmente informativas del problema.
+Con este ajuste se consigue un RMSE muy bajo (5.0460), claramente por debajo del umbral de 20, sin pagar el coste de mantener variables ruidosas.
+Frente a valores de λ más pequeños, este modelo mantiene prácticamente el mismo rendimiento pero con menor complejidad.
+Frente a λ demasiado altos, evita el subajuste severo (cuando los coeficientes se anulan y el RMSE se dispara).
+Por tanto, maximiza interpretabilidad y minimiza coste de mantenimiento, manteniendo precisión predictiva alta.
 
 ---
 
