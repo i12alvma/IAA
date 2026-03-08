@@ -50,8 +50,8 @@ def main() -> None:
     # -----------------------
     # 2) Configuración (MODIFICA ESTO)
     # -----------------------
-    metodo = "lasso"       # Opciones: "lasso" o "ridge"
-    valor_lambda = 1.0     # Fuerza de la penalización (alpha en sklearn)
+    metodo = "ridge"       # Opciones: "lasso" o "ridge"
+    valor_lambda = 1000     # Fuerza de la penalización (alpha en sklearn)
     k_folds = 10
 
     # Consejo: en Lasso a veces necesitas subir max_iter si no converge
@@ -75,9 +75,18 @@ def main() -> None:
     # 4) Entrenar y visualizar coeficientes
     # -----------------------
     modelo.fit(X_std, y)
+    coef = modelo.coef_
 
     plt.figure(figsize=(10, 4))
-    plt.bar(range(10), modelo.coef_)
+    plt.bar(range(10), coef)
+    plt.axhline(0, color="black", linewidth=1.2)
+
+    max_abs = float(np.max(np.abs(coef)))
+    if max_abs < 1e-3:
+        plt.ylim(-0.1, 0.1)
+    else:
+        plt.ylim(-1.1 * max_abs, 1.1 * max_abs)
+
     plt.xticks(range(10), [f"Var_{i}" for i in range(10)])
     plt.title(f"Coeficientes con {metodo.upper()} (λ={valor_lambda}) | RMSE CV: {rmse_cv:.2f}")
     plt.ylabel("Peso del coeficiente")
