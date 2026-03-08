@@ -234,13 +234,22 @@ _____________________________________________________________________________
 Resume en 8–12 líneas lo aprendido sobre:
 
 - Estabilidad de K-Fold al variar K (K=2 vs K=10 vs LOOCV).
+
 - Diferencias prácticas entre Ridge y Lasso (coeficientes, selección de variables).
+
+   (Versión Larga)
+Ridge y Lasso son dos formas de regularizar modelos lineales, pero se comportan distinto en la práctica.
+Ridge (L2) reduce el tamaño de todos los coeficientes de forma suave, sin anularlos normalmente.
+Por eso, con Ridge casi todas las variables siguen activas, aunque con menor peso.
+Esto ayuda cuando hay colinealidad o ruido moderado, porque estabiliza el modelo sin “borrar” información.
+Lasso (L1), en cambio, sí puede llevar coeficientes exactamente a cero.
+Ese efecto convierte a Lasso en un método de selección automática de variables.
+En términos de interpretabilidad, Lasso suele dar modelos más simples y fáciles de explicar.
+El precio es que, si la penalización es alta, puede eliminar demasiadas variables y empeorar mucho el RMSE.
+Ridge suele ser más estable en rendimiento cuando muchas variables aportan algo, aunque sea poco.
+En resumen: Ridge prioriza estabilidad con todos los predictores; Lasso prioriza simplicidad y selección de atributos.
+   
+   (Version Breve)
+   En la práctica, **Ridge (L2)** reduce todos los coeficientes de forma suave, pero casi nunca los lleva exactamente a cero; por eso mejora estabilidad cuando hay ruido o colinealidad, manteniendo todas las variables en el modelo. En cambio, **Lasso (L1)** sí puede anular coeficientes, actuando como método de **selección de variables** y dejando un modelo más simple e interpretable. La contrapartida es que, si λ es demasiado alto, Lasso puede eliminar demasiada información útil y degradar fuertemente el RMSE.
+
 - Relación entre λ grande y el sesgo/varianza.
-
-_____________________________________________________________________________
-
-_____________________________________________________________________________
-
-_____________________________________________________________________________
-
-_____________________________________________________________________________
