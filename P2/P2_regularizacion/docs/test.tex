@@ -9,6 +9,7 @@
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 \usepackage{xcolor}
+\graphicspath{{imagenes/}{Imagenes/}{outputs/}}
 \makeatletter
 \patchcmd{\@makechapterhead}{\vspace*{50\p@}}{\vspace*{0\p@}}{}{}
 \patchcmd{\@makeschapterhead}{\vspace*{50\p@}}{\vspace*{0\p@}}{}{}
@@ -19,13 +20,13 @@
 \fancyhead[C]{\textcolor{gray}{\small Práctica 2 - IAA - Escuela Politécnica Superior de Córdoba}}
 \renewcommand{\headrulewidth}{0pt}
 \addtolength{\footskip}{8pt}
-\fancyfoot[C]{\hspace*{-1.6cm}\textcolor{gray}{Juan Luis Prieto Panadero y Alberto Alvarez Mejias}}
+\fancyfoot[C]{\hspace*{-1.6cm}\textcolor{gray}{Juan Luis Prieto Panadero y Alberto Álvarez Mejías}}
 \fancyfoot[R]{\textcolor{gray}{Pagina \thepage\ de \pageref{LastPage}}}
 \fancypagestyle{plain}{%
     \fancyhf{}
     \fancyhead[C]{\textcolor{gray}{\small Práctica 2 - IAA - Escuela Politécnica Superior de Córdoba}}
     \renewcommand{\headrulewidth}{0pt}
-    \fancyfoot[C]{\hspace*{-1.6cm}\textcolor{gray}{Juan Luis Prieto Panadero y Alberto Alvarez Mejias}}
+    \fancyfoot[C]{\hspace*{-1.6cm}\textcolor{gray}{Juan Luis Prieto Panadero y Alberto Álvarez Mejías}}
     \fancyfoot[R]{\textcolor{gray}{Pagina \thepage\ de \pageref{LastPage}}}
 }
 
@@ -37,8 +38,48 @@ Alberto Álvarez Mejías}
 
 \begin{document}
 
-\maketitle
+\begin{titlepage}
 \thispagestyle{empty}
+\centering
+
+\vspace*{0.5cm}
+\noindent
+\begin{minipage}[c]{0.45\textwidth}
+    \raggedright
+    %\includegraphics[height=2.2cm]{logo_uco.png}
+\end{minipage}
+\begin{minipage}[c]{0.45\textwidth}
+    \raggedleft
+    %\includegraphics[height=2.2cm]{logotipo-EPSC.png}
+\end{minipage}
+
+\vspace{0.9cm}
+\rule{0.9\textwidth}{0.4pt}
+
+\vspace{0.9cm}
+{\LARGE\bfseries Práctica 2\par}
+\vspace{0.25cm}
+{\Large\bfseries Introducción al Aprendizaje Automático\par}
+
+\vspace{0.9cm}
+\rule{0.9\textwidth}{0.4pt}
+
+\vspace{0.9cm}
+{\large\bfseries Escuela Politécnica Superior de Córdoba\par}
+\vspace{0.25cm}
+{\large\bfseries Universidad de Córdoba\par}
+\vspace{0.25cm}
+{\large\bfseries Grado de Ingeniería Informática\par}
+
+\vfill
+{\large\bfseries Autores:\par}
+\vspace{0.2cm}
+{\normalsize Juan Luis Prieto Panadero\par}
+{\normalsize Alberto Álvarez Mejías\par}
+
+\vspace*{0.5cm}
+\end{titlepage}
+
 \clearpage
 \setcounter{page}{1}
 
