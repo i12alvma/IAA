@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1772984446.996 "/workspaces/IAA/P2/P2_regularizacion/docs/test.tex" "test.pdf" "test" 1772984447.71711 0
+["pdflatex"] 1773417790.71331 "/workspaces/IAA/P2/P2_regularizacion/docs/test.tex" "test.pdf" "test" 1773417792.51472 0
   "/etc/texmf/web2c/texmf.cnf" 1772282673.59852 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm" 1136768653 1536 74b7293ec3713bb7fdca8dd1bd1f469c ""
@@ -69,9 +69,9 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1772283447.98247 5312232 f3296911be9cc021788f3f879cf0a47d ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1772282722 6822857 2a851b24435c40d8d48fb1b6670b14c0 ""
-  "/workspaces/IAA/P2/P2_regularizacion/docs/test.tex" 1772984446.33369 16395 32c672ef1138964d042abf0588b32826 ""
-  "test.aux" 1772984447.67169 2105 f656fcb3c2f93e1e055c9e7083f01662 "pdflatex"
-  "test.tex" 1772984446.33369 16395 32c672ef1138964d042abf0588b32826 ""
+  "/workspaces/IAA/P2/P2_regularizacion/docs/test.tex" 1773417788.05726 17153 509feccb742b52d22409c63063c11fd9 ""
+  "test.aux" 1773417792.33426 2105 f656fcb3c2f93e1e055c9e7083f01662 "pdflatex"
+  "test.tex" 1773417788.05726 17153 509feccb742b52d22409c63063c11fd9 ""
   (generated)
   "test.aux"
   "test.log"

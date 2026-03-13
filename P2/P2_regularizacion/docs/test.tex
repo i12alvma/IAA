@@ -379,6 +379,10 @@ El modelo con $\lambda$ = 0.5918 es un buen equilibrio entre simplicidad y capac
     En términos de sesgo-varianza, al crecer $\lambda$ suele aumentar el sesgo y disminuir la varianza.
 
     Por tanto, un $\lambda$ demasiado alto no mejora la generalización, sino que degrada el rendimiento porque el modelo queda demasiado simple para capturar la relación real entre variables y objetivo.
+
+    \item \textbf{Conclusión técnica: por qué en este dataset Lasso es preferible a Ridge.}
+
+    En este dataset hay pocas variables realmente informativas y varias variables de ruido. En ese contexto, Lasso resulta preferible porque su penalización L1 puede llevar coeficientes exactamente a cero y, por tanto, eliminar automáticamente las variables irrelevantes. Eso reduce la complejidad del modelo, mejora la interpretabilidad y disminuye el coste de mantenimiento sin perder apenas rendimiento (RMSE similar al mejor caso). Ridge, en cambio, solo encoge coeficientes pero mantiene activas también las variables ruidosas con pesos pequeños; por ello no realiza selección dura de atributos y deja un modelo menos parsimonioso para este problema.
     
 \end{itemize}
 
