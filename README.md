@@ -1,2 +1,2 @@
 # IAA
-Grupo para todas las practicas de IAA
+Este será el github usado para todas las prácticas de IAA.
