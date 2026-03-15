@@ -69,15 +69,23 @@ Explica por qué `StratifiedKFold` es más adecuado que una partición aleatoria
 ### Comparativa
 | Escenario | Accuracy | F1 |
 |---|---:|---:|
-| Sin variable trampa | | |
-| Con variable trampa | | |
+| Sin variable trampa | 0.6550 | 0.1039 |
+| Con variable trampa | 1.0000 | 1.0000 |
 
 ### Preguntas
 - ¿Qué variable sospechas que está filtrando información del objetivo?
 
+  Se sospecha que es la variable `ID_Hospital_Filtro`, ya que su correlación con la clase es casi perfecta, lo que se confirma al obtener Accuracy y F1 de 1.0000 cuando se incluye en el entrenamiento, frente a 0.6550 y 0.1039 sin ella.
+
 - ¿Por qué esa variable invalida la evaluación?
 
-- ¿Qué diferencia conceptual hay entre un modelo “bueno” y un modelo “contaminado” por leakage?
+  Se debe a que contiene información directamente derivada del objetivo (`Clase`). 
+  Con lo que el modelo no aprende ningún patrón real del problema, sino que simplemente lee la etiqueta a través de esa variable. Las métricas resultantes (100 %) no reflejan capacidad de generalización, sino explotación de una fuga de datos.
+
+- ¿Qué diferencia conceptual hay entre un modelo "bueno" y un modelo "contaminado" por leakage?
+
+  Por un lado, un buen modelo aprende patrones genuinos de las variables predictoras que se generalizan a datos nuevos. 
+  Por otro lado, un modelo contaminado por leakage obtiene métricas perfectas en evaluación pero falla en producción, porque se apoya en información que en un caso real no estaría disponible en el momento de predecir.
 
 ---
 
