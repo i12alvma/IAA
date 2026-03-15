@@ -78,3 +78,35 @@ f1_l = 2 * tp_l / (2 * tp_l + fp_l + fn_l)
 print(f"Accuracy: {acc_l:.4f}")
 print(f"F1 Score: {f1_l:.4f}")
 
+# TAREA 3
+print("\nTAREA 3\nKFold:")
+from sklearn.model_selection import KFold, StratifiedKFold, cross_val_score
+from sklearn.metrics import make_scorer, f1_score as f1_metric
+
+f1_scorer = make_scorer(f1_metric, zero_division=0) # Para obtener F1-score en Cross-Validation
+
+# KFold normal
+kf = KFold(n_splits=10, shuffle=True, random_state=42)
+
+# Usamos validación cruzada para obtener acc & f1-score
+acc_kf = cross_val_score(modelo, X_clean, y, cv=kf, scoring="accuracy")
+f1_kf  = cross_val_score(modelo, X_clean, y, cv=kf, scoring=f1_scorer)
+
+print("Accuracy media (KFold):", f"{acc_kf.mean():.4f}")
+print("F1-Score media (KFold):", f"{f1_kf.mean():.4f}")
+
+print("std(Accuracy) (KFold):", f"{acc_kf.std():.4f}")
+print("std(F1-Score) (KFold):", f"{f1_kf.std():.4f}")
+
+# StratifiedKFold
+print("\nStratifiedKFold:")
+skf = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
+
+acc_skf = cross_val_score(modelo, X_clean, y, cv=skf, scoring="accuracy")
+f1_skf  = cross_val_score(modelo, X_clean, y, cv=skf, scoring=f1_scorer)
+
+print("Accuracy media (StratifiedKFold):", f"{acc_skf.mean():.4f}")
+print("F1-Score media (StratifiedKFold):", f"{f1_skf.mean():.4f}")
+
+print("std(Accuracy) (StratifiedKFold):", f"{acc_skf.std():.4f}")
+print("std(F1-Score) (StratifiedKFold):", f"{f1_skf.std():.4f}")

@@ -54,14 +54,18 @@ Explica por qué `StratifiedKFold` es más adecuado que una partición aleatoria
 ### Resumen de resultados
 | Método | Accuracy media | std(Accuracy) | F1 media | std(F1) |
 |---|---:|---:|---:|---:|
-| KFold | | | | |
-| StratifiedKFold | | | | |
+| KFold | 0.5780 | 0.0665 | 0.0286 | 0.0377 |
+| StratifiedKFold | 0.5850 | 0.0482 | 0.0440 | 0.0256 |
 
 ### Interpretación
 - ¿Qué método produce métricas más estables?
 
+    El método que produce métricas más estables es `StratifiedKFold`, ya que presenta una desviación típica menor tanto en `Accuracy` como en `F1-score` que `KFold`. 
+    Esto indica que los resultados dependen menos del azar en la partición de los datos.
+
 - ¿Dónde se nota más la mejora: en Accuracy o en F1?
 
+    La mejora se nota más en `F1-score`, porque además de aumentar su valor medio de 0.0286 a 0.0440, también reduce bastante su desviación típica de 0.0377 a 0.0256. En este problema, al estar los datos desbalanceados, `F1-score` es una métrica más representativa que `Accuracy` para evaluar el comportamiento del modelo sobre la clase minoritaria.
 ---
 
 ## Tarea 4 — Detección de data leakage
@@ -97,9 +101,15 @@ Redacta un pequeño informe (6–10 líneas) respondiendo a estas cuestiones:
 
 3. ¿Por qué el *data leakage* puede hacer inútiles las conclusiones de un experimento?
 
+    El *data leakage* hace inútiles las conclusiones porque el modelo utiliza información que no debería conocer. Así, las métricas salen artificialmente altas y no reflejan el rendimiento real. En este caso, al incluir `ID_Hospital_Filtro`, se obtienen resultados perfectos, pero eso no significa que el modelo haya aprendido bien, sino que está aprovechando una fuga de información.
+
 4. ¿Qué buenas prácticas metodológicas seguirías en futuros experimentos?
+
+    En futuros experimentos revisaría bien las variables para detectar posibles fugas de información, separaría correctamente los datos de entrenamiento y prueba y usaría validación estratificada en problemas desbalanceados. Además, no me fijaría solo en `Accuracy`, sino también en métricas como `F1-score`, y desconfiaría de resultados demasiado buenos sin una explicación clara.
 
 ---
 
 ## Conclusión final
 Resume qué has aprendido sobre evaluación rigurosa, estabilidad de métricas y detección de errores metodológicos.
+
+    En esta práctica se ha comprobado que evaluar un modelo de forma rigurosa es fundamental, especialmente cuando los datos están desbalanceados. La validación estratificada ofrece resultados más estables que una validación cruzada normal, sobre todo en `F1-score`, que representa mejor el comportamiento sobre la clase minoritaria. También se ha visto que el *data leakage* puede inflar artificialmente las métricas hasta valores perfectos, dando una imagen falsa del rendimiento del modelo. Por tanto, no basta con obtener buenas métricas: también es necesario asegurarse de que la evaluación sea metodológicamente correcta.
