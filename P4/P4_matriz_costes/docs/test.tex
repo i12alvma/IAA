@@ -123,10 +123,10 @@ A continuación se muestra la matriz de confusión obtenida usando el umbral est
 
 A partir de esta matriz, se obtienen los siguientes valores:
 \begin{itemize}
-    \item Verdaderos Positivos (TP): \texttt{[SUSTITUIR]}
-    \item Verdaderos Negativos (TN): \texttt{[SUSTITUIR]}
-    \item Falsos Positivos (FP): \texttt{[SUSTITUIR]}
-    \item Falsos Negativos (FN): \texttt{[SUSTITUIR]}
+    \item Verdaderos Positivos (TP): \texttt{1}
+    \item Verdaderos Negativos (TN): \texttt{501}
+    \item Falsos Positivos (FP): \texttt{1}
+    \item Falsos Negativos (FN): \texttt{22}
 \end{itemize}
 
 \subsubsection{Cálculo del coste total}
@@ -137,20 +137,14 @@ El coste total se calcula mediante la expresión:
 
 Sustituyendo los valores obtenidos:
 \[
-\text{Coste Total} = (\texttt{[FP]} \cdot 10) + (\texttt{[FN]} \cdot 200) = \texttt{[SUSTITUIR]} \,€
+\text{Coste Total} = (\texttt{1} \cdot 10) + (\texttt{22} \cdot 200) = \texttt{4410} \,€
 \]
 
 \subsubsection{Interpretación}
 \textbf{Comentario del alumno:}  
-\textit{Explica aquí si el umbral por defecto de 0.5 parece razonable o no en este contexto. No te limites a decir si el modelo acierta mucho o poco; comenta especialmente si está controlando adecuadamente los errores más costosos.}
+\textit{Con el umbral por defecto de 0.5 el modelo no resulta adecuado para este problema. Aunque casi no genera falsos positivos, deja muchos fraudes sin detectar (22 falsos negativos), y eso dispara el coste económico porque cada falso negativo cuesta 200 euros. El coste total obtenido es 4410 euros, por lo que el umbral estándar no está controlando bien el error más caro. En un entorno real no lo usaría sin revisarlo y ajustaría el umbral para minimizar el coste total.}
 
-\vspace{0.3cm}
-\noindent\textbf{Guía para redactar:}
-\begin{itemize}
-    \item ¿El modelo comete muchos falsos negativos?
-    \item ¿El coste total parece alto o bajo para este problema?
-    \item ¿Usarías este umbral en un entorno real sin revisarlo?
-\end{itemize}
+\vspace{0.3cm} 
 
 % ---------------------------------------------------------
 \subsection{Tarea 2: Estudio de probabilidades y umbrales}
