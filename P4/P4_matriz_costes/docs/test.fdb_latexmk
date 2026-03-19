@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1773920596.21496 "/workspaces/IAA/P4/P4_matriz_costes/docs/test.tex" "test.pdf" "test" 1773920597.00218 2
+["pdflatex"] 1773921459.86762 "/workspaces/IAA/P4/P4_matriz_costes/docs/test.tex" "test.pdf" "test" 1773921460.50536 2
   "/etc/texmf/web2c/texmf.cnf" 1772282673.59852 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcbx1200.tfm" 1136768653 1536 c09172c8f235393e6235bb4758357c41 ""
@@ -49,6 +49,7 @@
   "/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty" 1579991033 13886 d1306dcf79a944f6988e688c1785f9ce ""
   "/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty" 1601931149 46845 3b58f70c6e861a13d927bff09d35ecbc ""
   "/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty" 1668028059 18450 88279bf67c81e69f8e3f1c1bad1a26c5 ""
+  "/usr/share/texlive/texmf-dist/tex/latex/float/float.sty" 1137110151 6749 16d2656a1984957e674b149555f1ea1d ""
   "/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty" 1578002852 41601 9cf6c5257b1bc7af01a58859749dd37a ""
   "/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg" 1459978653 1213 620bba36b25224fa9b7e1ccb4ecb76fd ""
   "/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg" 1465944070 1224 978390e9c2234eab29404bc21b268d1e ""
@@ -71,15 +72,15 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1772283447.98247 5312232 f3296911be9cc021788f3f879cf0a47d ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1772282722 6822857 2a851b24435c40d8d48fb1b6670b14c0 ""
-  "/workspaces/IAA/P4/P4_matriz_costes/docs/test.tex" 1773920594.66115 10983 e6d6960ee8f5470e18d3c8d66710f418 ""
+  "/workspaces/IAA/P4/P4_matriz_costes/docs/test.tex" 1773921457.91712 11002 10458621d710e9fa571e6e9c4f7270ba ""
   "img/coste_vs_umbral.png" 0 -1 0 ""
   "img/curva_precision_recall.png" 0 -1 0 ""
   "img/curva_roc.png" 0 -1 0 ""
   "img/matriz_confusion_umbral_0_5.png" 0 -1 0 ""
   "logo_uco.png" 0 -1 0 ""
   "logotipo-EPSC.png" 0 -1 0 ""
-  "test.aux" 1773920596.88115 3514 433ee05ccfee3798c7da5978c4b066bc "pdflatex"
-  "test.tex" 1773920594.66115 10983 e6d6960ee8f5470e18d3c8d66710f418 ""
+  "test.aux" 1773921460.40912 3514 02e4d0b22bc276d3d974e3f94f981090 "pdflatex"
+  "test.tex" 1773921457.91712 11002 10458621d710e9fa571e6e9c4f7270ba ""
   (generated)
   "test.aux"
   "test.log"
