@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.28)  19 MAR 2026 15:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.28)  19 MAR 2026 15:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -343,31 +343,31 @@ Missing character: There is no ¿ in font cmr12!
 </workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png, id=26, 578.16pt x 361.35pt>
 File: /workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png Graphic file (type png)
 <use /workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png>
-Package pdftex.def Info: /workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png  used on input line 186.
+Package pdftex.def Info: /workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png  used on input line 185.
 (pdftex.def)             Requested size: 327.7763pt x 204.85786pt.
 </workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png, id=27, 578.16pt x 361.35pt>
 File: /workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png Graphic file (type png)
 <use /workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png>
-Package pdftex.def Info: /workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png  used on input line 199.
+Package pdftex.def Info: /workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png  used on input line 200.
 (pdftex.def)             Requested size: 327.7763pt x 204.85786pt.
  [3{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc} </workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png>]
 
-LaTeX Warning: Command \texteuro invalid in math mode on input line 214.
+LaTeX Warning: Command \texteuro invalid in math mode on input line 215.
 
 
-LaTeX Warning: Command \texteuro invalid in math mode on input line 214.
+LaTeX Warning: Command \texteuro invalid in math mode on input line 215.
 
 Missing character: There is no ¿ in font cmr12!
 </workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png, id=33, 433.62pt x 361.35pt>
 File: /workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png Graphic file (type png)
 <use /workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png>
-Package pdftex.def Info: /workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png  used on input line 238.
+Package pdftex.def Info: /workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png  used on input line 239.
 (pdftex.def)             Requested size: 264.0424pt x 220.04272pt.
 [4 </workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png>]
 </workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png, id=39, 433.62pt x 361.35pt>
 File: /workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png Graphic file (type png)
 <use /workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png>
-Package pdftex.def Info: /workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png  used on input line 248.
+Package pdftex.def Info: /workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png  used on input line 249.
 (pdftex.def)             Requested size: 264.0424pt x 220.04272pt.
  [5 </workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png> </workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png>] [6] 
 enddocument/afterlastpage: lastpage setting LastPage.
