@@ -169,7 +169,8 @@ La Tabla~\ref{tab:umbrales_coste} resume los resultados obtenidos para varios um
 0.10 & \texttt{42} & \texttt{14} & \texttt{3220} \\
 0.15 & \texttt{22} & \texttt{15} & \texttt{3220} \\
 0.20 & \texttt{13} & \texttt{15} & \texttt{3130} \\
-\vdots & \vdots & \vdots & \vdots \\
+0.50 & \texttt{1} & \texttt{22} & \texttt{4410} \\
+0.75 & \texttt{0} & \texttt{26} & \texttt{5200} \\
 1.00 & \texttt{0} & \texttt{38} & \texttt{7600} \\
 \bottomrule
 \end{tabular}
@@ -178,6 +179,13 @@ La Tabla~\ref{tab:umbrales_coste} resume los resultados obtenidos para varios um
 \subsubsection{Observaciones}
 \textbf{Comentario del alumno:}  
 \textit{\textit{Al variar el umbral se observa un comportamiento claro: cuando el umbral baja, el modelo clasifica más operaciones como fraude, por lo que aumentan los falsos positivos pero disminuyen los falsos negativos. En cambio, cuando el umbral sube, el modelo se vuelve más estricto, reduce los falsos positivos y deja escapar más fraudes, aumentando los falsos negativos. En este problema aparece un compromiso directo entre ambos tipos de error. Dado que un falso negativo cuesta mucho más que un falso positivo (200 euros frente a 10 euros), resulta más razonable aceptar algunos falsos positivos adicionales si con ello se reducen fraudes no detectados y baja el coste total.}}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.72\textwidth]{/workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png}
+    \caption{Evolución de FP y FN según el umbral.}
+\end{figure}
+
 \vspace{0.3cm}
 
 % ---------------------------------------------------------

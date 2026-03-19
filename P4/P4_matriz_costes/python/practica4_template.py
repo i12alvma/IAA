@@ -417,6 +417,18 @@ def imprimir_resumen_umbral(nombre: str, resultado: dict) -> None:
     print(f"TP: {resultado['tp']}")
     print(f"Coste total: {resultado['coste_total']:.2f} €")
 
+def graficar_fp_fn_vs_umbral(df_resultados: pd.DataFrame, output_path: Path) -> None:
+    plt.figure(figsize=(8, 5))
+    plt.plot(df_resultados["threshold"], df_resultados["fp"], marker="o", label="FP")
+    plt.plot(df_resultados["threshold"], df_resultados["fn"], marker="o", label="FN")
+    plt.xlabel("Umbral")
+    plt.ylabel("Número de errores")
+    plt.title("Evolución de FP y FN según el umbral")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=200)
+    plt.close()
 
 # ============================================================
 # Programa principal
@@ -480,6 +492,11 @@ def main() -> None:
     graficar_coste_vs_umbral(
         df_resultados,
         OUTPUT_DIR / "coste_vs_umbral.png",
+    )
+
+    graficar_fp_fn_vs_umbral(
+        df_resultados,
+        OUTPUT_DIR / "fp_fn_vs_umbral.png",
     )
 
     # ========================================================
