@@ -41,11 +41,11 @@
 \noindent
 \begin{minipage}[c]{0.45\textwidth}
     \raggedright
-    \includegraphics[height=2.2cm]{logo_uco.png}
+    \includegraphics[height=2.2cm]{/workspaces/IAA/.venv/logo_uco.png}
 \end{minipage}
 \begin{minipage}[c]{0.45\textwidth}
     \raggedleft
-    \includegraphics[height=2.2cm]{logotipo-EPSC.png}
+    \includegraphics[height=2.2cm]{/workspaces/IAA/.venv/logotipo-EPSC.png}
 \end{minipage}
 
 \vspace{0.9cm}
@@ -117,7 +117,7 @@ A continuación se muestra la matriz de confusión obtenida usando el umbral est
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.48\textwidth]{img/matriz_confusion_umbral_0_5.png}
+    \includegraphics[width=0.48\textwidth]{/workspaces/IAA/P4/P4_matriz_costes/outputs/matriz_confusion_umbral_0_5.png}
     \caption{Matriz de confusión para el umbral \(\tau = 0.5\).}
     \label{fig:mc_05}
 \end{figure}
@@ -164,28 +164,21 @@ La Tabla~\ref{tab:umbrales_coste} resume los resultados obtenidos para varios um
 \toprule
 \textbf{Umbral} & \textbf{FP} & \textbf{FN} & \textbf{Coste Total (€)} \\
 \midrule
-0.00 & \texttt{[ ]} & \texttt{[ ]} & \texttt{[ ]} \\
-0.05 & \texttt{[ ]} & \texttt{[ ]} & \texttt{[ ]} \\
-0.10 & \texttt{[ ]} & \texttt{[ ]} & \texttt{[ ]} \\
-0.15 & \texttt{[ ]} & \texttt{[ ]} & \texttt{[ ]} \\
-0.20 & \texttt{[ ]} & \texttt{[ ]} & \texttt{[ ]} \\
+0.00 & \texttt{502} & \texttt{0} & \texttt{5020} \\
+0.05 & \texttt{112} & \texttt{9} & \texttt{2920} \\
+0.10 & \texttt{42} & \texttt{14} & \texttt{3220} \\
+0.15 & \texttt{22} & \texttt{15} & \texttt{3220} \\
+0.20 & \texttt{13} & \texttt{15} & \texttt{3130} \\
 \vdots & \vdots & \vdots & \vdots \\
-1.00 & \texttt{[ ]} & \texttt{[ ]} & \texttt{[ ]} \\
+1.00 & \texttt{0} & \texttt{38} & \texttt{7600} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \subsubsection{Observaciones}
 \textbf{Comentario del alumno:}  
-\textit{Describe aquí cómo cambian los falsos positivos y los falsos negativos al mover el umbral.}
-
+\textit{\textit{Al variar el umbral se observa un comportamiento claro: cuando el umbral baja, el modelo clasifica más operaciones como fraude, por lo que aumentan los falsos positivos pero disminuyen los falsos negativos. En cambio, cuando el umbral sube, el modelo se vuelve más estricto, reduce los falsos positivos y deja escapar más fraudes, aumentando los falsos negativos. En este problema aparece un compromiso directo entre ambos tipos de error. Dado que un falso negativo cuesta mucho más que un falso positivo (200 euros frente a 10 euros), resulta más razonable aceptar algunos falsos positivos adicionales si con ello se reducen fraudes no detectados y baja el coste total.}}
 \vspace{0.3cm}
-\noindent\textbf{Guía para redactar:}
-\begin{itemize}
-    \item ¿Qué ocurre cuando el umbral baja?
-    \item ¿Qué ocurre cuando el umbral sube?
-    \item ¿Qué compromiso aparece entre FP y FN?
-\end{itemize}
 
 % ---------------------------------------------------------
 \subsection{Tarea 3: Optimización del coste}
@@ -196,7 +189,7 @@ La Figura~\ref{fig:coste_umbral} muestra la evolución del coste total en funci�
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.72\textwidth]{img/coste_vs_umbral.png}
+    \includegraphics[width=0.72\textwidth]{/workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png}
     \caption{Coste total en función del umbral de decisión.}
     \label{fig:coste_umbral}
 \end{figure}
@@ -235,7 +228,7 @@ La Figura~\ref{fig:roc} muestra la curva ROC obtenida para el modelo.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.58\textwidth]{img/curva_roc.png}
+    \includegraphics[width=0.58\textwidth]{/workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png}
     \caption{Curva ROC del clasificador.}
     \label{fig:roc}
 \end{figure}
@@ -245,7 +238,7 @@ La Figura~\ref{fig:pr} muestra la curva Precision-Recall del modelo.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.58\textwidth]{img/curva_precision_recall.png}
+    \includegraphics[width=0.58\textwidth]{/workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png}
     \caption{Curva Precision-Recall del clasificador.}
     \label{fig:pr}
 \end{figure}
