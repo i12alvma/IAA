@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1773922091.29406 "/workspaces/IAA/P4/P4_matriz_costes/docs/test.tex" "test.pdf" "test" 1773922092.31606 0
+["pdflatex"] 1773922636.58023 "/workspaces/IAA/P4/P4_matriz_costes/docs/test.tex" "test.pdf" "test" 1773922637.70412 0
   "/etc/texmf/web2c/texmf.cnf" 1772282673.59852 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcbx1200.tfm" 1136768653 1536 c09172c8f235393e6235bb4758357c41 ""
@@ -74,13 +74,13 @@
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1772282722 6822857 2a851b24435c40d8d48fb1b6670b14c0 ""
   "/workspaces/IAA/.venv/logo_uco.png" 1773922075.9971 126574 256ce2718a86c6a1fdcf1184618a8249 ""
   "/workspaces/IAA/.venv/logotipo-EPSC.png" 1773922060.7971 96837 4f546fa0359c705ccf9034e451ea88c6 ""
-  "/workspaces/IAA/P4/P4_matriz_costes/docs/test.tex" 1773922090.5501 11576 31066bf1632ace8e423146b29569ffb4 ""
-  "/workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png" 1773918890.88821 71365 36f89b7a595b071b798d92b4de9b093a ""
-  "/workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png" 1773918891.23321 44560 e692546d2f4f815ab46a09da5d28d362 ""
-  "/workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png" 1773918891.08421 59819 ff47d2673e6aea0a9f39efbc1deda80b ""
-  "/workspaces/IAA/P4/P4_matriz_costes/outputs/matriz_confusion_umbral_0_5.png" 1773918890.48721 30308 64562dd4bc09283a03e49f5976aa4279 ""
-  "test.aux" 1773922092.2571 3514 3cc18564e0732acad85f55de9c169ba7 "pdflatex"
-  "test.tex" 1773922090.5501 11576 31066bf1632ace8e423146b29569ffb4 ""
+  "/workspaces/IAA/P4/P4_matriz_costes/docs/test.tex" 1773922180.6261 11576 31066bf1632ace8e423146b29569ffb4 ""
+  "/workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png" 1773922635.42708 71365 36f89b7a595b071b798d92b4de9b093a ""
+  "/workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png" 1773922635.76908 44560 e692546d2f4f815ab46a09da5d28d362 ""
+  "/workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png" 1773922635.60208 59819 ff47d2673e6aea0a9f39efbc1deda80b ""
+  "/workspaces/IAA/P4/P4_matriz_costes/outputs/matriz_confusion_umbral_0_5.png" 1773922635.14308 30374 1b9aac424ec3106e11c3f0acad482595 ""
+  "test.aux" 1773922637.62608 3514 3cc18564e0732acad85f55de9c169ba7 "pdflatex"
+  "test.tex" 1773922180.6261 11576 31066bf1632ace8e423146b29569ffb4 ""
   (generated)
   "test.aux"
   "test.log"

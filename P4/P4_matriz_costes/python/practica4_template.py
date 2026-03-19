@@ -303,10 +303,16 @@ def graficar_matriz_confusion(
         Título de la figura.
     """
     cm = confusion_matrix(y_true, y_pred)
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+    disp = ConfusionMatrixDisplay(
+        confusion_matrix=cm,
+    )
 
     fig, ax = plt.subplots(figsize=(5, 5))
-    disp.plot(ax=ax, colorbar=False)
+    disp.plot(
+        ax=ax,
+        colorbar=False,
+        cmap="Blues",
+    )
     ax.set_title(title)
     plt.tight_layout()
     plt.savefig(output_path, dpi=200)
