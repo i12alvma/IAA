@@ -13,24 +13,33 @@ Se parte de:
 ## Tarea 1 — La lotería de la partición aleatoria
 
 ### Configuración común
-- Modelo usado: ______________________
-- Métricas usadas: ___________________
-- Semilla(s): ________________________
+- Modelo usado: LogisticRegression (class_weight="balanced")
+- Métricas usadas: Accuracy, F1-score
+- Semilla(s): 0, 7, 21, 42, 99
 
 ### Registro de resultados
 | Ejecución | Positivos en test |
 |---|---:|
-| 1 | |
-| 2 | |
-| 3 | |
-| 4 | |
-| 5 | |
+| 1 | 4 |
+| 2 | 3 |
+| 3 | 3 |
+| 4 | 9 |
+| 5 | 7 |
 
 ### Análisis
 - ¿Ha cambiado mucho el número de positivos en test entre ejecuciones?
+Sí, cambia bastante.
+Aunque en teoría deberían salir unos 4 positivos en el test, en la práctica han salido entre 3 y 9, lo cual es bastante diferencia.
+
+Esto pasa porque la partición es aleatoria y hay muy pocos casos positivos, así que dependiendo de cómo caigan, el resultado cambia bastante.
 
 - ¿Sería fiable la evaluación si solo hubiera 0 o 1 positivos en test?
+No, no sería fiable.
+Si hay:
 
+0 positivos, no se puede evaluar bien el modelo porque no hay casos de la clase importante.
+
+1 positivo, todo depende de si acierta o falla ese único caso, lo cual no es representativo.
 ---
 
 ## Tarea 2 — Partición estratificada
@@ -38,15 +47,18 @@ Se parte de:
 ### Registro por folds
 | Fold | Positivos en test | Tamaño del fold | Proporción clase 1 |
 |---|---:|---:|---:|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
+| 1 | 4 | 200 | 0.020 |
+| 2 | 4 | 200 | 0.020 |
+| 3 | 4 | 200 | 0.020 |
+| 4 | 4 | 200 | 0.020 |
+| 5 | 4 | 200 | 0.020 |
 
 ### Análisis
 Explica por qué `StratifiedKFold` es más adecuado que una partición aleatoria simple en este problema.
 
+StratifiedKFold es más adecuado en este problema porque los datos están muy desbalanceados (solo un 2 % de la clase positiva).
+
+Con una partición aleatoria simple, puede pasar que en algunos conjuntos de test haya muy pocos positivos o incluso ninguno. Esto hace que la evaluación no sea fiable, ya que el modelo no se está probando correctamente sobre la clase importante.
 ---
 
 ## Tarea 3 — Comparativa de la varianza
@@ -97,7 +109,11 @@ Explica por qué `StratifiedKFold` es más adecuado que una partición aleatoria
 Redacta un pequeño informe (6–10 líneas) respondiendo a estas cuestiones:
 1. ¿Por qué una partición aleatoria simple puede ser peligrosa en problemas desbalanceados?
 
+Una partición aleatoria simple puede ser peligrosa en problemas desbalanceados porque no garantiza que la clase minoritaria esté bien representada en el conjunto de test. Esto puede hacer que, por puro azar, haya muy pocos o incluso ningún caso positivo, lo que provoca evaluaciones poco fiables y muy dependientes de la partición concreta.
+
 2. ¿Qué aporta la validación estratificada?
+
+La validación estratificada soluciona este problema manteniendo la misma proporción de clases en cada partición que en el dataset original. De esta forma, todos los folds contienen ejemplos de la clase minoritaria, lo que permite evaluar el modelo de forma más justa.
 
 3. ¿Por qué el *data leakage* puede hacer inútiles las conclusiones de un experimento?
 
