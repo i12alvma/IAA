@@ -68,6 +68,8 @@ Con una partición aleatoria simple, puede pasar que en algunos conjuntos de tes
 
 ## Tarea 3 — Comparativa de la varianza
 
+Se realizaron 10 iteraciones de validación cruzada con KFold y 10 iteraciones con StratifiedKFold, calculando en ambos casos las métricas Accuracy y F1-score, junto con su desviación típica.
+
 ### Resumen de resultados
 | Método | Accuracy media | std(Accuracy) | F1 media | std(F1) |
 |---|---:|---:|---:|---:|
