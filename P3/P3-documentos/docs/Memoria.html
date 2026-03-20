@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cuaderno de Laboratorio — Práctica 3</title>
+
+  <style>
+    /* ── Base ── */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif;
+      font-size: 14px;
+      padding: 0 26px;
+      line-height: 22px;
+      word-wrap: break-word;
+      color: #1a1a1a;
+      text-align: justify;
+    }
+
+    h1 {
+      padding-bottom: 0.3em;
+      line-height: 1.2;
+      border-bottom: 1px solid rgba(0,0,0,0.18);
+      margin-top: -10px;
+    }
+
+    h2 {
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      padding-bottom: 4px;
+      margin-top: 28px;
+    }
+
+    h3 { margin-top: 20px; }
+
+    hr {
+      border: 0;
+      height: 2px;
+      border-bottom: 2px solid rgba(0,0,0,0.12);
+      margin: 18px 0;
+    }
+
+    a { text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    img {
+      max-width: 100%;
+      display: block;
+      margin: 10px auto;
+    }
+
+    /* ── Tables ── */
+    table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+    table > thead > tr > th {
+      text-align: center;
+      border-bottom: 1px solid rgba(0,0,0,0.45);
+      padding: 5px 10px;
+      background-color: #f4f4f4;
+    }
+    table > thead > tr > td,
+    table > tbody > tr > th,
+    table > tbody > tr > td {
+      padding: 5px 10px;
+      text-align: center;
+    }
+    table > tbody > tr + tr > td { border-top: 1px solid rgba(0,0,0,0.12); }
+    td.r { text-align: center; }
+
+    /* ── Code ── */
+    code {
+      font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+      font-size: 13px;
+      background: #f0f0f0;
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #4d4d4c;
+    }
+
+    /* ── Blockquote ── */
+    blockquote {
+      margin: 0 7px 0 5px;
+      padding: 0 16px 0 10px;
+      border-left: 5px solid rgba(0,122,204,0.5);
+      background: rgba(127,127,127,0.06);
+    }
+
+    /* ── Analysis Q&A ── */
+    .qa-q {
+      font-weight: 700;
+      margin-top: 10px;
+      margin-bottom: 3px;
+    }
+    .qa-a {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+
+
+    /* ── Ordered list bold markers ── */
+    ol.preguntas > li::marker { font-weight: 700; }
+
+    /* ── Print / PDF ── */
+    .no-print { display: block; }
+
+    @page {
+      margin-top: 1.2cm;
+      margin-bottom: 1.4cm;
+      @top-center {
+        content: "Práctica 3 — IAA — Escuela Politécnica Superior de Córdoba";
+        font-size: 9pt;
+        color: #666;
+      }
+      @bottom-center {
+        content: "Juan Luis Prieto Panadero y Alberto Álvarez Mejías";
+        font-size: 9pt;
+        color: #666;
+      }
+      @bottom-right {
+        content: "Página " counter(page) " de " counter(pages);
+        font-size: 9pt;
+        color: #666;
+      }
+    }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { font-size: 11px; padding: 0 10px; }
+      .page { page-break-after: always; }
+    }
+
+    /* ── Page break helper ── */
+    .page { page-break-after: always; }
+
+    /* ── Button ── */
+    #btn-pdf {
+      background: #4263eb;
+      color: #fff;
+      border: none;
+      padding: 9px 22px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 4px;
+    }
+    #btn-pdf:hover { background: #364fc7; }
+  </style>
+</head>
+<body>
+
+<!-- Botón solo visible en pantalla -->
+<button class="no-print" id="btn-pdf">📄 Guardar como PDF</button>
+<p class="no-print" style="margin-top:-6px; color:#555; font-size:10pt;">
+  Al pulsar, elige destino: <strong>Guardar como PDF</strong>.
+</p>
+
+<div style="text-align: justify;">
+
+<h1 id="cuaderno">Cuaderno de Laboratorio — Práctica 3: Metodología de Evaluación y Rigor Científico</h1>
+<h2 id="objetivo">Objetivo</h2>
+<p>
+  Aprender a realizar evaluaciones honestas en condiciones difíciles, especialmente con datos desbalanceados,
+  y detectar errores metodológicos graves como la fuga de datos (<em>data leakage</em>).
+</p>
+
+<h2 id="material">Material de partida</h2>
+<ul>
+  <li>Un dataset sintético de <strong>1000 pacientes</strong>.</li>
+  <li>Una clase positiva muy minoritaria (<strong>2 %</strong>).</li>
+</ul>
+
+<hr>
+
+<!-- ══════════════════════════════════════════
+     TAREA 1
+════════════════════════════════════════════ -->
+<h2 id="tarea1">1. Tarea 1 — La Lotería de la Partición Aleatoria</h2>
+
+<h3 id="t1-config">1.1 Configuración común</h3>
+<ul>
+  <li><strong>Modelo:</strong> <code>LogisticRegression(class_weight="balanced")</code></li>
+  <li><strong>Métricas:</strong> Accuracy, F1-score</li>
+  <li><strong>Semillas:</strong> 0, 7, 21, 42, 99</li>
+</ul>
+
+<h3 id="t1-registro">1.2 Registro de resultados</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ejecución</th>
+      <th>Semilla</th>
+      <th class="r">Positivos en test</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>0</td><td class="r">4</td></tr>
+    <tr><td>2</td><td>7</td><td class="r">3</td></tr>
+    <tr><td>3</td><td>21</td><td class="r">3</td></tr>
+    <tr><td>4</td><td>42</td><td class="r">9</td></tr>
+    <tr><td>5</td><td>99</td><td class="r">7</td></tr>
+  </tbody>
+</table>
+
+<h3 id="t1-analisis">1.3 Análisis</h3>
+
+<p class="qa-q">¿Ha cambiado mucho el número de positivos en test entre ejecuciones?</p>
+<p class="qa-a">
+  Sí, cambia bastante. Aunque en teoría deberían salir unos 4 positivos en el test, en la práctica han
+  salido entre 3 y 9, lo cual es bastante diferencia. Esto pasa porque la partición es aleatoria y hay
+  muy pocos casos positivos, así que dependiendo de cómo caigan, el resultado cambia bastante.
+</p>
+
+<p class="qa-q">¿Sería fiable la evaluación si solo hubiera 0 o 1 positivos en test?</p>
+<p class="qa-a">
+  No, no sería fiable. <br> Si hay <strong>0 positivos</strong>, no se puede evaluar bien el modelo porque no hay casos
+  de la clase importante. <br>Si hay <strong>1 positivo</strong>, todo depende de si acierta o falla ese único caso,
+  lo cual no es representativo.
+</p>
+
+<br>
+
+<!-- ══════════════════════════════════════════
+     TAREA 2
+════════════════════════════════════════════ -->
+<h2 id="tarea2">2. Tarea 2 — Partición Estratificada</h2>
+
+<h3 id="t2-registro">2.1 Registro por folds — <code>StratifiedKFold(k=5)</code></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Fold</th>
+      <th class="r">Positivos en test</th>
+      <th class="r">Tamaño del fold</th>
+      <th class="r">Proporción clase 1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td class="r">4</td><td class="r">200</td><td class="r">0.020</td></tr>
+    <tr><td>2</td><td class="r">4</td><td class="r">200</td><td class="r">0.020</td></tr>
+    <tr><td>3</td><td class="r">4</td><td class="r">200</td><td class="r">0.020</td></tr>
+    <tr><td>4</td><td class="r">4</td><td class="r">200</td><td class="r">0.020</td></tr>
+    <tr><td>5</td><td class="r">4</td><td class="r">200</td><td class="r">0.020</td></tr>
+  </tbody>
+</table>
+
+<h3 id="t2-analisis">2.2 Análisis</h3>
+
+<p class="qa-q">Explica por qué <code>StratifiedKFold</code> es más adecuado que una partición aleatoria simple en este problema.</p>
+<p class="qa-a">
+  <code>StratifiedKFold</code> es más adecuado en este problema porque los datos están muy desbalanceados
+  (solo un 2 % de la clase positiva). Con una partición aleatoria simple, puede ocurrir que en algunos
+  conjuntos de test haya muy pocos positivos o incluso ninguno. Esto hace que la evaluación no sea fiable,
+  ya que el modelo no se está probando correctamente sobre la clase importante. Con la estratificación, todos
+  los folds contienen exactamente la misma proporción de clases que el dataset original, garantizando
+  resultados reproducibles y comparables.
+</p>
+
+<!-- ══════════════════════════════════════════
+     TAREA 3
+════════════════════════════════════════════ -->
+<h2 id="tarea3">3. Tarea 3 — Comparativa de la Varianza</h2>
+
+<h3 id="t3-resultados">3.1 Resumen de resultados</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Método</th>
+      <th class="r">Accuracy media</th>
+      <th class="r">std(Accuracy)</th>
+      <th class="r">F1 media</th>
+      <th class="r">std(F1)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>KFold</td>
+      <td class="r">0.5780</td>
+      <td class="r">0.0665</td>
+      <td class="r">0.0286</td>
+      <td class="r">0.0377</td>
+    </tr>
+    <tr>
+      <td>StratifiedKFold</td>
+      <td class="r">0.5850</td>
+      <td class="r">0.0482</td>
+      <td class="r">0.0440</td>
+      <td class="r">0.0256</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="t3-analisis">3.2 Interpretación</h3>
+
+<p class="qa-q">¿Qué método produce métricas más estables?</p>
+<p class="qa-a">
+  El método que produce métricas más estables es <code>StratifiedKFold</code>, ya que presenta una desviación
+  típica menor tanto en Accuracy (0.0482 frente a 0.0665) como en F1-score (0.0256 frente a 0.0377).
+  Esto indica que los resultados dependen menos del azar en la partición de los datos.
+</p>
+
+<p class="qa-q">¿Dónde se nota más la mejora: en Accuracy o en F1?</p>
+<p class="qa-a">
+  La mejora se nota más en F1-score, porque además de aumentar su valor medio de 0.0286 a 0.0440,
+  también reduce bastante su desviación típica de 0.0377 a 0.0256. En este problema, al estar los
+  datos desbalanceados, F1-score es una métrica más representativa que Accuracy para evaluar el
+  comportamiento del modelo sobre la clase minoritaria.
+</p>
+
+<br>
+<br>
+
+<!-- ══════════════════════════════════════════
+     TAREA 4
+════════════════════════════════════════════ -->
+<h2 id="tarea4">4. Tarea 4 — Detección de Data Leakage</h2>
+
+<h3 style="margin-top: -5px;" id="t4-comparativa">4.1 Comparativa con / sin variable trampa</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Escenario</th>
+      <th class="r">Accuracy</th>
+      <th class="r">F1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Sin variable trampa</td><td class="r">0.6550</td><td class="r">0.1039</td></tr>
+    <tr><td>Con variable trampa</td><td class="r">1.0000</td><td class="r">1.0000</td></tr>
+  </tbody>
+</table>
+
+<h3 style="margin-top: -5px;" id="t4-analisis">4.2 Análisis</h3>
+
+<p class="qa-q">¿Qué variable sospechas que está filtrando información del objetivo?</p>
+<p class="qa-a">
+  Se sospecha que es la variable <code>ID_Hospital_Filtro</code>, ya que su correlación con la clase es casi
+  perfecta. Esto se confirma al obtener Accuracy y F1 de 1.0000 cuando se incluye en el entrenamiento,
+  frente a 0.6550 y 0.1039 sin ella.
+</p>
+
+<p class="qa-q">¿Por qué esa variable invalida la evaluación?</p>
+<p class="qa-a">
+  Se debe a que contiene información directamente derivada del objetivo (<em>Clase</em>). El modelo no aprende
+  ningún patrón real del problema, sino que simplemente lee la etiqueta a través de esa variable. Las métricas
+  resultantes (100 %) no reflejan capacidad de generalización, sino explotación de una fuga de datos.
+</p>
+
+<p class="qa-q">¿Qué diferencia conceptual hay entre un modelo "bueno" y un modelo "contaminado" por leakage?</p>
+<p class="qa-a">
+  Por un lado, un <em>buen modelo</em> aprende patrones genuinos de las variables predictoras que se
+  generalizan a datos nuevos. Por otro lado, un <em>modelo contaminado por leakage</em> obtiene métricas
+  perfectas en evaluación pero falla en producción, porque se apoya en información que en un caso real no
+  estaría disponible en el momento de predecir.
+</p>
+
+<!-- ══════════════════════════════════════════
+     RETO — AUDITORÍA METODOLÓGICA
+════════════════════════════════════════════ -->
+<h2 id="reto">5. Reto — Auditoría Metodológica</h2>
+
+<p>Redacta un pequeño informe respondiendo a estas cuestiones:</p>
+
+<ol class="preguntas">
+  <li>
+    <p><b>¿Por qué una partición aleatoria simple puede ser peligrosa en problemas desbalanceados?</b></p>
+    <p style="margin-top:-8px;">
+      Una partición aleatoria simple puede ser peligrosa en problemas desbalanceados porque no garantiza que
+      la clase minoritaria esté bien representada en el conjunto de test. Esto puede hacer que, por puro azar,
+      haya muy pocos o incluso ningún caso positivo, lo que provoca evaluaciones poco fiables y muy dependientes
+      de la partición concreta.
+    </p>
+  </li>
+  <li>
+    <p><b>¿Qué aporta la validación estratificada?</b></p>
+    <p style="margin-top:-8px;">
+      La validación estratificada soluciona este problema manteniendo la misma proporción de clases en cada
+      partición que en el dataset original. De esta forma, todos los folds contienen ejemplos de la clase
+      minoritaria, lo que permite evaluar el modelo de forma más justa y con menor varianza entre folds.
+    </p>
+  </li>
+  <li>
+    <p><b>¿Por qué el <em>data leakage</em> puede hacer inútiles las conclusiones de un experimento?</b></p>
+    <p style="margin-top:-8px;">
+      El <em>data leakage</em> hace inútiles las conclusiones porque el modelo utiliza información que no debería
+      conocer. Así, las métricas salen artificialmente altas y no reflejan el rendimiento real. En este caso,
+      al incluir <code>ID_Hospital_Filtro</code>, se obtienen resultados perfectos, pero eso no significa que el
+      modelo haya aprendido bien, sino que está aprovechando una fuga de información.
+    </p>
+  </li>
+  <li>
+    <p><b>¿Qué buenas prácticas metodológicas seguirías en futuros experimentos?</b></p>
+    <p style="margin-top:-8px;">
+      En futuros experimentos revisaría bien las variables para detectar posibles fugas de información, separaría
+      correctamente los datos de entrenamiento y prueba antes de cualquier preprocesado, y usaría validación
+      estratificada en problemas desbalanceados. Además, no me fijaría solo en Accuracy, sino también en métricas
+      como F1-score, y desconfiaría de resultados demasiado buenos sin una explicación clara.
+    </p>
+  </li>
+</ol>
+
+<div class="page"></div>
+
+<!-- ══════════════════════════════════════════
+     CONCLUSIONES FINALES
+════════════════════════════════════════════ -->
+<h2 id="conclusiones">6. Conclusiones Finales</h2>
+
+<p>Resume lo que has aprendido sobre evaluación rigurosa, estabilidad de métricas y detección de errores metodológicos:</p>
+
+<ul>
+  <li>
+    <p><b>Evaluación rigurosa con datos desbalanceados:</b></p>
+    <p style="margin-top:-8px;">
+      En esta práctica se ha comprobado que evaluar un modelo de forma rigurosa es fundamental, especialmente
+      cuando los datos están desbalanceados. Una partición aleatoria puede generar folds con muy pocos o ningún
+      caso positivo, haciendo que las conclusiones dependan demasiado del azar. La validación estratificada
+      elimina este problema garantizando que todos los folds representen fielmente la distribución original.
+    </p>
+  </li>
+
+  <li>
+    <p><b>Estabilidad de métricas — KFold vs StratifiedKFold:</b></p>
+    <p style="margin-top:-8px;">
+      <code>StratifiedKFold</code> ofrece resultados más estables que la validación cruzada normal, con menor
+      desviación típica tanto en Accuracy como en F1-score. La mejora es especialmente notable en F1, que
+      además de ser más estable también aumenta su valor medio, confirmando que es la métrica más adecuada para
+      evaluar el comportamiento del modelo sobre la clase minoritaria.
+    </p>
+  </li>
+
+  <li>
+    <p><b>Detección y consecuencias del <em>data leakage</em>:</b></p>
+    <p style="margin-top:-8px;">
+      El <em>data leakage</em> puede inflar artificialmente las métricas hasta valores perfectos, dando una imagen
+      completamente falsa del rendimiento del modelo. Por tanto, no basta con obtener buenas métricas: también
+      es necesario auditar el pipeline de datos para asegurarse de que no existe ninguna variable que filtre
+      información del objetivo y que la evaluación sea metodológicamente correcta.
+    </p>
+  </li>
+</ul>
+
+</div><!-- /text-align: justify -->
+
+<script>
+  document.getElementById('btn-pdf').addEventListener('click', () => {
+    window.print();
+  });
+</script>
+
+</body>
+</html>

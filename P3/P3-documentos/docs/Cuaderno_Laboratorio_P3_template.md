@@ -28,18 +28,21 @@ Se parte de:
 
 ### Análisis
 - ¿Ha cambiado mucho el número de positivos en test entre ejecuciones?
-Sí, cambia bastante.
-Aunque en teoría deberían salir unos 4 positivos en el test, en la práctica han salido entre 3 y 9, lo cual es bastante diferencia.
+  
+  Sí, cambia bastante.
+  Aunque en teoría deberían salir unos 4 positivos en el test, en la práctica han salido entre 3 y 9, lo cual es bastante diferencia.
 
-Esto pasa porque la partición es aleatoria y hay muy pocos casos positivos, así que dependiendo de cómo caigan, el resultado cambia bastante.
+  Esto pasa porque la partición es aleatoria y hay muy pocos casos positivos, así que dependiendo de cómo caigan, el resultado cambia bastante.
 
 - ¿Sería fiable la evaluación si solo hubiera 0 o 1 positivos en test?
-No, no sería fiable.
-Si hay:
+  
+  No, no sería fiable.
 
-0 positivos, no se puede evaluar bien el modelo porque no hay casos de la clase importante.
+  Si hay:
+  
+  0 positivos, no se puede evaluar bien el modelo porque no hay casos de la clase importante.
 
-1 positivo, todo depende de si acierta o falla ese único caso, lo cual no es representativo.
+  1 positivo, todo depende de si acierta o falla ese único caso, lo cual no es representativo.
 
 ---
 
@@ -111,11 +114,11 @@ Con una partición aleatoria simple, puede pasar que en algunos conjuntos de tes
 Redacta un pequeño informe (6–10 líneas) respondiendo a estas cuestiones:
 1. ¿Por qué una partición aleatoria simple puede ser peligrosa en problemas desbalanceados?
 
-Una partición aleatoria simple puede ser peligrosa en problemas desbalanceados porque no garantiza que la clase minoritaria esté bien representada en el conjunto de test. Esto puede hacer que, por puro azar, haya muy pocos o incluso ningún caso positivo, lo que provoca evaluaciones poco fiables y muy dependientes de la partición concreta.
+    Una partición aleatoria simple puede ser peligrosa en problemas desbalanceados porque no garantiza que la clase minoritaria esté bien representada en el conjunto de test. Esto puede hacer que, por puro azar, haya muy pocos o incluso ningún caso positivo, lo que provoca evaluaciones poco fiables y muy dependientes de la partición concreta.
 
 2. ¿Qué aporta la validación estratificada?
 
-La validación estratificada soluciona este problema manteniendo la misma proporción de clases en cada partición que en el dataset original. De esta forma, todos los folds contienen ejemplos de la clase minoritaria, lo que permite evaluar el modelo de forma más justa.
+    La validación estratificada soluciona este problema manteniendo la misma proporción de clases en cada partición que en el dataset original. De esta forma, todos los folds contienen ejemplos de la clase minoritaria, lo que permite evaluar el modelo de forma más justa.
 
 3. ¿Por qué el *data leakage* puede hacer inútiles las conclusiones de un experimento?
 
