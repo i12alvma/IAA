@@ -40,6 +40,7 @@ Si hay:
 0 positivos, no se puede evaluar bien el modelo porque no hay casos de la clase importante.
 
 1 positivo, todo depende de si acierta o falla ese único caso, lo cual no es representativo.
+
 ---
 
 ## Tarea 2 — Partición estratificada
@@ -59,6 +60,7 @@ Explica por qué `StratifiedKFold` es más adecuado que una partición aleatoria
 StratifiedKFold es más adecuado en este problema porque los datos están muy desbalanceados (solo un 2 % de la clase positiva).
 
 Con una partición aleatoria simple, puede pasar que en algunos conjuntos de test haya muy pocos positivos o incluso ninguno. Esto hace que la evaluación no sea fiable, ya que el modelo no se está probando correctamente sobre la clase importante.
+
 ---
 
 ## Tarea 3 — Comparativa de la varianza
