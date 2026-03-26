@@ -206,26 +206,25 @@ La Figura~\ref{fig:coste_umbral} muestra la evolución del coste total en funci�
 A partir de la gráfica y de la tabla anterior, el umbral que minimiza el coste total es:
 
 \[
-\tau^* = \texttt{[SUSTITUIR]}
+\tau^* = \texttt{0.05}
 \]
 
 El coste total mínimo asociado es:
 
 \[
-\text{Coste mínimo} = \texttt{[SUSTITUIR]} \,€
+\text{Coste mínimo} = \texttt{2920.00} \,€
 \]
 
 \subsubsection{Interpretación}
 \textbf{Comentario del alumno:}  
-\textit{Explica aquí si el umbral óptimo es mayor o menor que 0.5 y por qué ese valor tiene sentido en este problema.}
+\textit{\textit{El umbral optimo en este caso es de 0.05, bastante mas bajo que los 0.5 que se esperaban, tiene sentido porque
+hay un coste falso negativo muy alto de 200€ que es muy superior al falso positvo de 10€. El minimo no tiene que aparecer en 0.05
+porque ese valor se puede decir que es el por defecto de el clasificador, el cual varia segun el problema, en este como los costes son muy distintos
+el umbral minimo es muy pequeño. Esto esta directamente relacionado a lo que comente antes de los FP y FN siendo muy dispares
+y la estrategia que pareciera ser mas razonable es conservadora con los falsos negativos porque el no detectar un fraude o falso negativo conlleva una
+perdida mayor que bloquear una transaccion legal o falso positivo}}
 
-\vspace{0.3cm}
-\noindent\textbf{Guía para redactar:}
-\begin{itemize}
-    \item ¿Por qué el mínimo no tiene por qué aparecer en 0.5?
-    \item ¿Qué relación tiene ese valor con la diferencia de costes entre FP y FN?
-    \item ¿Qué estrategia parece más razonable para el banco: conservadora o permisiva?
-\end{itemize}
+\vspace{2cm}
 
 % ---------------------------------------------------------
 \subsection{Tarea 4: Curvas ROC y Precision-Recall}
@@ -250,18 +249,16 @@ La Figura~\ref{fig:pr} muestra la curva Precision-Recall del modelo.
     \caption{Curva Precision-Recall del clasificador.}
     \label{fig:pr}
 \end{figure}
-
+\vspace{0.3cm}
 \subsubsection{Discusión}
 \textbf{Comentario del alumno:}  
-\textit{Si el dataset está desbalanceado, razona cuál de las dos curvas resulta más útil para valorar la utilidad real del modelo en este problema.}
-
+\textit{La curva ROC compara los TPR con los FPR en este caso tiene un valor de 0.8442
+por lo que se puede asumir que el modelo no es malo, si estuviese desbalanceado es decir que hubieran
+muchos mas negativos que positivos, la curva puede sobreestimar la clase minoritaria.
+La curva PR compara la relacion entre la precision y el recall(TPR), el valor en nuestro caso es de 
+0.6551, esta curva es mejor cuando hay desbalanceo porque es mas sensible a falsos positvos y verdaderos positivos
+de la clase minoritaria.}
 \vspace{0.3cm}
-\noindent\textbf{Guía para redactar:}
-\begin{itemize}
-    \item ¿Qué información aporta la curva ROC?
-    \item ¿Qué información aporta la curva Precision-Recall?
-    \item ¿Cuál refleja mejor el comportamiento sobre la clase minoritaria?
-\end{itemize}
 
 % ---------------------------------------------------------
 \subsection{Decisión final de ingeniería}
