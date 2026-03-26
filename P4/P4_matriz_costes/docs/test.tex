@@ -206,26 +206,25 @@ La Figura~\ref{fig:coste_umbral} muestra la evolución del coste total en funci�
 A partir de la gráfica y de la tabla anterior, el umbral que minimiza el coste total es:
 
 \[
-\tau^* = \texttt{[SUSTITUIR]}
+\tau^* = \texttt{0.05}
 \]
 
 El coste total mínimo asociado es:
 
 \[
-\text{Coste mínimo} = \texttt{[SUSTITUIR]} \,€
+\text{Coste mínimo} = \texttt{2920.00} \,€
 \]
 
 \subsubsection{Interpretación}
 \textbf{Comentario del alumno:}  
-\textit{Explica aquí si el umbral óptimo es mayor o menor que 0.5 y por qué ese valor tiene sentido en este problema.}
+\textit{\textit{El umbral optimo en este caso es de 0.05, bastante mas bajo que los 0.5 que se esperaban, tiene sentido porque
+hay un coste falso negativo muy alto de 200€ que es muy superior al falso positvo de 10€. El minimo no tiene que aparecer en 0.05
+porque ese valor se puede decir que es el por defecto de el clasificador, el cual varia segun el problema, en este como los costes son muy distintos
+el umbral minimo es muy pequeño. Esto esta directamente relacionado a lo que comente antes de los FP y FN siendo muy dispares
+y la estrategia que pareciera ser mas razonable es conservadora con los falsos negativos porque el no detectar un fraude o falso negativo conlleva una
+perdida mayor que bloquear una transaccion legal o falso positivo}}
 
-\vspace{0.3cm}
-\noindent\textbf{Guía para redactar:}
-\begin{itemize}
-    \item ¿Por qué el mínimo no tiene por qué aparecer en 0.5?
-    \item ¿Qué relación tiene ese valor con la diferencia de costes entre FP y FN?
-    \item ¿Qué estrategia parece más razonable para el banco: conservadora o permisiva?
-\end{itemize}
+\vspace{2cm}
 
 % ---------------------------------------------------------
 \subsection{Tarea 4: Curvas ROC y Precision-Recall}
