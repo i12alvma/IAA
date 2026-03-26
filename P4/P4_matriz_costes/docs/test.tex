@@ -249,18 +249,16 @@ La Figura~\ref{fig:pr} muestra la curva Precision-Recall del modelo.
     \caption{Curva Precision-Recall del clasificador.}
     \label{fig:pr}
 \end{figure}
-
+\vspace{0.3cm}
 \subsubsection{Discusión}
 \textbf{Comentario del alumno:}  
-\textit{Si el dataset está desbalanceado, razona cuál de las dos curvas resulta más útil para valorar la utilidad real del modelo en este problema.}
-
+\textit{La curva ROC compara los TPR con los FPR en este caso tiene un valor de 0.8442
+por lo que se puede asumir que el modelo no es malo, si estuviese desbalanceado es decir que hubieran
+muchos mas negativos que positivos, la curva puede sobreestimar la clase minoritaria.
+La curva PR compara la relacion entre la precision y el recall(TPR), el valor en nuestro caso es de 
+0.6551, esta curva es mejor cuando hay desbalanceo porque es mas sensible a falsos positvos y verdaderos positivos
+de la clase minoritaria.}
 \vspace{0.3cm}
-\noindent\textbf{Guía para redactar:}
-\begin{itemize}
-    \item ¿Qué información aporta la curva ROC?
-    \item ¿Qué información aporta la curva Precision-Recall?
-    \item ¿Cuál refleja mejor el comportamiento sobre la clase minoritaria?
-\end{itemize}
 
 % ---------------------------------------------------------
 \subsection{Decisión final de ingeniería}
