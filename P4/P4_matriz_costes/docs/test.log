@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.26)  26 MAR 2026 09:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.26)  9 APR 2026 07:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -381,15 +381,15 @@ L3 programming layer <2024-01-22>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 5401 strings out of 476120
- 85712 string characters out of 5793657
+ 5400 strings out of 476120
+ 85704 string characters out of 5793657
  1934975 words of memory out of 5000000
- 27357 multiletter control sequences out of 15000+600000
+ 27356 multiletter control sequences out of 15000+600000
  566876 words of font info for 67 fonts, out of 8000000 for 9000
  40 hyphenation exceptions out of 8191
  70i,12n,65p,763b,365s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </home/codespace/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcti1200.600pk> </home/codespace/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcbx1200.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on test.pdf (7 pages, 524316 bytes).
+Output written on test.pdf (7 pages, 521335 bytes).
 PDF statistics:
  93 PDF objects out of 1000 (max. 8388607)
  51 compressed objects within 1 object stream
