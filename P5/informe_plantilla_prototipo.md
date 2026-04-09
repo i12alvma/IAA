@@ -26,6 +26,9 @@
 
 ## Tarea 1: El problema de la no linealidad
 
+### Descripción de la tarea
+[Resume aquí qué se pide en esta tarea y qué vas a analizar.]
+
 ### Pregunta
 ¿Por qué falla un modelo sin capas ocultas en este problema?
 
@@ -39,6 +42,8 @@
 [Escribe aquí tu respuesta.]
 
 ### Resultados
+[Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
+
 - Accuracy en entrenamiento: [completar]
 - Accuracy en prueba: [completar]
 - Iteraciones: [completar]
@@ -50,6 +55,9 @@
 ---
 
 ## Tarea 2: Diseñando la capa oculta
+
+### Descripción de la tarea
+[Resume aquí qué se pide en esta tarea y qué vas a comparar.]
 
 ### Pregunta
 ¿Qué ocurre al aumentar el número de neuronas en una sola capa oculta?
@@ -70,6 +78,8 @@
 [Escribe aquí tu respuesta.]
 
 ### Resultados
+[Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
+
 | Modelo | Arquitectura | acc_train | acc_test | Iteraciones |
 | --- | --- | --- | --- | --- |
 | MLP(2,) | [completar] | [completar] | [completar] | [completar] |
@@ -84,6 +94,9 @@
 ---
 
 ## Tarea 3: Funciones de activación
+
+### Descripción de la tarea
+[Resume aquí qué se pide en esta tarea y qué funciones vas a comparar.]
 
 ### Pregunta
 ¿Qué cambia al usar Sigmoide o ReLU con la misma arquitectura?
@@ -104,6 +117,8 @@
 [Escribe aquí tu respuesta.]
 
 ### Resultados
+[Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
+
 | Activación | acc_test | Iteraciones | loss_final |
 | --- | --- | --- | --- |
 | logistic | [completar] | [completar] | [completar] |
@@ -118,6 +133,9 @@
 ---
 
 ## Tarea 4: El reto de la caja negra
+
+### Descripción de la tarea
+[Resume aquí qué se pide en esta tarea y cómo vas a buscar la arquitectura adecuada.]
 
 ### Pregunta
 ¿Qué arquitectura alcanza al menos un 95% de acierto?
@@ -144,6 +162,8 @@
 [Escribe aquí tu respuesta.]
 
 ### Resultados
+[Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
+
 | Modelo | Arquitectura | acc_train | acc_test | Iteraciones | Cumple 95% |
 | --- | --- | --- | --- | --- | --- |
 | MLP(20,) | [completar] | [completar] | [completar] | [completar] | [sí/no] |
@@ -154,6 +174,9 @@
 ---
 
 ## Decisión final de diseño
+
+### Descripción de la tarea
+[Resume aquí la decisión de diseño que vas a proponer a partir de los resultados.]
 
 ### Pregunta
 ¿Cuándo tiene sentido usar una red sin capas ocultas y cuándo no?
