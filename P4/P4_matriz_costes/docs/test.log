@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.26)  9 APR 2026 07:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.26)  9 APR 2026 07:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -221,10 +221,7 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1373.
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count287
 \l__pdf_internal_box=\box57
-) (./test.aux
-LaTeX Info: Redefining \. on input line 8.
-LaTeX Info: Redefining \% on input line 8.
-)
+) (./test.aux)
 \openout1 = `test.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
@@ -296,20 +293,40 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-</workspaces/IAA/.venv/logo_uco.png, id=1, 388.45125pt x 388.45125pt>
-File: /workspaces/IAA/.venv/logo_uco.png Graphic file (type png)
-<use /workspaces/IAA/.venv/logo_uco.png>
-Package pdftex.def Info: /workspaces/IAA/.venv/logo_uco.png  used on input line 44.
-(pdftex.def)             Requested size: 62.59209pt x 62.59596pt.
-</workspaces/IAA/.venv/logotipo-EPSC.png, id=3, 695.59875pt x 214.55156pt>
-File: /workspaces/IAA/.venv/logotipo-EPSC.png Graphic file (type png)
-<use /workspaces/IAA/.venv/logotipo-EPSC.png>
-Package pdftex.def Info: /workspaces/IAA/.venv/logotipo-EPSC.png  used on input line 48.
-(pdftex.def)             Requested size: 202.93907pt x 62.59596pt.
+
+LaTeX Warning: File `/workspaces/IAA/.venv/logo_uco.png' not found on input line 44.
+
+
+/workspaces/IAA/P4/P4_matriz_costes/docs/test.tex:44: Package pdftex.def Error: File `/workspaces/IAA/.venv/logo_uco.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.44 ...2.2cm]{/workspaces/IAA/.venv/logo_uco.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `/workspaces/IAA/.venv/logotipo-EPSC.png' not found on input line 48.
+
+
+/workspaces/IAA/P4/P4_matriz_costes/docs/test.tex:48: Package pdftex.def Error: File `/workspaces/IAA/.venv/logotipo-EPSC.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.48 ...]{/workspaces/IAA/.venv/logotipo-EPSC.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 [1
 
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} </workspaces/IAA/.venv/logo_uco.png> </workspaces/IAA/.venv/logotipo-EPSC.png>]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 
 LaTeX Warning: Command \texteuro invalid in math mode on input line 102.
 
@@ -324,11 +341,14 @@ LaTeX Warning: Command \texteuro invalid in math mode on input line 103.
 LaTeX Warning: Command \texteuro invalid in math mode on input line 103.
 
 Missing character: There is no ¿ in font cmr12!
-</workspaces/IAA/P4/P4_matriz_costes/outputs/matriz_confusion_umbral_0_5.png, id=13, 361.35pt x 361.35pt>
+</workspaces/IAA/P4/P4_matriz_costes/outputs/matriz_confusion_umbral_0_5.png, id=9, 361.35pt x 361.35pt>
 File: /workspaces/IAA/P4/P4_matriz_costes/outputs/matriz_confusion_umbral_0_5.png Graphic file (type png)
 <use /workspaces/IAA/P4/P4_matriz_costes/outputs/matriz_confusion_umbral_0_5.png>
 Package pdftex.def Info: /workspaces/IAA/P4/P4_matriz_costes/outputs/matriz_confusion_umbral_0_5.png  used on input line 120.
 (pdftex.def)             Requested size: 218.51521pt x 218.51543pt.
+
+LaTeX Warning: Reference `LastPage' on page 1 undefined on input line 124.
+
 [1
 
 ]
@@ -339,18 +359,30 @@ LaTeX Warning: Command \texteuro invalid in math mode on input line 141.
 LaTeX Warning: Command \texteuro invalid in math mode on input line 141.
 
 Missing character: There is no ¿ in font cmr12!
+
+LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 157.
+
 [2 </workspaces/IAA/P4/P4_matriz_costes/outputs/matriz_confusion_umbral_0_5.png>]
-</workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png, id=26, 578.16pt x 361.35pt>
+
+LaTeX Warning: Reference `tab:umbrales_coste' on page 3 undefined on input line 157.
+
+</workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png, id=22, 578.16pt x 361.35pt>
 File: /workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png Graphic file (type png)
 <use /workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png>
 Package pdftex.def Info: /workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png  used on input line 185.
 (pdftex.def)             Requested size: 327.7763pt x 204.85786pt.
-</workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png, id=27, 578.16pt x 361.35pt>
+
+LaTeX Warning: Reference `fig:coste_umbral' on page 3 undefined on input line 196.
+
+</workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png, id=23, 578.16pt x 361.35pt>
 File: /workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png Graphic file (type png)
 <use /workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png>
 Package pdftex.def Info: /workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png  used on input line 200.
 (pdftex.def)             Requested size: 327.7763pt x 204.85786pt.
- [3 </workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png>]
+
+LaTeX Warning: Reference `LastPage' on page 3 undefined on input line 203.
+
+[3 </workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png>]
 
 LaTeX Warning: Command \texteuro invalid in math mode on input line 215.
 
@@ -358,18 +390,34 @@ LaTeX Warning: Command \texteuro invalid in math mode on input line 215.
 LaTeX Warning: Command \texteuro invalid in math mode on input line 215.
 
 Missing character: There is no ¿ in font cmr12!
-</workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png, id=33, 433.62pt x 361.35pt>
+
+LaTeX Warning: Reference `fig:roc' on page 4 undefined on input line 234.
+
+</workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png, id=29, 433.62pt x 361.35pt>
 File: /workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png Graphic file (type png)
 <use /workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png>
 Package pdftex.def Info: /workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png  used on input line 238.
 (pdftex.def)             Requested size: 264.0424pt x 220.04272pt.
+
+LaTeX Warning: Reference `LastPage' on page 4 undefined on input line 241.
+
 [4 </workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png>]
-</workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png, id=40, 433.62pt x 361.35pt>
+
+LaTeX Warning: Reference `fig:pr' on page 5 undefined on input line 244.
+
+</workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png, id=36, 433.62pt x 361.35pt>
 File: /workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png Graphic file (type png)
 <use /workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png>
 Package pdftex.def Info: /workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png  used on input line 248.
 (pdftex.def)             Requested size: 264.0424pt x 220.04272pt.
- [5 </workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png> </workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png>] [6] 
+
+LaTeX Warning: Reference `LastPage' on page 5 undefined on input line 262.
+
+[5 </workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png> </workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png>]
+
+LaTeX Warning: Reference `LastPage' on page 6 undefined on input line 313.
+
+[6] 
 enddocument/afterlastpage: lastpage setting LastPage.
 (./test.aux
 LaTeX Info: Redefining \. on input line 8.
@@ -379,20 +427,30 @@ LaTeX Info: Redefining \% on input line 8.
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package lastpage Warning: Rerun to get the references right on input line 313.
+
  ) 
 Here is how much of TeX's memory you used:
- 5400 strings out of 476120
- 85704 string characters out of 5793657
+ 5446 strings out of 476120
+ 87895 string characters out of 5793657
  1934975 words of memory out of 5000000
- 27356 multiletter control sequences out of 15000+600000
+ 27402 multiletter control sequences out of 15000+600000
  566876 words of font info for 67 fonts, out of 8000000 for 9000
  40 hyphenation exceptions out of 8191
  70i,12n,65p,763b,365s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </home/codespace/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcti1200.600pk> </home/codespace/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcbx1200.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on test.pdf (7 pages, 521335 bytes).
+Output written on test.pdf (7 pages, 350386 bytes).
 PDF statistics:
- 93 PDF objects out of 1000 (max. 8388607)
+ 89 PDF objects out of 1000 (max. 8388607)
  51 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

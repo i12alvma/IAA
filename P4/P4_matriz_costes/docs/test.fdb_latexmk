@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1775720660.89508 "/workspaces/IAA/P4/P4_matriz_costes/docs/test.tex" "test.pdf" "test" 1775720661.92407 0
+["pdflatex"] 1775721447.76958 "/workspaces/IAA/P4/P4_matriz_costes/docs/test.tex" "test.pdf" "test" 1775721448.72145 2
   "/etc/texmf/web2c/texmf.cnf" 1774514839.35806 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/codespace/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcbx1200.600pk" 1774515133.47004 15056 1c95990fc263185c4cbc1f5bff7b2ae2 ""
   "/home/codespace/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcti1200.600pk" 1774516292.23396 17148 2ebed9dd4c74ca2dc3ac6ab66e5ed17a ""
@@ -73,16 +73,16 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1774515075.63805 128028 f533b797fba58d231669ea19e894e23e ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1774515116 6822882 2b04612011ea998d3689956a9c7e98df ""
-  "/workspaces/IAA/.venv/logo_uco.png" 1773992897.76204 126574 256ce2718a86c6a1fdcf1184618a8249 ""
-  "/workspaces/IAA/.venv/logotipo-EPSC.png" 1773992897.76204 96837 4f546fa0359c705ccf9034e451ea88c6 ""
-  "/workspaces/IAA/P4/P4_matriz_costes/docs/test.tex" 1775720660.26475 12662 24da36d8b0b87f0af30b31caf747216c ""
+  "/workspaces/IAA/.venv/logo_uco.png" 0 -1 0 ""
+  "/workspaces/IAA/.venv/logotipo-EPSC.png" 0 -1 0 ""
+  "/workspaces/IAA/P4/P4_matriz_costes/docs/test.tex" 1775721447.0898 13218 6ffad710772499f50541b91c48d79b8c ""
   "/workspaces/IAA/P4/P4_matriz_costes/outputs/coste_vs_umbral.png" 1774515666.63901 71365 36f89b7a595b071b798d92b4de9b093a ""
   "/workspaces/IAA/P4/P4_matriz_costes/outputs/curva_precision_recall.png" 1774515667.20001 44560 e692546d2f4f815ab46a09da5d28d362 ""
   "/workspaces/IAA/P4/P4_matriz_costes/outputs/curva_roc.png" 1774515667.00601 59819 ff47d2673e6aea0a9f39efbc1deda80b ""
   "/workspaces/IAA/P4/P4_matriz_costes/outputs/fp_fn_vs_umbral.png" 1774515666.83301 67462 b33d67459c428cce41507d784a6c7d50 ""
   "/workspaces/IAA/P4/P4_matriz_costes/outputs/matriz_confusion_umbral_0_5.png" 1774515666.44601 30374 1b9aac424ec3106e11c3f0acad482595 ""
-  "test.aux" 1775720661.87975 3656 c84eb5cc8921572f0de43c25da4d05fa "pdflatex"
-  "test.tex" 1775720660.26475 12662 24da36d8b0b87f0af30b31caf747216c ""
+  "test.aux" 1775721448.6468 3656 c84eb5cc8921572f0de43c25da4d05fa "pdflatex"
+  "test.tex" 1775721447.0898 13218 6ffad710772499f50541b91c48d79b8c ""
   (generated)
   "test.aux"
   "test.log"
