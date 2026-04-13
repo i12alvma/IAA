@@ -209,35 +209,26 @@ No se trata de probar combinaciones al azar: se justificará el proceso seguido,
 ### Descripción de la tarea
 Imagina que formas parte de un equipo técnico que necesita desplegar un clasificador basado en redes neuronales para un problema real. Debes redactar una breve propuesta respondiendo a las preguntas. Se valorará especialmente la capacidad de conectar los resultados experimentales con una decisión de diseño razonada.
 
-### Pregunta
+### Cuestiones
 #### ¿Cuándo tiene sentido usar una red sin capas ocultas y cuándo no?
 
-### Respuesta
-[Escribe aquí tu respuesta.]
+  [Escribe aquí tu respuesta.]
 
-### Pregunta
 #### ¿Qué arquitectura recomendarías para un problema no lineal sencillo?
 
-### Respuesta
-[Escribe aquí tu respuesta.]
+  [Escribe aquí tu respuesta.]
 
-### Pregunta
 #### ¿Qué ventajas e inconvenientes observas al aumentar el número de neuronas?
 
-### Respuesta
-[Escribe aquí tu respuesta.]
+  [Escribe aquí tu respuesta.]
 
-### Pregunta
 #### ¿Qué función de activación elegirías en un problema general de clasificación y por qué?
 
-### Respuesta
-[Escribe aquí tu respuesta.]
+  [Escribe aquí tu respuesta.]
 
-### Pregunta
 #### ¿Qué criterio usarías para decidir si una arquitectura es suficientemente buena sin hacerla innecesariamente compleja?
 
-### Respuesta
-[Escribe aquí tu respuesta.]
+  [Escribe aquí tu respuesta.]
 
 ---
 
