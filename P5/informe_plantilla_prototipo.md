@@ -37,7 +37,7 @@ En esta práctica se va a explorar estas cuestiones de forma experimental, obser
 ## Tarea 1: El problema de la no linealidad
 
 ### Descripción de la tarea
-[Resume aquí qué se pide en esta tarea y qué vas a analizar.]
+En esta parte se usa un perceptrón simple, es decir, un MLP sin capas ocultas. El resultado en `make_moons` es limitado porque el modelo solo puede aprender una frontera lineal.
 
 ### Cuestiones
 #### ¿Por qué falla un modelo sin capas ocultas en este problema?
@@ -64,34 +64,48 @@ En esta práctica se va a explorar estas cuestiones de forma experimental, obser
 ## Tarea 2: Diseñando la capa oculta
 
 ### Descripción de la tarea
-[Resume aquí qué se pide en esta tarea y qué vas a comparar.]
+Se comparan tres configuraciones con una sola capa oculta: 2, 5 y 20 neuronas. La idea es observar cómo crece la flexibilidad del modelo y si esa flexibilidad mejora realmente la generalización.
 
 ### Cuestiones
 #### ¿Qué ocurre al aumentar el número de neuronas en una sola capa oculta?
 
-  [Escribe aquí tu respuesta.]
+  Al aumentar el número de neuronas en una sola capa oculta, el modelo gana capacidad para aprender fronteras de decisión más complejas.
+  Con pocas neuronas, la red suele quedarse corta (underfitting) y no captura bien la forma no lineal de los datos; al añadir neuronas, normalmente mejora la accuracy y la frontera se ajusta mejor.
+
+  Sin embargo, más neuronas no siempre implica mejor generalización: si se incrementan en exceso, aumenta la complejidad del modelo y puede aparecer sobreajuste o mejoras marginales que no compensan el coste.
+  La idea clave es buscar un punto intermedio: suficientes neuronas para representar el problema, pero sin sobredimensionar la red.
 
 #### ¿Cómo cambia la frontera de decisión al aumentar el número de neuronas ocultas?
 
-  [Escribe aquí tu respuesta.]
+  Al aumentar el número de neuronas ocultas, la frontera de decisión pasa de ser más simple y rígida a ser más flexible y detallada.
+
+  Con pocas neuronas, la frontera suele ser demasiado “suave” y no captura bien la curvatura de los datos (underfitting). Al añadir neuronas, aparecen más regiones de separación y el modelo se adapta mejor al patrón no lineal, mejorando normalmente el rendimiento en test. Si se añaden demasiadas, la frontera puede volverse innecesariamente compleja e irregular, ajustándose al ruido y perdiendo capacidad de generalización (overfitting).
 
 #### ¿Hay underfitting u overfitting en estas configuraciones?
 
-  [Escribe aquí tu respuesta.]
+  En estas configuraciones se observa principalmente underfitting en las redes pequeñas y una reducción de ese problema al aumentar neuronas:
+  - Con 1 capa y 2 neuronas hay underfitting claro: la frontera es demasiado simple y no captura bien la curvatura de los datos.
+  - Con 1 capa y 5 neuronas el ajuste mejora, pero todavía puede haber cierto underfitting (la frontera sigue siendo algo limitada).
+  - Con 1 capa y 20 neuronas el modelo representa mejor la no linealidad y el underfitting disminuye notablemente.
 
 ### Resultados
 [Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
 
 | Modelo | Arquitectura | acc_train | acc_test | Iteraciones |
 | --- | --- | --- | --- | --- |
-| MLP 1 capa (2) | [completar] | [completar] | [completar] | [completar] |
-| MLP 1 capa (5) | [completar] | [completar] | [completar] | [completar] |
-| MLP 1 capa (20) | [completar] | [completar] | [completar] | [completar] |
+| MLP 1 capa (2) | 1 capa (2 neuronas) | 0.8429 | 0.8200 | 648 |
+| MLP 1 capa (5) | 1 capa (5 neuronas) | 0.8686 | 0.8400 | 726 |
+| MLP 1 capa (20) | 1 capa (20 neuronas) | 0.8600 | 0.8533 | 406 |
 
 ### Figuras
-- Frontera de decisión con 2 neuronas: [insertar figura]
-- Frontera de decisión con 5 neuronas: [insertar figura]
-- Frontera de decisión con 20 neuronas: [insertar figura]
+- Frontera de decisión con 2 neuronas: 
+![Tarea 2 - 2 neuronas](figures/tarea2_hidden_2.png)
+
+- Frontera de decisión con 5 neuronas: 
+![Tarea 2 - 5 neuronas](figures/tarea2_hidden_5.png)
+
+- Frontera de decisión con 20 neuronas: 
+![Tarea 2 - 20 neuronas](figures/tarea2_hidden_20.png)
 
 ---
 
