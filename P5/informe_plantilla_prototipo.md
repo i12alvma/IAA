@@ -39,17 +39,14 @@ En esta práctica se va a explorar estas cuestiones de forma experimental, obser
 ### Descripción de la tarea
 [Resume aquí qué se pide en esta tarea y qué vas a analizar.]
 
-### Pregunta
-¿Por qué falla un modelo sin capas ocultas en este problema?
+### Cuestiones
+#### ¿Por qué falla un modelo sin capas ocultas en este problema?
 
-### Respuesta
-[Escribe aquí tu respuesta.]
+  [Escribe aquí tu respuesta.]
 
-### Pregunta
-¿Qué relación hay entre la geometría de los datos, la frontera de decisión y la capacidad expresiva del modelo?
+#### ¿Qué relación hay entre la geometría de los datos, la frontera de decisión y la capacidad expresiva del modelo?
 
-### Respuesta
-[Escribe aquí tu respuesta.]
+  [Escribe aquí tu respuesta.]
 
 ### Resultados
 [Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
@@ -69,32 +66,27 @@ En esta práctica se va a explorar estas cuestiones de forma experimental, obser
 ### Descripción de la tarea
 [Resume aquí qué se pide en esta tarea y qué vas a comparar.]
 
-### Pregunta
-¿Qué ocurre al aumentar el número de neuronas en una sola capa oculta?
+### Cuestiones
+#### ¿Qué ocurre al aumentar el número de neuronas en una sola capa oculta?
 
-### Respuesta
-[Escribe aquí tu respuesta.]
+  [Escribe aquí tu respuesta.]
 
-### Pregunta
-¿Cómo cambia la frontera de decisión al aumentar el número de neuronas ocultas?
+#### ¿Cómo cambia la frontera de decisión al aumentar el número de neuronas ocultas?
 
-### Respuesta
-[Escribe aquí tu respuesta.]
+  [Escribe aquí tu respuesta.]
 
-### Pregunta
-¿Hay underfitting u overfitting en estas configuraciones?
+#### ¿Hay underfitting u overfitting en estas configuraciones?
 
-### Respuesta
-[Escribe aquí tu respuesta.]
+  [Escribe aquí tu respuesta.]
 
 ### Resultados
 [Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
 
 | Modelo | Arquitectura | acc_train | acc_test | Iteraciones |
 | --- | --- | --- | --- | --- |
-| MLP(2,) | [completar] | [completar] | [completar] | [completar] |
-| MLP(5,) | [completar] | [completar] | [completar] | [completar] |
-| MLP(20,) | [completar] | [completar] | [completar] | [completar] |
+| MLP 1 capa (2) | [completar] | [completar] | [completar] | [completar] |
+| MLP 1 capa (5) | [completar] | [completar] | [completar] | [completar] |
+| MLP 1 capa (20) | [completar] | [completar] | [completar] | [completar] |
 
 ### Figuras
 - Frontera de decisión con 2 neuronas: [insertar figura]
@@ -108,17 +100,14 @@ En esta práctica se va a explorar estas cuestiones de forma experimental, obser
 ### Descripción de la tarea
 En esta parte se estudiará cómo influye la función de activación de las capas ocultas. Se elegirá una arquitectura fija y se entrenará dos veces: una con Sigmoide y otra con ReLU. Luego se compararán ambos modelos en términos de evolución del entrenamiento, iteraciones necesarias, rendimiento final y aspecto de la frontera de decisión.
 
-### Pregunta
-¿Cuál de las dos funciones converge más rápido y qué diferencias se observan?
+### Cuestiones
+#### ¿Cuál de las dos funciones converge más rápido y qué diferencias se observan?
 
-### Respuesta
-[Escribe aquí tu respuesta. Considera: iteraciones necesarias, estabilidad del entrenamiento, accuracy final, forma de la frontera.]
+  [Escribe aquí tu respuesta. Considera: iteraciones necesarias, estabilidad del entrenamiento, accuracy final, forma de la frontera.]
 
-### Pregunta
-¿Por qué puede ocurrir lo observado?
+#### ¿Por qué puede ocurrir lo observado?
 
-### Respuesta
-[Escribe aquí tu respuesta. Puedes considerar: saturación de la sigmoide, facilidad de optimización, capacidad de introducir no linealidad, efecto práctico sobre el aprendizaje.]
+  [Escribe aquí tu respuesta. Puedes considerar: saturación de la sigmoide, facilidad de optimización, capacidad de introducir no linealidad, efecto práctico sobre el aprendizaje.]
 
 ### Resultados
 [Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
@@ -141,38 +130,53 @@ En esta parte se estudiará cómo influye la función de activación de las capa
 ### Descripción de la tarea
 Se trabajará con un problema más realista: clasificación de dígitos escritos a mano. Se cargará el dataset de dígitos y se diseñarán distintas arquitecturas MLP variando el número de capas ocultas y neuronas por capa, buscando una configuración que alcance al menos un 95% de acierto.
 
-No se trata de probar combinaciones al azar: se justificará el proceso seguido, explicar qué arquitecturas se probaron, cuáles funcionaron mejor o peor, y cuál se considera la configuración mínima razonable.
+No se trata de probar combinaciones al azar: se justificará el proceso seguido, se explicará qué arquitecturas se probaron, cuáles funcionaron mejor o peor, y cuál se considera la configuración mínima razonable.
 
-### Pregunta
-¿Qué arquitectura alcanza al menos un 95% de acierto? Justifica el proceso experimental seguido.
+### Cuestiones
+#### ¿Qué arquitectura alcanza al menos un 95% de acierto? Justifica el proceso experimental seguido.
 
-### Respuesta
-[Escribe aquí tu respuesta. Incluye: qué arquitecturas probaste, cuáles funcionaron mejor/peor, cuál es la mínima razonable.]
+  La arquitectura mínima razonable que alcanzó al menos un 95% de acierto fue una MLP de 1 capa oculta con 10 neuronas, con acc_test = 0.9578 (en la exploración ampliada).
+    El proceso seguido fue incremental y justificado: primero se probaron arquitecturas base de 1 capa (20, 50 y 100 neuronas) y de 2 capas (30-15, 50-20 y 64-32), y después se amplió con configuraciones más pequeñas para identificar el umbral mínimo que cumplía el objetivo.
 
-### Pregunta
-¿Es preferible una sola capa con muchas neuronas o dos capas con menos neuronas cada una?
+  En conjunto:
+  - Funcionaron mejor en accuracy arquitecturas más grandes como una capa de 100 neuronas (aprox. 0.98), pero con mayor complejidad.
+  - Varias configuraciones cumplieron el 95% (una capa de 20, 50 o 100 neuronas; dos capas 30-15, etc.).
+  - Algunas configuraciones desbalanceadas rindieron peor (por ejemplo, dos capas 20-50 quedaron por debajo del 95%).
 
-### Respuesta
-[Escribe aquí tu respuesta basándote en los resultados obtenidos.]
+  Por tanto, si el criterio principal es cumplir 95% con la menor complejidad posible, la elección recomendada es 1 capa con 10 neuronas; si se prioriza un margen extra de rendimiento/estabilidad, una opción equilibrada es 1 capa con 20 neuronas.
 
-### Pregunta
-¿Qué compromiso existe entre simplicidad, capacidad de representación, dificultad de entrenamiento, interpretabilidad y rendimiento?
 
-### Respuesta
-[Escribe aquí tu respuesta. Apóyate en los resultados y reflexiona sobre cada aspecto del compromiso.]
+#### ¿Es preferible una sola capa con muchas neuronas o dos capas con menos neuronas cada una?
+
+  En este caso es preferible una sola capa con suficientes neuronas.
+    
+  Con los resultados de la práctica, una red de una sola capa ya supera el 95% en test y lo hace con una estructura más simple, más fácil de justificar y de ajustar. Las arquitecturas de dos capas también funcionan, pero no aportan una mejora clara y consistente que compense el aumento de complejidad.
+
+#### ¿Qué compromiso existe entre simplicidad, capacidad de representación, dificultad de entrenamiento, interpretabilidad y rendimiento?
+
+  El compromiso es que, al simplificar la arquitectura, se gana en interpretabilidad, estabilidad y coste de entrenamiento, pero se puede perder capacidad para modelar patrones complejos. Si se aumenta mucho la complejidad (más capas o más neuronas), la red suele representar mejor la estructura de los datos y puede subir el rendimiento, aunque a costa de mayor tiempo de ajuste, más sensibilidad a hiperparámetros y más riesgo de sobreajuste. Por eso, la decisión razonable no es “la red más grande”, sino la arquitectura más simple que alcance el objetivo (por ejemplo, 95% en test) con una brecha entrenamiento-prueba controlada y un comportamiento estable entre ejecuciones.
 
 ### Arquitectura final seleccionada
-[Especifica aquí la arquitectura que recomiendas y justifica por qué.]
+
+  Se recomienda una MLP de 1 capa oculta con 20 neuronas como opción final de diseño.
+  Aunque la arquitectura de 1 capa con 10 neuronas ya supera el umbral del 95% en prueba, la configuración con 20 neuronas ofrece un margen adicional de rendimiento y estabilidad sin incrementar demasiado la complejidad del modelo.
+
+  La elección se justifica por el equilibrio entre:
+  - simplicidad estructural (fácil de entrenar y de mantener),
+  - capacidad de representación suficiente para el problema de dígitos,
+  - buen rendimiento en test con menor riesgo de sobrecomplicar la red frente a alternativas más grandes o más profundas.
+
+  En resumen, se prioriza la arquitectura más simple que cumple holgadamente el objetivo, evitando aumentar capas o neuronas sin una mejora proporcional en generalización.
 
 ### Resultados
 [Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
 
 | Modelo | Arquitectura | acc_train | acc_test | Iteraciones | Cumple 95% |
 | --- | --- | --- | --- | --- | --- |
-| MLP(20,) | [completar] | [completar] | [completar] | [completar] | [sí/no] |
-| MLP(50,) | [completar] | [completar] | [completar] | [completar] | [sí/no] |
-| MLP(100,) | [completar] | [completar] | [completar] | [completar] | [sí/no] |
-| MLP(30, 15) | [completar] | [completar] | [completar] | [completar] | [sí/no] |
+| MLP 1 capa (20) | 1 capa (20 neuronas) | 0.9993 | 0.9644 | 169 | sí |
+| MLP 1 capa (50) | 1 capa (50 neuronas) | 1.0000 | 0.9711 | 180 | sí |
+| MLP 1 capa (100) | 1 capa (100 neuronas) | 1.0000 | 0.9800 | 147 | sí |
+| MLP 2 capas (30-15) | 2 capas (30 y 15 neuronas) | 1.0000 | 0.9600 | 161 | sí |
 
 ---
 
@@ -182,31 +186,31 @@ No se trata de probar combinaciones al azar: se justificará el proceso seguido,
 Imagina que formas parte de un equipo técnico que necesita desplegar un clasificador basado en redes neuronales para un problema real. Debes redactar una breve propuesta respondiendo a las preguntas. Se valorará especialmente la capacidad de conectar los resultados experimentales con una decisión de diseño razonada.
 
 ### Pregunta
-¿Cuándo tiene sentido usar una red sin capas ocultas y cuándo no?
+#### ¿Cuándo tiene sentido usar una red sin capas ocultas y cuándo no?
 
 ### Respuesta
 [Escribe aquí tu respuesta.]
 
 ### Pregunta
-¿Qué arquitectura recomendarías para un problema no lineal sencillo?
+#### ¿Qué arquitectura recomendarías para un problema no lineal sencillo?
 
 ### Respuesta
 [Escribe aquí tu respuesta.]
 
 ### Pregunta
-¿Qué ventajas e inconvenientes observas al aumentar el número de neuronas?
+#### ¿Qué ventajas e inconvenientes observas al aumentar el número de neuronas?
 
 ### Respuesta
 [Escribe aquí tu respuesta.]
 
 ### Pregunta
-¿Qué función de activación elegirías en un problema general de clasificación y por qué?
+#### ¿Qué función de activación elegirías en un problema general de clasificación y por qué?
 
 ### Respuesta
 [Escribe aquí tu respuesta.]
 
 ### Pregunta
-¿Qué criterio usarías para decidir si una arquitectura es suficientemente buena sin hacerla innecesariamente compleja?
+#### ¿Qué criterio usarías para decidir si una arquitectura es suficientemente buena sin hacerla innecesariamente compleja?
 
 ### Respuesta
 [Escribe aquí tu respuesta.]
