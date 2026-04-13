@@ -6,7 +6,7 @@
 ---
 
 ## Objetivo
-[Describe aquí el objetivo general de la práctica.]
+Comprender cómo la arquitectura de una red neuronal afecta a su capacidad de representación y generalización. En particular, se estudiará por qué un modelo lineal falla en problemas no lineales, cómo influye el número de neuronas y capas ocultas en la frontera de decisión, y qué papel juegan las funciones de activación en el aprendizaje de un Perceptrón Multicapa.
 
 ---
 
@@ -20,7 +20,17 @@
 ---
 
 ## Introducción
-[Escribe aquí una introducción breve sobre por qué las redes neuronales son útiles en problemas no lineales y qué vas a estudiar en la práctica.]
+En prácticas anteriores se ha trabajado con modelos lineales o con clasificadores cuya capacidad de decisión era relativamente limitada. Sin embargo, muchos problemas reales presentan fronteras entre clases que no pueden representarse mediante una línea recta o un hiperplano simple.
+
+Las redes neuronales permiten superar esta limitación mediante la combinación de capas y funciones de activación no lineales. Gracias a ello, un Perceptrón Multicapa (MLP) puede aprender regiones de decisión más complejas y adaptarse a problemas donde los modelos lineales fracasan.
+
+Pero esta mayor flexibilidad también introduce nuevas preguntas de ingeniería:
+- ¿Cuántas capas ocultas hacen falta?
+- ¿Cuántas neuronas conviene usar?
+- ¿Qué función de activación resulta más adecuada?
+- ¿Cuándo un modelo empieza a ajustarse demasiado a los datos y pierde capacidad de generalización?
+
+En esta práctica se va a explorar estas cuestiones de forma experimental, observando cómo cambia el comportamiento del modelo al modificar su arquitectura.
 
 ---
 
@@ -96,25 +106,19 @@
 ## Tarea 3: Funciones de activación
 
 ### Descripción de la tarea
-[Resume aquí qué se pide en esta tarea y qué funciones vas a comparar.]
-
-### Pregunta
-¿Qué cambia al usar Sigmoide o ReLU con la misma arquitectura?
-
-### Respuesta
-[Escribe aquí tu respuesta.]
+En esta parte se estudiará cómo influye la función de activación de las capas ocultas. Se elegirá una arquitectura fija y se entrenará dos veces: una con Sigmoide y otra con ReLU. Luego se compararán ambos modelos en términos de evolución del entrenamiento, iteraciones necesarias, rendimiento final y aspecto de la frontera de decisión.
 
 ### Pregunta
 ¿Cuál de las dos funciones converge más rápido y qué diferencias se observan?
 
 ### Respuesta
-[Escribe aquí tu respuesta.]
+[Escribe aquí tu respuesta. Considera: iteraciones necesarias, estabilidad del entrenamiento, accuracy final, forma de la frontera.]
 
 ### Pregunta
 ¿Por qué puede ocurrir lo observado?
 
 ### Respuesta
-[Escribe aquí tu respuesta.]
+[Escribe aquí tu respuesta. Puedes considerar: saturación de la sigmoide, facilidad de optimización, capacidad de introducir no linealidad, efecto práctico sobre el aprendizaje.]
 
 ### Resultados
 [Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
@@ -135,31 +139,30 @@
 ## Tarea 4: El reto de la caja negra
 
 ### Descripción de la tarea
-[Resume aquí qué se pide en esta tarea y cómo vas a buscar la arquitectura adecuada.]
+Se trabajará con un problema más realista: clasificación de dígitos escritos a mano. Se cargará el dataset de dígitos y se diseñarán distintas arquitecturas MLP variando el número de capas ocultas y neuronas por capa, buscando una configuración que alcance al menos un 95% de acierto.
+
+No se trata de probar combinaciones al azar: se justificará el proceso seguido, explicar qué arquitecturas se probaron, cuáles funcionaron mejor o peor, y cuál se considera la configuración mínima razonable.
 
 ### Pregunta
-¿Qué arquitectura alcanza al menos un 95% de acierto?
+¿Qué arquitectura alcanza al menos un 95% de acierto? Justifica el proceso experimental seguido.
 
 ### Respuesta
-[Escribe aquí tu respuesta.]
+[Escribe aquí tu respuesta. Incluye: qué arquitecturas probaste, cuáles funcionaron mejor/peor, cuál es la mínima razonable.]
 
 ### Pregunta
 ¿Es preferible una sola capa con muchas neuronas o dos capas con menos neuronas cada una?
 
 ### Respuesta
-[Escribe aquí tu respuesta.]
+[Escribe aquí tu respuesta basándote en los resultados obtenidos.]
 
 ### Pregunta
-¿Qué compromiso hay entre simplicidad, capacidad de representación, dificultad de entrenamiento, interpretabilidad y rendimiento?
+¿Qué compromiso existe entre simplicidad, capacidad de representación, dificultad de entrenamiento, interpretabilidad y rendimiento?
 
 ### Respuesta
-[Escribe aquí tu respuesta.]
+[Escribe aquí tu respuesta. Apóyate en los resultados y reflexiona sobre cada aspecto del compromiso.]
 
-### Pregunta
-¿Qué arquitectura final seleccionas para la entrega?
-
-### Respuesta
-[Escribe aquí tu respuesta.]
+### Arquitectura final seleccionada
+[Especifica aquí la arquitectura que recomiendas y justifica por qué.]
 
 ### Resultados
 [Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
@@ -173,10 +176,10 @@
 
 ---
 
-## Decisión final de diseño
+## Reto: Decisión final de diseño
 
 ### Descripción de la tarea
-[Resume aquí la decisión de diseño que vas a proponer a partir de los resultados.]
+Imagina que formas parte de un equipo técnico que necesita desplegar un clasificador basado en redes neuronales para un problema real. Debes redactar una breve propuesta respondiendo a las preguntas. Se valorará especialmente la capacidad de conectar los resultados experimentales con una decisión de diseño razonada.
 
 ### Pregunta
 ¿Cuándo tiene sentido usar una red sin capas ocultas y cuándo no?
@@ -211,4 +214,4 @@
 ---
 
 ## Conclusión
-[Redacta aquí una conclusión breve sobre el papel de la arquitectura, la activación y el compromiso entre simplicidad y rendimiento.]
+[Redacta aquí una conclusión breve sobre el papel de la arquitectura, la función de activación y el compromiso entre simplicidad y rendimiento. Reflexiona sobre por qué una red neuronal no es una caja mágica, sino una familia de modelos cuyo comportamiento depende de decisiones concretas de diseño: arquitectura, activación y equilibrio entre ajuste y generalización.]

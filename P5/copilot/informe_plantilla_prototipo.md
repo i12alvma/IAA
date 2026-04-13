@@ -142,7 +142,9 @@ La comparación también confirma que la activación debe estudiarse manteniendo
 
 ## Tarea 4: El reto de la caja negra
 
-Se evalúa el dataset de dígitos con distintas arquitecturas. La meta es alcanzar al menos un 95% de accuracy en prueba con una arquitectura razonable.
+Se trabajará con un problema más realista: clasificación de dígitos escritos a mano. Se cargará el dataset de dígitos y se diseñarán distintas arquitecturas MLP variando el número de capas ocultas y neuronas por capa, buscando una configuración que alcance al menos un 95% de acierto.
+
+No se trata de probar combinaciones al azar: se debe justificar el proceso seguido, explicar qué arquitecturas se probaron, cuáles funcionaron mejor o peor, y cuál se considera la configuración mínima razonable.
 
 ### Búsqueda inicial
 
