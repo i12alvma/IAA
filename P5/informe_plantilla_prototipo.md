@@ -56,8 +56,11 @@ En esta parte se usa un perceptrón simple, es decir, un MLP sin capas ocultas. 
 - Iteraciones: [completar]
 
 ### Figuras
-- Matriz de confusión: [insertar figura]
-- Frontera de decisión: [insertar figura]
+- Matriz de confusión:
+![Matriz de confusión Tarea 1](figures/tarea1_confusion.png)
+
+- Frontera de decisión:
+![Frontera de decisión Tarea 1](figures/tarea1_perceptron_simple.png)
 
 ---
 
@@ -132,10 +135,17 @@ En esta parte se estudiará cómo influye la función de activación de las capa
 | relu | [completar] | [completar] | [completar] |
 
 ### Figuras
-- Frontera con logistic: [insertar figura]
-- Pérdida con logistic: [insertar figura]
-- Frontera con ReLU: [insertar figura]
+- Frontera con logistic:
+![Frontera logistic](figures/tarea3_activation_logistic.png)
+
+- Pérdida con logistic:
+![Pérdida logistic](figures/tarea3_loss_curve_logistic.png)
+
+- Frontera con ReLU:
+![Frontera ReLU](figures/tarea3_activation_relu.png)
+
 - Pérdida con ReLU: [insertar figura]
+![Pérdida ReLU](figures/tarea3_loss_curve_relu.png)
 
 ---
 
