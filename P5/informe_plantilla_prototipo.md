@@ -212,19 +212,32 @@ Imagina que formas parte de un equipo técnico que necesita desplegar un clasifi
 ### Cuestiones
 #### ¿Cuándo tiene sentido usar una red sin capas ocultas y cuándo no?
 
-  [Escribe aquí tu respuesta.]
+  - Tiene sentido usar una red sin capas ocultas cuando el problema es aproximadamente lineal, hay poca complejidad en los datos, se busca un modelo muy simple e interpretable, o se necesita una línea base rápida para comparar. En esos casos, un perceptrón simple puede ser suficiente y además es más fácil de entrenar y justificar.
+
+  - No tiene sentido usarla cuando la frontera entre clases es no lineal (como en make_moons), cuando hay interacciones complejas entre variables o cuando se observa underfitting claro. En esos escenarios, el modelo sin capas ocultas queda limitado porque solo aprende separaciones lineales, por lo que conviene añadir al menos una capa oculta para ganar capacidad de representación y mejorar la generalización.
 
 #### ¿Qué arquitectura recomendarías para un problema no lineal sencillo?
 
-  [Escribe aquí tu respuesta.]
+  Para un problema no lineal sencillo recomendaría una MLP con 1 capa oculta y unas 20 neuronas, usando ReLU.
+
+  Esto se debe a que:
+  - Tiene suficiente capacidad para modelar fronteras no lineales sin complicar demasiado el modelo.
+  - Mantiene un buen equilibrio entre rendimiento, coste de entrenamiento e interpretabilidad.
+  - En los resultados, esta configuración mejora claramente frente a redes más pequeñas y evita sobredimensionar la arquitectura.
+
+  Si el objetivo fuese solo cumplir un umbral mínimo con la menor complejidad posible, también sería razonable 1 capa con 10 neuronas.
 
 #### ¿Qué ventajas e inconvenientes observas al aumentar el número de neuronas?
 
-  [Escribe aquí tu respuesta.]
+  Al aumentar el número de neuronas, las principales ventajas son una mayor capacidad de representación y, por tanto, la posibilidad de aprender fronteras de decisión más complejas. Esto suele reducir el underfitting y puede mejorar la accuracy, especialmente cuando el problema es claramente no lineal.
+
+  Como inconvenientes, también aumenta la complejidad del modelo: el entrenamiento puede tardar más, la optimización se vuelve más sensible a hiperparámetros y crece el riesgo de sobreajuste si la red empieza a ajustarse al ruido. Además, se pierde interpretabilidad y puede haber mejoras marginales que no compensen el coste añadido.
+
+  En resumen, no conviene “poner más neuronas por defecto”, sino buscar el mínimo tamaño de red que consiga buen rendimiento en test de forma estable.
 
 #### ¿Qué función de activación elegirías en un problema general de clasificación y por qué?
 
-  [Escribe aquí tu respuesta.]
+  En un problema general de clasificación elegiría ReLU en las capas ocultas, porque suele converger más rápido, facilita la optimización con gradientes y, en la práctica, ofrece buen rendimiento con menor riesgo de saturación que la sigmoide. Ya que aunque la sigmoide puede funcionar, tiende a saturarse en valores extremos, lo que ralentiza el aprendizaje y puede requerir más iteraciones para llegar a un resultado similar. Por eso, como elección por defecto, ReLU suele ser más robusta y eficiente.
 
 #### ¿Qué criterio usarías para decidir si una arquitectura es suficientemente buena sin hacerla innecesariamente compleja?
 
