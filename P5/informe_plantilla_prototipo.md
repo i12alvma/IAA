@@ -241,7 +241,7 @@ Imagina que formas parte de un equipo técnico que necesita desplegar un clasifi
 
 #### ¿Qué criterio usarías para decidir si una arquitectura es suficientemente buena sin hacerla innecesariamente compleja?
 
-  [Escribe aquí tu respuesta.]
+  El criterio que usaría para decidir si una arquitectura es suficientemente buena sin hacerla innecesariamente compleja sería escoger aquella que alcance el objetivo de rendimiento en test con el menor número posible de capas y neuronas, y que además mantenga una diferencia razonable entre entrenamiento y prueba. Es decir, primero se comprobaría si cumple el umbral mínimo exigido; después, nos quedaríamos con la arquitectura más simple que lo consiga de la forma más estable, sin aumentar la complejidad del modelo sólo por mejorar marginalmente el accuracy. En resumen,  elegiría el modelo que mejor equilibre rendimiento, simplicidad y generalización.
 
 ---
 
