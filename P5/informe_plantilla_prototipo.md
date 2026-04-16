@@ -49,7 +49,6 @@ En esta parte se usa un perceptrón simple, es decir, un MLP sin capas ocultas. 
   La geometría de los datos determina como de compleja es la frontera  que separa las clases. Si los datos no son linealmente separables, se tiene que usar una frontera no lineal. La capacidad expresiva del modelo es la que define el tipo de fronteras que puede aprender el modelo. En este caso, el modelo solo puede representar fronteras lineales, por lo que no puede ajustarse a la estructura real de los datos, lo que provoca que haya underfitting.
 
 ### Resultados
-[Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
 
 - Accuracy en entrenamiento: 82.86%
 - Accuracy en prueba: 82.00%
@@ -144,7 +143,6 @@ En esta parte se estudiará cómo influye la función de activación de las capa
   Esto explica por qué, en este experimento, ReLU converge antes y el porque alcanza un mejor rendimiento final.
 
 ### Resultados
-[Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
 
 | Activación | acc_test | Iteraciones | loss_final |
 | --- | --- | --- | --- |
