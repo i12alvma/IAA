@@ -42,18 +42,18 @@ En esta parte se usa un perceptrón simple, es decir, un MLP sin capas ocultas. 
 ### Cuestiones
 #### ¿Por qué falla un modelo sin capas ocultas en este problema?
 
-  [Escribe aquí tu respuesta.]
+  Falla porque un perceptrón simple solo puede aprender fronteras de decisión lineales, mientras que make_moons tiene una distribución no lineal. Como no puede adaptarse a la forma curva de los datos, el modelo no puede separar bien las clases y tiene una cantidad considerable de errores.
 
 #### ¿Qué relación hay entre la geometría de los datos, la frontera de decisión y la capacidad expresiva del modelo?
 
-  [Escribe aquí tu respuesta.]
+  La geometría de los datos determina como de compleja es la frontera  que separa las clases. Si los datos no son linealmente separables, se tiene que usar una frontera no lineal. La capacidad expresiva del modelo es la que define el tipo de fronteras que puede aprender el modelo. En este caso, el modelo solo puede representar fronteras lineales, por lo que no puede ajustarse a la estructura real de los datos, lo que provoca que haya underfitting.
 
 ### Resultados
 [Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
 
-- Accuracy en entrenamiento: [completar]
-- Accuracy en prueba: [completar]
-- Iteraciones: [completar]
+- Accuracy en entrenamiento: 82.86%
+- Accuracy en prueba: 82.00%
+- Iteraciones: 1603
 
 ### Figuras
 - Matriz de confusión:
@@ -120,19 +120,36 @@ En esta parte se estudiará cómo influye la función de activación de las capa
 ### Cuestiones
 #### ¿Cuál de las dos funciones converge más rápido y qué diferencias se observan?
 
-  [Escribe aquí tu respuesta. Considera: iteraciones necesarias, estabilidad del entrenamiento, accuracy final, forma de la frontera.]
+  La función de activación ReLU converge más rápido que la función logístiac, ya que necesita menos iteraciones para alcanzar un valor de pérdida bajo (406 frente a 485 iteraciones).
+
+  Además, ReLU obtiene un mejor rendimiento final, con mayor accuracy en test (0.8533 frente a 0.8400) y menor valor de pérdida final (0.2870 frente a 0.3071).
+
+  En las curvas de pérdida se puede ver que:
+
+  Con logistic, la disminución de la pérdida es progresiva y lenta.
+  Con ReLU, la pérdida cae rápidamente en las primeras iteraciones y converge antes.
+
+  En cuanto a la frontera de decisión, ambas son similares en forma general, pero ReLU produce una separación ligeramente más ajustada a los datos y Logistic genera una frontera algo mas suave, con mayor solapamiento en algunas zonas.
+
+  En resumen, ReLU tiene un comportamiento mas eficiente en velocidad de convergencia y en calidad del resultado final.
 
 #### ¿Por qué puede ocurrir lo observado?
 
-  [Escribe aquí tu respuesta. Puedes considerar: saturación de la sigmoide, facilidad de optimización, capacidad de introducir no linealidad, efecto práctico sobre el aprendizaje.]
+  La función logística no funciona correctamente cuando los valores de entrada son muy altos o muy bajos, lo que provoca gradientes muy cerca de cero. Esto provoca que el aprendizaje sea lento, ya que los pesos se actualizan muy poco en esas zonas.
+
+  En cambio, ReLU no se satura para valores positivos y mantiene gradientes constantes, lo que hace que el entrenamiento sea mas eficiente.
+
+  ReLU permite una optimización más rápida y estable, reduce el problema del gradiente desvanecido y facilita que el modelo aprenda mejores representaciones en menos iteraciones.
+
+  Esto explica por qué, en este experimento, ReLU converge antes y el porque alcanza un mejor rendimiento final.
 
 ### Resultados
 [Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
 
 | Activación | acc_test | Iteraciones | loss_final |
 | --- | --- | --- | --- |
-| logistic | [completar] | [completar] | [completar] |
-| relu | [completar] | [completar] | [completar] |
+| logistic | 0.8400 | 485 | 0.3071 |
+| relu | 0.8533 | 406 | 0.2870 |
 
 ### Figuras
 - Frontera con logistic:
