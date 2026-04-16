@@ -22,7 +22,13 @@ Se proporciona:
 ---
 
 ## Introducción
-[Redacta aquí una breve introducción sobre por qué el texto debe transformarse a números, qué es Bag of Words y qué papel juega Naive Bayes en esta práctica.]
+En problemas de clasificación de texto, los datos de entrada no son números ni vectores geométricos sencillos, sino mensajes escritos en lenguaje natural. Antes de poder aplicar un algoritmo de aprendizaje automático, es necesario transformar ese texto en una representación numérica que el modelo pueda manejar.
+
+Una estrategia clásica consiste en usar una bolsa de palabras (Bag of Words), donde cada mensaje se representa mediante el recuento de las palabras que contiene. A partir de esa representación, un clasificador como Naive Bayes puede estimar qué palabras aparecen con mayor frecuencia en los mensajes spam y cuáles son más habituales en mensajes legítimos.
+
+Este enfoque es especialmente interesante porque, aunque es sencillo, permite introducir varias ideas fundamentales del aprendizaje automático: la necesidad de preprocesar los datos antes de entrenar un modelo; la conversión de información textual en variables numéricas; el uso de probabilidades para clasificar ejemplos; y la importancia de evitar problemas numéricos mediante técnicas como el suavizado de Laplace.
+
+En esta práctica vas a trabajar con estas ideas de forma experimental, observando cómo un modelo puede aprender a detectar patrones de lenguaje asociados al spam.
 
 ---
 
@@ -36,13 +42,13 @@ Se proporciona:
 - [Vectorización con Bag of Words.]
 
 ### Cuestión
-[Explica aquí por qué esta transformación es necesaria y qué información conserva o pierde la representación Bag of Words.]
+[Debes explicar por qué esta transformación es necesaria.
+No basta con indicar que el algoritmo necesita números. Debes razonar qué información conserva una representación basada en frecuencias de palabras y qué tipo de información se pierde al ignorar el orden exacto de las palabras en la frase.]
 
 ### Reflexión sobre la matriz documento-término
-En la matriz resultante:
-- Cada fila representa [completar].
-- Cada columna representa [completar].
-- Cada valor representa [completar].
+[Comenta qué significa que en la matriz resultante que cada fila represente un mensaje, que cada columna represente una palabra del vocabulario, y que cada valor indique cuántas veces aparece esa palabra en ese mensaje.
+
+El objetivo de esta parte es que entiendas que la representación de los datos condiciona completamente lo que el modelo puede aprender.]
 
 [Escribe aquí una reflexión breve sobre qué aprende el modelo a partir de esta matriz.]
 
@@ -51,19 +57,24 @@ En la matriz resultante:
 ## Tarea 2: Entrenando el clasificador Naive Bayes
 
 ### Qué se hizo
-- [Entrenamiento del modelo MultinomialNB.]
-- [Ajuste del parámetro alpha.]
-- [Predicción sobre el conjunto de prueba.]
+- [Entrenamiento del modelo Multinomial Naïve Bayes]
+- [Ajuste del parámetro alpha]
+- [Ajustar el modelo con los datos de entrenamiento]
+- [Usar el modelo para predecir las etiquetas del conjunto de prueba]
 
 ### Interpretación probabilística
 - Probabilidad a priori:
 	- P(ham) = [completar]
 	- P(spam) = [completar]
 
-[Explica aquí qué significa la probabilidad a priori y cómo interpretar una probabilidad condicional como P("gratis" | spam).]
+[Explica aquí qué significa la probabilidad a priori y cómo interpretar una probabilidad condicional como P("gratis" | spam)
+
+Interpretar de forma razonada una idea como P("gratis" | spam) y explicar qué información aporta al modelo ]
 
 ### Por qué se llama Naive
-[Explica aquí por qué el modelo asume independencia entre palabras y por qué esa hipótesis es una simplificación útil.]
+[Explica aquí por qué el modelo asume independencia entre palabras y por qué esa hipótesis es una simplificación útil.
+
+En particular, debes comentar que el clasificador asume una independencia simplificada entre palabras, aunque en lenguaje real esa independencia no se cumpla estrictamente. El interés aquí no es demostrar formalmente esta hipótesis, sino entender que se trata de una simplificación útil que permite construir un clasificador eficaz y fácil de entrenar]
 
 ---
 
@@ -76,7 +87,9 @@ En la matriz resultante:
 [Explica aquí por qué se usa alpha = 1.0 y cómo el suavizado de Laplace evita probabilidades nulas.]
 
 ### Caso pedido: palabra no vista
-[Responde aquí qué ocurriría si se intentara clasificar una palabra como "oferta" cuando no ha aparecido en el entrenamiento.]
+[Responde aquí qué ocurriría si se intentara clasificar una palabra como "oferta" cuando no ha aparecido en el entrenamiento.
+
+Se debe dejar claro por qué, sin suavizado, una probabilidad nula podría arruinar el cálculo completo del modelo]
 
 ---
 
@@ -95,10 +108,10 @@ En la matriz resultante:
 	- spam: precision [completar], recall [completar], f1 [completar]
 
 ### Interpretación
-[Interpreta aquí qué indican estas métricas sobre el comportamiento del modelo.]
+[Interpreta aquí qué indican estas métricas sobre el comportamiento del modelo: si detecta bien la mayoría del spam, si penaliza demasiado mensajes legítimos o si parece conservador a la hora de marcar mensajes sospechosos.]
 
 ### Qué error es más problemático
-[Explica aquí cuál de los errores (spam como ham o ham como spam) te parece más problemático y por qué.]
+[Explica aquí cuál de los dos errores te parece más problemático en un filtro anti-spam real y por qué.]
 
 ### Figura generada
 [Inserta aquí la matriz de confusión y comenta brevemente su significado.]
@@ -115,7 +128,9 @@ En la matriz resultante:
 5. [palabra 5]
 
 ### Reflexión de interpretabilidad
-[Comenta aquí si las palabras encontradas son razonables y qué dicen sobre lo que ha aprendido el modelo.]
+[Comenta aquí si las palabras encontradas son razonables o esperables y hasta qué punto esta inspección permite interpretar el comportamiento del clasificador.
+
+Puedes apoyarte en cuestiones como si el modelo parece aprender patrones comprensibles para una persona, si algunas palabras tienen sentido claramente comercial o promocional, y si el vocabulario aprendido refleja realmente diferencias entre spam y mensajes normales.]
 
 ---
 
