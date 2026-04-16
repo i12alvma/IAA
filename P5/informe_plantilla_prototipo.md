@@ -42,18 +42,18 @@ En esta parte se usa un perceptrón simple, es decir, un MLP sin capas ocultas. 
 ### Cuestiones
 #### ¿Por qué falla un modelo sin capas ocultas en este problema?
 
-  [Escribe aquí tu respuesta.]
+  Falla porque un perceptrón simple solo puede aprender fronteras de decisión lineales, mientras que make_moons tiene una distribución no lineal. Como no puede adaptarse a la forma curva de los datos, el modelo no puede separar bien las clases y tiene una cantidad considerable de errores.
 
 #### ¿Qué relación hay entre la geometría de los datos, la frontera de decisión y la capacidad expresiva del modelo?
 
-  [Escribe aquí tu respuesta.]
+  La geometría de los datos determina como de compleja es la frontera  que separa las clases. Si los datos no son linealmente separables, se tiene que usar una frontera no lineal. La capacidad expresiva del modelo es la que define el tipo de fronteras que puede aprender el modelo. En este caso, el modelo solo puede representar fronteras lineales, por lo que no puede ajustarse a la estructura real de los datos, lo que provoca que haya underfitting.
 
 ### Resultados
 [Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
 
-- Accuracy en entrenamiento: [completar]
-- Accuracy en prueba: [completar]
-- Iteraciones: [completar]
+- Accuracy en entrenamiento: 82.86%
+- Accuracy en prueba: 82.00%
+- Iteraciones: 1603
 
 ### Figuras
 - Matriz de confusión:
