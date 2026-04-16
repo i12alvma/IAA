@@ -49,8 +49,6 @@ En esta parte se usa un perceptrón simple, es decir, un MLP sin capas ocultas. 
   La geometría de los datos determina como de compleja es la frontera  que separa las clases. Si los datos no son linealmente separables, se tiene que usar una frontera no lineal. La capacidad expresiva del modelo es la que define el tipo de fronteras que puede aprender el modelo. En este caso, el modelo solo puede representar fronteras lineales, por lo que no puede ajustarse a la estructura real de los datos, lo que provoca que haya underfitting.
 
 ### Resultados
-[Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
-
 - Accuracy en entrenamiento: 82.86%
 - Accuracy en prueba: 82.00%
 - Iteraciones: 1603
@@ -92,8 +90,6 @@ Se comparan tres configuraciones con una sola capa oculta: 2, 5 y 20 neuronas. L
   - Con 1 capa y 20 neuronas el modelo representa mejor la no linealidad y el underfitting disminuye notablemente.
 
 ### Resultados
-[Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
-
 | Modelo | Arquitectura | acc_train | acc_test | Iteraciones |
 | --- | --- | --- | --- | --- |
 | MLP 1 capa (2) | 1 capa (2 neuronas) | 0.8429 | 0.8200 | 648 |
@@ -144,8 +140,6 @@ En esta parte se estudiará cómo influye la función de activación de las capa
   Esto explica por qué, en este experimento, ReLU converge antes y el porque alcanza un mejor rendimiento final.
 
 ### Resultados
-[Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
-
 | Activación | acc_test | Iteraciones | loss_final |
 | --- | --- | --- | --- |
 | logistic | 0.8400 | 485 | 0.3071 |
@@ -210,8 +204,6 @@ No se trata de probar combinaciones al azar: se justificará el proceso seguido,
   En resumen, se prioriza la arquitectura más simple que cumple holgadamente el objetivo, evitando aumentar capas o neuronas sin una mejora proporcional en generalización.
 
 ### Resultados
-[Escribe aquí el resumen de los resultados obtenidos en esta tarea.]
-
 | Modelo | Arquitectura | acc_train | acc_test | Iteraciones | Cumple 95% |
 | --- | --- | --- | --- | --- | --- |
 | MLP 1 capa (20) | 1 capa (20 neuronas) | 0.9993 | 0.9644 | 169 | sí |
