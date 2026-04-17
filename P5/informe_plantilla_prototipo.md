@@ -1,3 +1,4 @@
+<div style="text-align: justify;">
 # Práctica 5: Arquitectura de Redes Neuronales (MLP)
 
 ## Introducción al Aprendizaje Automático
@@ -55,10 +56,12 @@ En esta parte se usa un perceptrón simple, es decir, un MLP sin capas ocultas. 
 
 ### Figuras
 - Matriz de confusión:
-![Matriz de confusión Tarea 1](figures/tarea1_confusion.png)
+
+<img src="figures/tarea1_confusion.png" width="350">
 
 - Frontera de decisión:
-![Frontera de decisión Tarea 1](figures/tarea1_perceptron_simple.png)
+
+<img src="figures/tarea1_perceptron_simple.png" width="350">
 
 ---
 
@@ -98,13 +101,16 @@ Se comparan tres configuraciones con una sola capa oculta: 2, 5 y 20 neuronas. L
 
 ### Figuras
 - Frontera de decisión con 2 neuronas: 
-![Tarea 2 - 2 neuronas](figures/tarea2_hidden_2.png)
+
+<img src="figures/tarea2_hidden_2.png" width="350">
 
 - Frontera de decisión con 5 neuronas: 
-![Tarea 2 - 5 neuronas](figures/tarea2_hidden_5.png)
+
+<img src="figures/tarea2_hidden_5.png" width="350">
 
 - Frontera de decisión con 20 neuronas: 
-![Tarea 2 - 20 neuronas](figures/tarea2_hidden_20.png)
+
+<img src="figures/tarea2_hidden_20.png" width="350">
 
 ---
 
@@ -147,16 +153,20 @@ En esta parte se estudiará cómo influye la función de activación de las capa
 
 ### Figuras
 - Frontera con logistic:
-![Frontera logistic](figures/tarea3_activation_logistic.png)
+
+<img src="figures/tarea3_activation_logistic.png" width="350">
 
 - Pérdida con logistic:
-![Pérdida logistic](figures/tarea3_loss_curve_logistic.png)
+
+<img src="figures/tarea3_loss_curve_logistic.png" width="350">
 
 - Frontera con ReLU:
-![Frontera ReLU](figures/tarea3_activation_relu.png)
+
+<img src="figures/tarea3_activation_relu.png" width="350">
 
 - Pérdida con ReLU: [insertar figura]
-![Pérdida ReLU](figures/tarea3_loss_curve_relu.png)
+
+<img src="figures/tarea3_loss_curve_relu.png" width="350">
 
 ---
 
