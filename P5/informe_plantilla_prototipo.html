@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Práctica 5: Arquitectura de Redes Neuronales (MLP)</title>
+
+    <style>
+        /* ── Base ── */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif;
+            font-size: 14px;
+            padding: 0 26px;
+            line-height: 22px;
+            word-wrap: break-word;
+            color: #1a1a1a;
+            text-align: justify;
+        }
+
+        h1 {
+            padding-bottom: 0.3em;
+            line-height: 1.2;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+            margin-top: -10px;
+        }
+
+        h2 {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding-bottom: 4px;
+            margin-top: 28px;
+        }
+
+        h3 {
+            margin-top: 20px;
+            border-bottom: none;
+        }
+
+        hr {
+            border: 0;
+            height: 2px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+            margin: 18px 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        /* ── Image grid ── */
+        .img-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 12px 0;
+        }
+
+        .img-row>div {
+            text-align: center;
+        }
+
+        .img-row img {
+            max-width: 100%;
+        }
+
+        /* ── Tables ── */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 12px 0;
+        }
+
+        table>thead>tr>th {
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.45);
+            padding: 8px 10px;
+            background-color: #f4f4f4;
+            font-weight: 700;
+        }
+
+        table>thead>tr>td,
+        table>tbody>tr>th,
+        table>tbody>tr>td {
+            padding: 8px 10px;
+            text-align: center;
+            border-right: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        table>tbody>tr>td:last-child,
+        table>thead>tr>th:last-child {
+            border-right: none;
+        }
+
+        table>tbody>tr+tr>td {
+            border-top: 1px solid rgba(0, 0, 0, 0.12);
+        }
+
+        /* ── Code ── */
+        code {
+            font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+            font-size: 13px;
+            background: #f0f0f0;
+            padding: 1px 5px;
+            border-radius: 3px;
+            color: #4d4d4c;
+        }
+
+        /* ── Blockquote ── */
+        blockquote {
+            margin: 0 7px 0 5px;
+            padding: 0 16px 0 10px;
+            border-left: 5px solid rgba(0, 122, 204, 0.5);
+            background: rgba(127, 127, 127, 0.06);
+        }
+
+        /* ── Q&A ── */
+        .qa-q {
+            font-weight: 700;
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+
+        .qa-a {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        /* ── Ordered list bold markers ── */
+        ol.preguntas>li::marker {
+            font-weight: 700;
+        }
+
+        /* ── Print / PDF ── */
+        .no-print {
+            display: block;
+        }
+
+        @page {
+            margin-top: 1.2cm;
+            margin-bottom: 1.4cm;
+
+            @top-center {
+                content: "Práctica 5 — IAA — Escuela Politécnica Superior de Córdoba";
+                font-size: 9pt;
+                color: #666;
+            }
+
+            @bottom-center {
+                content: "Juan Luis Prieto Panadero y Alberto Álvarez Mejías";
+                font-size: 9pt;
+                color: #666;
+            }
+
+            @bottom-right {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 9pt;
+                color: #666;
+            }
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                font-size: 11px;
+                padding: 0 10px;
+            }
+
+            .page {
+                page-break-after: always;
+            }
+        }
+
+        /* ── Page break helper ── */
+        .page {
+            page-break-after: always;
+        }
+
+        /* ── Button ── */
+        #btn-pdf {
+            background: #4263eb;
+            color: #fff;
+            border: none;
+            padding: 9px 22px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 4px;
+        }
+
+        #btn-pdf:hover {
+            background: #364fc7;
+        }
+
+        /* ── Metadata section ── */
+        .metadata {
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .metadata p {
+            margin: 4px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Botón solo visible en pantalla -->
+    <button class="no-print" id="btn-pdf">📄 Guardar como PDF</button>
+    <p class="no-print" style="margin-top:-6px; color:#555; font-size:10pt;">
+        Al pulsar, elige destino: <strong>Guardar como PDF</strong>.
+    </p>
+
+    <div style="text-align: justify;">
+
+        <h1 id="titulo">Práctica 5: Arquitectura de Redes Neuronales (MLP)</h1>
+
+        <div class="metadata">
+            <p><strong>Introducción al Aprendizaje Automático</strong></p>
+            <p><strong>3º Ingeniería Informática - Curso 2025/2026</strong></p>
+        </div>
+
+        <hr>
+
+        <h2 id="objetivo">Objetivo:</h2>
+        <p>Comprender cómo la arquitectura de una red neuronal afecta a su capacidad de representación y generalización.
+            En particular, se estudiará por qué un modelo lineal falla en problemas no lineales, cómo influye el número
+            de neuronas y capas ocultas en la frontera de decisión, y qué papel juegan las funciones de activación en el
+            aprendizaje de un Perceptrón Multicapa.</p>
+
+        <hr>
+
+        <h2 id="material">Material de partida:</h2>
+        <ul>
+            <li>Dataset sintético no lineal basado en <code>make_moons</code>.</li>
+            <li>Dataset de dígitos escritos a mano (<code>load_digits</code>).</li>
+            <li>Plantilla de código en Python con <code>scikit-learn</code>.</li>
+        </ul>
+
+        <blockquote>
+            <p><strong>Nota:</strong> el trabajo consiste en analizar resultados experimentales, no en implementar una
+                red neuronal desde cero.</p>
+        </blockquote>
+
+        <hr>
+
+        <h2 id="introduccion">Introducción:</h2>
+        <p>En prácticas anteriores se ha trabajado con modelos lineales o con clasificadores cuya capacidad de decisión
+            era relativamente limitada. Sin embargo, muchos problemas reales presentan fronteras entre clases que no
+            pueden representarse mediante una línea recta o un hiperplano simple.</p>
+
+        <p>Las redes neuronales permiten superar esta limitación mediante la combinación de capas y funciones de
+            activación no lineales. Gracias a ello, un Perceptrón Multicapa (MLP) puede aprender regiones de decisión
+            más complejas y adaptarse a problemas donde los modelos lineales fracasan.</p>
+
+        <p>Pero esta mayor flexibilidad también introduce nuevas preguntas de ingeniería:</p>
+        <ul>
+            <li>¿Cuántas capas ocultas hacen falta?</li>
+            <li>¿Cuántas neuronas conviene usar?</li>
+            <li>¿Qué función de activación resulta más adecuada?</li>
+            <li>¿Cuándo un modelo empieza a ajustarse demasiado a los datos y pierde capacidad de generalización?</li>
+        </ul>
+
+        <p>En esta práctica se va a explorar estas cuestiones de forma experimental, observando cómo cambia el
+            comportamiento del modelo al modificar su arquitectura.</p>
+
+        <div class="page"></div>
+
+        <h2 id="tarea1" style="margin-top: -5px;">Tarea 1: El problema de la no linealidad</h2>
+
+        <h3 id="t1-descripcion">Descripción de la tarea:</h3>
+        <p>En esta parte se usa un perceptrón simple, es decir, un MLP sin capas ocultas. El resultado en
+            <code>make_moons</code> es limitado porque el modelo solo puede aprender una frontera lineal.</p>
+
+        <h3 id="t1-cuestiones">Cuestiones:</h3>
+
+        <p class="qa-q">¿Por qué falla un modelo sin capas ocultas en este problema?</p>
+        <p class="qa-a">Falla porque un perceptrón simple solo puede aprender fronteras de decisión lineales, mientras
+            que make_moons tiene una distribución no lineal. Como no puede adaptarse a la forma curva de los datos, el
+            modelo no puede separar bien las clases y tiene una cantidad considerable de errores.</p>
+
+        <p class="qa-q">¿Qué relación hay entre la geometría de los datos, la frontera de decisión y la capacidad
+            expresiva del modelo?</p>
+        <p class="qa-a">La geometría de los datos determina como de compleja es la frontera que separa las clases. Si
+            los datos no son linealmente separables, se tiene que usar una frontera no lineal. La capacidad expresiva
+            del modelo es la que define el tipo de fronteras que puede aprender el modelo. En este caso, el modelo solo
+            puede representar fronteras lineales, por lo que no puede ajustarse a la estructura real de los datos, lo
+            que provoca que haya underfitting.</p>
+
+        <h3 id="t1-resultados">Resultados:</h3>
+        <ul>
+            <li>Accuracy en entrenamiento: 82.86%</li>
+            <li>Accuracy en prueba: 82.00%</li>
+            <li>Iteraciones: 1603</li>
+        </ul>
+
+        <h3 id="t1-figuras">Figuras:</h3>
+        <div class="img-row">
+            <div>
+                <p><strong>Matriz de confusión:</strong></p>
+                <img src="figures/tarea1_confusion.png" alt="Matriz de confusión - Tarea 1" style="max-width: 100%;">
+            </div>
+            <div>
+                <p><strong>Frontera de decisión:</strong></p>
+                <img src="figures/tarea1_perceptron_simple.png" alt="Frontera de decisión - Tarea 1"
+                    style="max-width: 100%;">
+            </div>
+        </div>
+
+        <h2 id="tarea2">Tarea 2: Diseñando la capa oculta</h2>
+
+        <h3 id="t2-descripcion">Descripción de la tarea:</h3>
+        <p>Se comparan tres configuraciones con una sola capa oculta: 2, 5 y 20 neuronas. La idea es observar cómo crece
+            la flexibilidad del modelo y si esa flexibilidad mejora realmente la generalización.</p>
+
+        <h3 id="t2-cuestiones">Cuestiones:</h3>
+
+        <p class="qa-q">¿Qué ocurre al aumentar el número de neuronas en una sola capa oculta?</p>
+        <p class="qa-a">Al aumentar el número de neuronas en una sola capa oculta, el modelo gana capacidad para
+            aprender fronteras de decisión más complejas. Con pocas neuronas, la red suele quedarse corta (underfitting)
+            y no captura bien la forma no lineal de los datos; al añadir neuronas, normalmente mejora la accuracy y la
+            frontera se ajusta mejor.<br><br>Sin embargo, más neuronas no siempre implica mejor generalización: si se
+            incrementan en exceso, aumenta la complejidad del modelo y puede aparecer sobreajuste o mejoras marginales
+            que no compensan el coste. La idea clave es buscar un punto intermedio: suficientes neuronas para
+            representar el problema, pero sin sobredimensionar la red.</p>
+
+        <p class="qa-q">¿Cómo cambia la frontera de decisión al aumentar el número de neuronas ocultas?</p>
+        <p class="qa-a">Al aumentar el número de neuronas ocultas, la frontera de decisión pasa de ser más simple y
+            rígida a ser más flexible y detallada.<br><br>Con pocas neuronas, la frontera suele ser demasiado "suave" y
+            no captura bien la curvatura de los datos (underfitting). Al añadir neuronas, aparecen más regiones de
+            separación y el modelo se adapta mejor al patrón no lineal, mejorando normalmente el rendimiento en test. Si
+            se añaden demasiadas, la frontera puede volverse innecesariamente compleja e irregular, ajustándose al ruido
+            y perdiendo capacidad de generalización (overfitting).</p>
+
+        <p class="qa-q">¿Hay underfitting u overfitting en estas configuraciones?</p>
+        <p class="qa-a">En estas configuraciones se observa principalmente underfitting en las redes pequeñas y una
+            reducción de ese problema al aumentar neuronas:<br>
+            • Con 1 capa y 2 neuronas hay underfitting claro: la frontera es demasiado simple y no captura bien la
+            curvatura de los datos.<br>• Con 1 capa y 5 neuronas el ajuste mejora, pero todavía puede haber cierto
+            underfitting (la frontera sigue siendo algo limitada).<br>• Con 1 capa y 20 neuronas el modelo representa
+            mejor la no linealidad y el underfitting disminuye notablemente.</p>
+
+        <h3 id="t2-resultados" style="margin-bottom: -5px;">Resultados:</h3>
+        <table style="margin-top: -5px;">
+            <thead>
+                <tr>
+                    <th>Modelo</th>
+                    <th>Arquitectura</th>
+                    <th>acc_train</th>
+                    <th>acc_test</th>
+                    <th>Iteraciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>MLP 1 capa (2)</td>
+                    <td>1 capa (2 neuronas)</td>
+                    <td>0.8429</td>
+                    <td>0.8200</td>
+                    <td>648</td>
+                </tr>
+                <tr>
+                    <td>MLP 1 capa (5)</td>
+                    <td>1 capa (5 neuronas)</td>
+                    <td>0.8686</td>
+                    <td>0.8400</td>
+                    <td>726</td>
+                </tr>
+                <tr>
+                    <td>MLP 1 capa (20)</td>
+                    <td>1 capa (20 neuronas)</td>
+                    <td>0.8600</td>
+                    <td>0.8533</td>
+                    <td>406</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page"></div>
+
+        <h3 id="t2-figuras" style="margin-top: -5px; margin-bottom: -5px;">Figuras:</h3>
+        <p><strong>Frontera de decisión con 2 neuronas:</strong></p>
+        <img src="figures/tarea2_hidden_2.png" alt="Frontera 2 neuronas - Tarea 2" style="max-width: 400px;">
+
+        <p><strong>Frontera de decisión con 5 neuronas:</strong></p>
+        <img src="figures/tarea2_hidden_5.png" alt="Frontera 5 neuronas - Tarea 2" style="max-width: 400px;">
+
+        <p><strong>Frontera de decisión con 20 neuronas:</strong></p>
+        <img src="figures/tarea2_hidden_20.png" alt="Frontera 20 neuronas - Tarea 2" style="max-width: 400px;">
+
+        <div class="page"></div>
+        <h2 id="tarea3">Tarea 3: Funciones de activación</h2>
+
+        <h3 id="t3-descripcion">Descripción de la tarea:</h3>
+        <p>En esta parte se estudiará cómo influye la función de activación de las capas ocultas. Se elegirá una
+            arquitectura fija y se entrenará dos veces: una con Sigmoide y otra con ReLU. Luego se compararán ambos
+            modelos en términos de evolución del entrenamiento, iteraciones necesarias, rendimiento final y aspecto de
+            la frontera de decisión.</p>
+
+        <h3 id="t3-cuestiones">Cuestiones:</h3>
+
+        <p class="qa-q">¿Cuál de las dos funciones converge más rápido y qué diferencias se observan?</p>
+        <p class="qa-a">La función de activación ReLU converge más rápido que la función logística, ya que necesita
+            menos iteraciones para alcanzar un valor de pérdida bajo (406 frente a 485 iteraciones).<br><br>Además, ReLU
+            obtiene un mejor rendimiento final, con mayor accuracy en test (0.8533 frente a 0.8400) y menor valor de
+            pérdida final (0.2870 frente a 0.3071).<br><br>En las curvas de pérdida se puede ver que:<br>• Con logistic,
+            la disminución de la pérdida es progresiva y lenta.<br>• Con ReLU, la pérdida cae rápidamente en las
+            primeras iteraciones y converge antes.<br><br>En cuanto a la frontera de decisión, ambas son similares en
+            forma general, pero ReLU produce una separación ligeramente más ajustada a los datos y Logistic genera una
+            frontera algo más suave, con mayor solapamiento en algunas zonas.<br><br>En resumen, ReLU tiene un
+            comportamiento más eficiente en velocidad de convergencia y en calidad del resultado final.</p>
+
+        <p class="qa-q">¿Por qué puede ocurrir lo observado?</p>
+        <p class="qa-a">La función logística no funciona correctamente cuando los valores de entrada son muy altos o muy
+            bajos, lo que provoca gradientes muy cerca de cero. Esto provoca que el aprendizaje sea lento, ya que los
+            pesos se actualizan muy poco en esas zonas.<br><br>En cambio, ReLU no se satura para valores positivos y
+            mantiene gradientes constantes, lo que hace que el entrenamiento sea más eficiente.<br><br>ReLU permite una
+            optimización más rápida y estable, reduce el problema del gradiente desvanecido y facilita que el modelo
+            aprenda mejores representaciones en menos iteraciones.<br><br>Esto explica por qué, en este experimento,
+            ReLU converge antes y por qué alcanza un mejor rendimiento final.</p>
+
+        <h3 id="t3-resultados">Resultados:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Activación</th>
+                    <th>acc_test</th>
+                    <th>Iteraciones</th>
+                    <th>loss_final</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>logistic</td>
+                    <td>0.8400</td>
+                    <td>485</td>
+                    <td>0.3071</td>
+                </tr>
+                <tr>
+                    <td>relu</td>
+                    <td>0.8533</td>
+                    <td>406</td>
+                    <td>0.2870</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page"></div>
+
+        <h3 id="t3-figuras">Figuras:</h3>
+        <div class="img-row">
+            <div>
+                <p><strong>Frontera con logistic:</strong></p>
+                <img src="figures/tarea3_activation_logistic.png" alt="Frontera logistic - Tarea 3"
+                    style="max-width: 100%;">
+                <p><strong>Pérdida con logistic:</strong></p>
+                <img src="figures/tarea3_loss_curve_logistic.png" alt="Pérdida logistic - Tarea 3"
+                    style="max-width: 100%;">
+            </div>
+            <div>
+                <p><strong>Frontera con ReLU:</strong></p>
+                <img src="figures/tarea3_activation_relu.png" alt="Frontera ReLU - Tarea 3" style="max-width: 100%;">
+                <p><strong>Pérdida con ReLU:</strong></p>
+                <img src="figures/tarea3_loss_curve_relu.png" alt="Pérdida ReLU - Tarea 3" style="max-width: 100%;">
+            </div>
+        </div>
+
+        <div class="page"></div>
+
+        <h2 id="tarea4">Tarea 4: El reto de la caja negra</h2>
+
+        <h3 id="t4-descripcion">Descripción de la tarea:</h3>
+        <p>Se trabajará con un problema más realista: clasificación de dígitos escritos a mano. Se cargará el dataset de
+            dígitos y se diseñarán distintas arquitecturas MLP variando el número de capas ocultas y neuronas por capa,
+            buscando una configuración que alcance al menos un 95% de acierto.</p>
+
+        <p>No se trata de probar combinaciones al azar: se justificará el proceso seguido, se explicará qué
+            arquitecturas se probaron, cuáles funcionaron mejor o peor, y cuál se considera la configuración mínima
+            razonable.</p>
+
+        <h3 id="t4-cuestiones">Cuestiones:</h3>
+
+        <p class="qa-q">¿Qué arquitectura alcanza al menos un 95% de acierto? Justifica el proceso experimental seguido.
+        </p>
+        <p class="qa-a">La arquitectura mínima razonable que alcanzó al menos un 95% de acierto fue una MLP de 1 capa
+            oculta con 10 neuronas, con acc_test = 0.9578 (en la exploración ampliada). El proceso seguido fue
+            incremental y justificado: primero se probaron arquitecturas base de 1 capa (20, 50 y 100 neuronas) y de 2
+            capas (30-15, 50-20 y 64-32), y después se amplió con configuraciones más pequeñas para identificar el
+            umbral mínimo que cumplía el objetivo.<br><br>En conjunto:<br>• Funcionaron mejor en accuracy arquitecturas
+            más grandes como una capa de 100 neuronas (aprox. 0.98), pero con mayor complejidad.<br>• Varias
+            configuraciones cumplieron el 95% (una capa de 20, 50 o 100 neuronas; dos capas 30-15, etc.).<br>• Algunas
+            configuraciones desbalanceadas rindieron peor (por ejemplo, dos capas 20-50 quedaron por debajo del
+            95%).<br><br>Por tanto, si el criterio principal es cumplir 95% con la menor complejidad posible, la
+            elección recomendada es 1 capa con 10 neuronas; si se prioriza un margen extra de rendimiento/estabilidad,
+            una opción equilibrada es 1 capa con 20 neuronas.</p>
+
+        <p class="qa-q">¿Es preferible una sola capa con muchas neuronas o dos capas con menos neuronas cada una?</p>
+        <p class="qa-a">En este caso es preferible una sola capa con suficientes neuronas.<br><br>Con los resultados de
+            la práctica, una red de una sola capa ya supera el 95% en test y lo hace con una estructura más simple, más
+            fácil de justificar y de ajustar. Las arquitecturas de dos capas también funcionan, pero no aportan una
+            mejora clara y consistente que compense el aumento de complejidad.</p>
+
+        <p class="qa-q">¿Qué compromiso existe entre simplicidad, capacidad de representación, dificultad de
+            entrenamiento, interpretabilidad y rendimiento?</p>
+        <p class="qa-a">El compromiso es que, al simplificar la arquitectura, se gana en interpretabilidad, estabilidad
+            y coste de entrenamiento, pero se puede perder capacidad para modelar patrones complejos. Si se aumenta
+            mucho la complejidad (más capas o más neuronas), la red suele representar mejor la estructura de los datos y
+            puede subir el rendimiento, aunque a costa de mayor tiempo de ajuste, más sensibilidad a hiperparámetros y
+            más riesgo de sobreajuste. Por eso, la decisión razonable no es "la red más grande", sino la arquitectura
+            más simple que alcance el objetivo (por ejemplo, 95% en test) con una brecha entrenamiento-prueba controlada
+            y un comportamiento estable entre ejecuciones.</p>
+            
+        <div class="page"></div>
+        <h3 id="t4-arquitectura">Arquitectura final seleccionada</h3>
+        <p>Se recomienda una MLP de 1 capa oculta con 20 neuronas como opción final de diseño. Aunque la arquitectura de
+            1 capa con 10 neuronas ya supera el umbral del 95% en prueba, la configuración con 20 neuronas ofrece un
+            margen adicional de rendimiento y estabilidad sin incrementar demasiado la complejidad del modelo.</p>
+
+        <p>La elección se justifica por el equilibrio entre:</p>
+        <ul>
+            <li>simplicidad estructural (fácil de entrenar y de mantener),</li>
+            <li>capacidad de representación suficiente para el problema de dígitos,</li>
+            <li>buen rendimiento en test con menor riesgo de sobrecomplicar la red frente a alternativas más grandes o
+                más profundas.</li>
+        </ul>
+
+        <p>En resumen, se prioriza la arquitectura más simple que cumple holgadamente el objetivo, evitando aumentar
+            capas o neuronas sin una mejora proporcional en generalización.</p>
+
+        <h3 id="t4-resultados">Resultados:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Modelo</th>
+                    <th>Arquitectura</th>
+                    <th>acc_train</th>
+                    <th>acc_test</th>
+                    <th>Iteraciones</th>
+                    <th>Cumple 95%</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>MLP 1 capa (20)</td>
+                    <td>1 capa (20 neuronas)</td>
+                    <td>0.9993</td>
+                    <td>0.9644</td>
+                    <td>169</td>
+                    <td>sí</td>
+                </tr>
+                <tr>
+                    <td>MLP 1 capa (50)</td>
+                    <td>1 capa (50 neuronas)</td>
+                    <td>1.0000</td>
+                    <td>0.9711</td>
+                    <td>180</td>
+                    <td>sí</td>
+                </tr>
+                <tr>
+                    <td>MLP 1 capa (100)</td>
+                    <td>1 capa (100 neuronas)</td>
+                    <td>1.0000</td>
+                    <td>0.9800</td>
+                    <td>147</td>
+                    <td>sí</td>
+                </tr>
+                <tr>
+                    <td>MLP 2 capas (30-15)</td>
+                    <td>2 capas (30 y 15 neuronas)</td>
+                    <td>1.0000</td>
+                    <td>0.9600</td>
+                    <td>161</td>
+                    <td>sí</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page"></div>
+
+        <h2 id="reto">Reto: Decisión final de diseño</h2>
+
+        <h3 id="reto-descripcion">Descripción de la tarea:</h3>
+        <p>Imagina que formas parte de un equipo técnico que necesita desplegar un clasificador basado en redes
+            neuronales para un problema real. Debes redactar una breve propuesta respondiendo a las preguntas. Se
+            valorará especialmente la capacidad de conectar los resultados experimentales con una decisión de diseño
+            razonada.</p>
+
+        <h3 id="reto-cuestiones">Cuestiones:</h3>
+
+        <p class="qa-q">¿Cuándo tiene sentido usar una red sin capas ocultas y cuándo no?</p>
+        <p class="qa-a">Tiene sentido usar una red sin capas ocultas cuando el problema es aproximadamente lineal, hay
+            poca complejidad en los datos, se busca un modelo muy simple e interpretable, o se necesita una línea base
+            rápida para comparar. En esos casos, un perceptrón simple puede ser suficiente y además es más fácil de
+            entrenar y justificar.<br><br>No tiene sentido usarla cuando la frontera entre clases es no lineal (como en
+            make_moons), cuando hay interacciones complejas entre variables o cuando se observa underfitting claro. En
+            esos escenarios, el modelo sin capas ocultas queda limitado porque solo aprende separaciones lineales, por
+            lo que conviene añadir al menos una capa oculta para ganar capacidad de representación y mejorar la
+            generalización.</p>
+
+        <p class="qa-q">¿Qué arquitectura recomendarías para un problema no lineal sencillo?</p>
+        <p class="qa-a">Para un problema no lineal sencillo recomendaría una MLP con 1 capa oculta y unas 20 neuronas,
+            usando ReLU.<br><br>Esto se debe a que:<br>• Tiene suficiente capacidad para modelar fronteras no lineales
+            sin complicar demasiado el modelo.<br>• Mantiene un buen equilibrio entre rendimiento, coste de
+            entrenamiento e interpretabilidad.<br>• En los resultados, esta configuración mejora claramente frente a
+            redes más pequeñas y evita sobredimensionar la arquitectura.<br><br>Si el objetivo fuese solo cumplir un
+            umbral mínimo con la menor complejidad posible, también sería razonable 1 capa con 10 neuronas.</p>
+
+        <p class="qa-q">¿Qué ventajas e inconvenientes observas al aumentar el número de neuronas?</p>
+        <p class="qa-a">Al aumentar el número de neuronas, las principales ventajas son una mayor capacidad de
+            representación y, por tanto, la posibilidad de aprender fronteras de decisión más complejas. Esto suele
+            reducir el underfitting y puede mejorar la accuracy, especialmente cuando el problema es claramente no
+            lineal.<br><br>Como inconvenientes, también aumenta la complejidad del modelo: el entrenamiento puede tardar
+            más, la optimización se vuelve más sensible a hiperparámetros y crece el riesgo de sobreajuste si la red
+            empieza a ajustarse al ruido. Además, se pierde interpretabilidad y puede haber mejoras marginales que no
+            compensen el coste añadido.<br><br>En resumen, no conviene "poner más neuronas por defecto", sino buscar el
+            mínimo tamaño de red que consiga buen rendimiento en test de forma estable.</p>
+
+        <div class="page"></div>
+        <p class="qa-q">¿Qué función de activación elegirías en un problema general de clasificación y por qué?</p>
+        <p class="qa-a">En un problema general de clasificación elegiría ReLU en las capas ocultas, porque suele
+            converger más rápido, facilita la optimización con gradientes y, en la práctica, ofrece buen rendimiento con
+            menor riesgo de saturación que la sigmoide. Ya que aunque la sigmoide puede funcionar, tiende a saturarse en
+            valores extremos, lo que ralentiza el aprendizaje y puede requerir más iteraciones para llegar a un
+            resultado similar. Por eso, como elección por defecto, ReLU suele ser más robusta y eficiente.</p>
+
+        <p class="qa-q">¿Qué criterio usarías para decidir si una arquitectura es suficientemente buena sin hacerla
+            innecesariamente compleja?</p>
+        <p class="qa-a">El criterio que usaría para decidir si una arquitectura es suficientemente buena sin hacerla
+            innecesariamente compleja sería escoger aquella que alcance el objetivo de rendimiento en test con el menor
+            número posible de capas y neuronas, y que además mantenga una diferencia razonable entre entrenamiento y
+            prueba. Es decir, primero se comprobaría si cumple el umbral mínimo exigido; después, nos quedaríamos con la
+            arquitectura más simple que lo consiga de la forma más estable, sin aumentar la complejidad del modelo sólo
+            por mejorar marginalmente el accuracy. En resumen, elegiría el modelo que mejor equilibre rendimiento,
+            simplicidad y generalización.</p>
+
+
+        <h2 id="conclusiones">Conclusión:</h2>
+
+        <p>En la práctica se ha visto como el rendimiento de una red neuronal depende mucho de cómo se diseñe. Un modelo
+            lineal, como el perceptrón simple, no es suficiente cuando los datos no son lineales, ya que no puede
+            adaptarse a su forma y acaba haciendo underfitting.</p>
+
+        <p>Al añadir capas ocultas y más neuronas, el modelo gana capacidad para aprender fronteras más complejas y se
+            ajusta mejor a los datos. Aun así, también se observa que aumentar demasiado la complejidad no siempre es lo
+            más óptimo, y que lo importante es encontrar un equilibrio.</p>
+
+        <p>Además, la función de activación influye mucho en el aprendizaje. En los resultados, ReLU ha funcionado mejor
+            que la sigmoide, ya que converge más rápido y consigue un mejor rendimiento.</p>
+
+        <p>En general, se concluye que una red neuronal no es una caja mágica: su comportamiento depende de decisiones
+            como la arquitectura y la activación. Por eso, lo más importante es elegir un modelo lo suficientemente
+            simple como para ser eficiente, pero con la capacidad necesaria para resolver el problema.</p>
+
+    </div><!-- /text-align: justify -->
+
+    <script>
+        document.getElementById('btn-pdf').addEventListener('click', () => {
+            window.print();
+        });
+    </script>
+
+</body>
+
+</html>
