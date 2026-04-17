@@ -255,4 +255,10 @@ Imagina que formas parte de un equipo técnico que necesita desplegar un clasifi
 ---
 
 ## Conclusión
-[Redacta aquí una conclusión breve sobre el papel de la arquitectura, la función de activación y el compromiso entre simplicidad y rendimiento. Reflexiona sobre por qué una red neuronal no es una caja mágica, sino una familia de modelos cuyo comportamiento depende de decisiones concretas de diseño: arquitectura, activación y equilibrio entre ajuste y generalización.]
+En la práctica se ha visto como el rendimiento de una red neuronal depende mucho de cómo se diseñe. Un modelo lineal, como el perceptrón simple, no es suficiente cuando los datos no son lineales, ya que no puede adaptarse a su forma y acaba haciendo underfitting.
+
+Al añadir capas ocultas y más neuronas, el modelo gana capacidad para aprender fronteras mas complejas y se ajusta mejor a los datos. Aun así, también se observa que aumentar demasiado la complejidad no siempre es lo mas optimo, y que lo importante es encontrar un equilibrio.
+
+Ademas, la función de activacion influye mucho en el aprendizaje. En los resultados, ReLU ha funcionado mejor que la sigmoide, ya que converge mas rapido y consigue un mejor rendimiento.
+
+En general, se concluye que una red neuronal no es una caja magica: su comportamiento depende de decisiones como la arquitectura y la activación. Por eso, lo mas importante es elegir un modelo lo suficientemente simple como para ser eficiente, pero con la capacidad necesaria para resolver el problema.
