@@ -6,10 +6,8 @@
 ---
 
 ## Objetivo
-Comprender cómo un modelo probabilístico puede clasificar texto a partir de la frecuencia de
-las palabras. En particular, se estudiará cómo representar mensajes mediante una bolsa de palabras, cómo aplica
-el clasificador Naïve Bayes el Teorema de Bayes para distinguir entre mensajes legítimos y spam, y por qué el
-suavizado de Laplace resulta esencial cuando aparecen términos no vistos durante el entrenamiento.
+Comprender cómo un modelo probabilístico puede clasificar texto a partir de la frecuencia de las palabras. En particular, se estudiará cómo representar mensajes mediante una bolsa de palabras, cómo aplica
+el clasificador Naïve Bayes el Teorema de Bayes para distinguir entre mensajes legítimos y spam, y por qué el suavizado de Laplace resulta esencial cuando aparecen términos no vistos durante el entrenamiento.
 
 ---
 
@@ -28,29 +26,34 @@ Una estrategia clásica consiste en usar una bolsa de palabras (Bag of Words), d
 
 Este enfoque es especialmente interesante porque, aunque es sencillo, permite introducir varias ideas fundamentales del aprendizaje automático: la necesidad de preprocesar los datos antes de entrenar un modelo; la conversión de información textual en variables numéricas; el uso de probabilidades para clasificar ejemplos; y la importancia de evitar problemas numéricos mediante técnicas como el suavizado de Laplace.
 
-En esta práctica vas a trabajar con estas ideas de forma experimental, observando cómo un modelo puede aprender a detectar patrones de lenguaje asociados al spam.
+En esta práctica se va a trabajar con estas ideas de forma experimental, observando cómo un modelo puede aprender a detectar patrones de lenguaje asociados al spam.
 
 ---
 
 ## Tarea 1: Del texto a los números
 
 ### Qué se hizo
-- [Carga del dataset / explicación de qué se ha hecho aquí.]
-- [Conversión de etiquetas a formato numérico.]
-- [Preprocesamiento básico del texto.]
-- [División entre entrenamiento y prueba.]
-- [Vectorización con Bag of Words.]
+- Se cargó el dataset de mensajes SMS desde el archivo spam.csv y se verificaron las columnas Category y Message.
+- Se transformaron las etiquetas a formato numérico para clasificación binaria: ham -> 0 y spam -> 1.
+- Se aplicó un preprocesamiento básico al texto: conversión a minúsculas, eliminación de signos/símbolos no alfanuméricos y normalización de espacios.
+- Se dividió el conjunto de datos en entrenamiento y prueba con partición estratificada para conservar la proporción de clases (test_size = 0.25, random_state = 42).
+- Se vectorizó el texto con Bag of Words usando CountVectorizer, obteniendo una matriz documento-término para entrenar y evaluar el modelo.
 
 ### Cuestión
-[Debes explicar por qué esta transformación es necesaria.
-No basta con indicar que el algoritmo necesita números. Debes razonar qué información conserva una representación basada en frecuencias de palabras y qué tipo de información se pierde al ignorar el orden exacto de las palabras en la frase.]
+<strong>¿Por qué es necesario transformar los mensajes de texto a una representación numérica tipo Bag of Words antes de entrenar Naive Bayes, y qué información se conserva o se pierde con esta transformación? </strong>
+
+Esta transformación es necesaria debido a que Naive Bayes opera con variables numéricas y necesita contar evidencias para estimar probabilidades por clase. Con Bag of Words, cada mensaje se convierte en un vector de frecuencias de palabras, lo que conserva información léxica clave: qué términos aparecen y cuántas veces, algo muy útil para distinguir patrones típicos de spam y ham.
+
+Sin embargo, se pierde el orden exacto de las palabras y parte del contexto gramatical o semántico. Por eso, mensajes con las mismas palabras pero en distinto orden pueden quedar representados de forma muy parecida. En resumen, Bag of Words simplifica el texto para hacerlo tratable por el modelo, manteniendo señal útil para clasificar, aunque sacrificando información de estructura lingüística.
 
 ### Reflexión sobre la matriz documento-término
-[Comenta qué significa que en la matriz resultante que cada fila represente un mensaje, que cada columna represente una palabra del vocabulario, y que cada valor indique cuántas veces aparece esa palabra en ese mensaje.
+ <strong>¿Qué representa cada elemento de la matriz documento-término (filas, columnas y valores) y cómo condiciona esta representación lo que el modelo puede aprender? </strong>
 
-El objetivo de esta parte es que entiendas que la representación de los datos condiciona completamente lo que el modelo puede aprender.]
+En la matriz documento-término, cada fila corresponde a un mensaje concreto del dataset, cada columna corresponde a una palabra del vocabulario total y cada valor indica cuántas veces aparece esa palabra en ese mensaje.
 
-[Escribe aquí una reflexión breve sobre qué aprende el modelo a partir de esta matriz.]
+Esta representación convierte texto en números y permite que el clasificador compare patrones de frecuencia entre mensajes ham y spam. Por tanto, el modelo aprende asociaciones entre palabras y clases, por ejemplo qué términos son más habituales en spam.
+
+Sin embargo, también impone límites: al trabajar con recuentos, se pierde el orden de las palabras y parte del contexto lingüístico. Eso significa que el modelo capta bien señales léxicas, pero no entiende la estructura completa de la frase. En resumen, la forma de representar los datos determina directamente qué información aprovecha el modelo y qué información queda fuera del aprendizaje.
 
 ---
 
