@@ -53,14 +53,30 @@ def clean_text(text: str) -> str:
     """
     text = str(text)
 
-    # TODO: convertir a minúsculas
-    # text = ...
+    # Convertir a minúsculas
+    text = text.lower()
 
-    # TODO: sustituir caracteres no alfanuméricos por espacios
-    # text = ...
+    # Sustituir caracteres no alfanuméricos por espacios
+    ''' 
+    Existen varias formas de hacerlo, algunas son:
+     - Expresiones regulares -> para ello se usa  # import re (librería de expresiones regulares) y el método .sub() que devuelve la subcadena resultante 
+      · re.sub(r'[^\w\s]', ' ', text) # ^\w\s: cualquier cosa q no sea una palabra (letra o num) ni un espacio
+      · re.sub(r'[^a-zA-Z0-9\s]', ' ', text) # ^[a-zA-Z0-9\s]: cualquier cosa q no esté comprendida entre a-z, A-Z, 0-9 o espacios
+     - LOOP:
+        result = []
+        for char in text:
+            if char.isalnum() or char.isspace(): # isalnum: alphanumeric
+                result.append(char)
+            else:
+                result.append(' ')
+        text = ''.join(result)
+    '''
+    text = re.sub(r'[^a-zA-Z0-9\s]', ' ', text)
 
-    # TODO: eliminar espacios repetidos y recortar extremos
-    # text = ...
+    # Eliminar espacios repetidos y recortar extremos
+    text = re.sub(r'\s+', ' ', text).strip()
+    # \s+ captura uno o más espacios
+    # .strip() elimina espacios al inicio y final
 
     return text
 
@@ -94,12 +110,43 @@ def load_dataset(csv_path: str | Path) -> pd.DataFrame:
     df["Category"] = df["Category"].astype(str).str.strip().str.lower()
     df["Message"] = df["Message"].astype(str)
 
-    # TODO:
     # Crear una columna label_num que convierta:
     # ham -> 0
     # spam -> 1
     # Ejemplo orientativo:
     # df["label_num"] = ...
+    df["label_num"] = df["Category"].map({"ham": 0, "spam": 1})
+    if df["label_num"].isna().any():
+        unknown = sorted(df.loc[df["label_num"].isna(), "Category"].unique())
+        raise ValueError(f"Etiquetas no reconocidas en Category: {unknown}")
+    ''' 
+    if df["label_num"].isna().any():
+     ·comprueba si, al convertir etiquetas texto a números, quedó alguna sin convertir
+     ·.isna() devuelve un booleano indicando si hay valores NaN (no numéricos) en la columna label_num
+     ·.any() devuelve True si hay al menos un valor NaN
+    
+    - df["label_num"].isna()
+        Detecta las filas donde label_num quedó vacío (NaN), o sea, categorías que no se pudieron mapear a 0/1.
+
+    - df.loc[ ..., "Category" ]
+        De esas filas problemáticas, se queda solo con el valor original de Category.
+
+    - .unique()
+        Elimina repetidos, para no listar la misma etiqueta varias veces.
+
+    - sorted(...)
+        Ordena alfabéticamente esas etiquetas para mostrar un mensaje limpio y consistente.
+    
+    Resultado:
+     unknown queda como una lista con las categorías no reconocidas 
+      (por ejemplo, algo como ["hamm", "spm"]), 
+      y luego se lanza una execpticón ValueError para decir exactamente
+       qué etiquetas están mal en el CSV.
+    '''
+
+    df["label_num"] = df["label_num"].astype(int)
+    # Con .astype(int) nos aseguramos que las etiquetas queden como int, 
+     # ya que después de .map() los valores pueden quedar como float
 
     return df
 
@@ -137,23 +184,70 @@ def prepare_data(df: pd.DataFrame):
         - Crear un CountVectorizer usando clean_text como preprocessor.
         - Ajustar el vectorizador con train y transformar train/test.
     """
-    # TODO: seleccionar mensajes y etiquetas
-    X = None
-    y = None
+    # Seleccionar mensajes y etiquetas
+    X = df["Message"]
+    y = df["label_num"]
+    # La forma más fácil de hacerlo es usar las categorías
 
-    # TODO: dividir en train y test
+    # dividir en train y test
     # Pista: usa test_size=0.25, random_state=42 y stratify=y
-    X_train = None
-    X_test = None
-    y_train = None
-    y_test = None
+    X_train, X_test, y_train, y_test = train_test_split( # import train_test_split from sklearn.model_selection
+        X,
+        y,
+        test_size=0.25,
+        random_state=42,
+        stratify=y,
+    )
+    ''' 
+    Este bloque hace la partición del dataset en entrenamiento y prueba:
+     ·X, y: son las entradas (mensajes) y sus etiquetas (ham/spam en 0/1).
+     ·test_size=0.25: reserva el 25% para test y deja 75% para train.
+     ·random_state=42: fija la semilla aleatoria para que siempre salga
+       la misma partición (reproducible).
+     ·stratify=y: mantiene la proporción de clases en train y test
+    
+    Salida:
+     ·X_train, y_train: para entrenar el modelo.
+     ·X_test, y_test: para evaluar en datos no vistos
+    '''
 
-    # TODO: crear el vectorizador Bag of Words
-    vectorizer = None
+    # Crear el vectorizador Bag of Words
+    vectorizer = CountVectorizer(preprocessor=clean_text)
+    '''
+    Crea el objeto que convierte texto en números
+    En el argumento indica que antes de vectorizar cada mensaje,
+     llame a clean_text() para limpiar cada mensaje
 
-    # TODO: generar la matriz documento-término de train y test
-    X_train_dtm = None
-    X_test_dtm = None
+    Esta línea únicamente crea y configura el vectorizador
+    '''
+
+    # Generar la matriz documento-término de train y test
+    X_train_dtm = vectorizer.fit_transform(X_train)
+    X_test_dtm = vectorizer.transform(X_test)
+
+    '''
+    X_train_dtm = vectorizer.fit_transform(X_train):
+    ·Transforma mensajes de texto en números que Naïve Bayes puede procesar
+    - CountVectorizer:
+     · Herramienta que convierte texto en matriz de frecuencias de palabras
+     · Lee el texto y crea un vocabulario formado por todas las palabras únicas
+     · Convierte cada mensaje en un vector mostrando cuántas veces aparece cada palabra
+    - fit_transform(X_train), consiste en 2 operaciones combinadas:
+     · fit = Aprende el vocabulario escaneando X_train
+     · transform = Convierte X_train a números usando ese vocabulario
+     · Resultado: matriz documento-término (sparse matrix)
+    - X_train_dtm, donde se guarda la matriz resultante:
+     · Cada fila representa un mensaje
+     · Cada columna representa una palabra del vocabulario aprendido
+     · El valor en cada celda es la frecuencia de esa palabra en ese mensaje
+    Se trata de una operación crítica para Naïve Bayes, ya que:
+     · Naïve Bayes no entiende texto, solo números
+     · Aprende: "¿Qué palabras indican spam vs. ham?"
+    Fit sólo se aplica en test, ya que:
+     · fit solo en X_train: Aprende el vocabulario
+     · transform en X_test: Usa ese vocabulario aprendido
+    Esto asegura que el modelo trata los datos de test como realmente nuevos.
+    '''
 
     return X_train, X_test, y_train, y_test, vectorizer, X_train_dtm, X_test_dtm
 
@@ -166,14 +260,35 @@ def train_model(X_train_dtm, y_train):
     """
     Entrena un modelo Multinomial Naïve Bayes.
 
-    TODO:
-        Crear el modelo con alpha=1.0 y ajustarlo con fit(...).
+    Crear el modelo con alpha=1.0 y ajustarlo con fit(...).
 
     Pregunta para el informe:
         ¿Por qué es importante usar alpha=1.0 en vez de dejar que una palabra
         no observada provoque probabilidad cero?
     """
-    model = None
+    model = MultinomialNB(alpha=1.0)  # import MultinomialNB from sklearn.naive_bayes
+    ''' 
+    Crea una instancia del clasificador Multinomial Naïve Bayes con
+     Laplace smoothing activado. 
+
+    MultinomialNB: Es el clasificador Naïve Bayes diseñado
+     específicamente para datos discretos con conteos (como bolsa de
+      palabras).
+
+    alpha=1.0 (Laplace smoothing):
+     Sin smoothing (alpha=0):
+      ·Si una palabra nunca apareció en spam durante entrenamiento →
+        P(palabra|spam) = 0
+      ·Entonces cualquier documento con esa palabra sería clasificado
+        automáticamente como ham (probabilidad spam = 0)
+      ·Problema: palabras nuevas tienen peso infinito
+     Con smoothing (alpha=1.0):
+      ·Se agrega 1 a la frecuencia de cada palabra, evitando probabilidades cero
+      ·Mejora la generalización a palabras nuevas
+    '''
+    
+    model.fit(X_train_dtm, y_train) # entrena el modelo Naive Bayes con los datos de entrenamiento. 
+    # .fit(): método de scikit-learn que realiza el aprendizaje supervisado
 
     return model
 
@@ -325,8 +440,21 @@ def main() -> None:
     print("INFORMACIÓN DEL VOCABULARIO")
     print("=" * 80)
 
-    # TODO: mostrar el número de palabras distintas del vocabulario
-    # print(...)
+    # mostrar el número de palabras distintas del vocabulario
+    print(f"Tamaño del vocabulario: {len(vectorizer.get_feature_names_out())}")
+    '''
+    Imprime cuántas palabras distintas hay el dataset. 
+
+    vectorizer:
+    ·Instancia de CountVectorizer que transformó los mensajes de texto
+      en números
+    ·Contiene el "diccionario" de todas las palabras únicas que vio
+      durante el entrenamiento
+
+    get_feature_names_out():
+    ·Método que devuelve un array con los nombres de todas las
+      "features" (palabras)
+    '''
 
     # 4. Entrenar modelo
     model = train_model(X_train_dtm, y_train)
@@ -336,9 +464,22 @@ def main() -> None:
     print("PROBABILIDADES A PRIORI")
     print("=" * 80)
 
-    # TODO:
+    # Mostrar las probabilidades a priori
     # Extraer model.class_log_prior_, pasarlo a probabilidad normal con np.exp(...)
     # e imprimir P(ham) y P(spam).
+    class_prior = np.exp(model.class_log_prior_)
+    ''' 
+    model.class_log_prior_:
+    ·Atributo del modelo entrenado que contiene los logaritmos de las
+      probabilidades previas
+
+    np.exp(...):
+    ·Función exponencial que invierte el logaritmo
+    ·Convierte las probabilidades logarítmicas a probabilidades normales [0-1]
+    '''
+
+    print(f"P(ham) = {class_prior[0]:.4f}") # Muestra la probabilidad previa del 1º elem del array con 4 decimales
+    print(f"P(spam) = {class_prior[1]:.4f}")
 
     # 6. Evaluación
     evaluate_model(model, X_test_dtm, y_test, output_dir=Path(__file__).parent)
