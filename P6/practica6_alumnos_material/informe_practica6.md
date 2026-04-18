@@ -60,24 +60,34 @@ Sin embargo, también impone límites: al trabajar con recuentos, se pierde el o
 ## Tarea 2: Entrenando el clasificador Naive Bayes
 
 ### Qué se hizo
-- [Entrenamiento del modelo Multinomial Naïve Bayes]
-- [Ajuste del parámetro alpha]
-- [Ajustar el modelo con los datos de entrenamiento]
-- [Usar el modelo para predecir las etiquetas del conjunto de prueba]
+- Se entrenó un clasificador **Multinomial Naïve Bayes** sobre la representación Bag of Words obtenida en la Tarea 1.
+- Se configuró el hiperparámetro **alpha = 1.0** para aplicar suavizado de Laplace.
+- Se ajustó el modelo con el conjunto de entrenamiento (`fit`), aprendiendo las probabilidades de cada clase y de cada palabra condicionada a la clase.
+- Se usó el modelo entrenado para predecir las etiquetas del conjunto de prueba (`predict`) y así evaluar su capacidad de generalización.
 
 ### Interpretación probabilística
 - Probabilidad a priori:
-	- P(ham) = [completar]
-	- P(spam) = [completar]
+	- P(ham) = 0.8660
+	- P(spam) = 0.1340
 
-[Explica aquí qué significa la probabilidad a priori y cómo interpretar una probabilidad condicional como P("gratis" | spam)
+<strong>¿Qué significa la probabilidad a priori en el contexto de Naive Bayes y cómo se interpreta una probabilidad condicional como P("gratis" | spam)? </strong>
 
-Interpretar de forma razonada una idea como P("gratis" | spam) y explicar qué información aporta al modelo ]
+La probabilidad a priori representa la proporción de cada clase antes de mirar el contenido del mensaje. En este caso, (P(ham)=0.8660) y (P(spam)=0.1340), así que el modelo parte de la idea de que los mensajes ham son mucho más frecuentes que los spam.
+
+La probabilidad condicional P("gratis" | spam) indica qué tan frecuente es la palabra “gratis” dentro de los mensajes etiquetados como spam. 
+
+Si esa probabilidad es alta y, además, mayor que P("gratis" | spam), entonces la presencia de esa palabra aporta evidencia a favor de la clase spam. 
+
+En general, el modelo combina muchas probabilidades condicionales de palabras junto con las probabilidades a priori para decidir la clase final del mensaje.
 
 ### Por qué se llama Naive
-[Explica aquí por qué el modelo asume independencia entre palabras y por qué esa hipótesis es una simplificación útil.
+<strong> ¿Por qué este modelo se llama Naive y por qué se acepta esta simplificación en esta práctica? </strong>
 
-En particular, debes comentar que el clasificador asume una independencia simplificada entre palabras, aunque en lenguaje real esa independencia no se cumpla estrictamente. El interés aquí no es demostrar formalmente esta hipótesis, sino entender que se trata de una simplificación útil que permite construir un clasificador eficaz y fácil de entrenar]
+Se llama Naive porque asume independencia condicional entre palabras dado el tipo de mensaje (ham o spam). Es decir, trata cada palabra como si aportara evidencia de forma separada, sin considerar dependencias lingüísticas reales entre términos.
+
+En lenguaje natural esta hipótesis no se cumple estrictamente, pero simplifica mucho el cálculo probabilístico y permite entrenar un clasificador rápido y eficaz incluso con miles de palabras. En filtrado de spam suele funcionar bien porque muchas palabras individuales ya son muy informativas (por ejemplo, términos promocionales), por lo que la suma de evidencias suele ser suficiente para separar clases con buen rendimiento.
+
+Su principal limitación es que puede perder matices de contexto y orden de palabras, pero como aproximación práctica ofrece una buena relación entre simplicidad, velocidad y precisión.
 
 ---
 
