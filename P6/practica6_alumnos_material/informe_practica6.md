@@ -94,15 +94,27 @@ Su principal limitación es que puede perder matices de contexto y orden de pala
 ## Tarea 3: Papel del suavizado de Laplace
 
 ### Problema sin suavizado
-[Explica aquí qué ocurre cuando una palabra tiene frecuencia cero en una clase y por qué eso puede anular toda la probabilidad.]
+Cuando una palabra no aparece nunca en una clase durante el entrenamiento, su probabilidad condicional es 0. Por ejemplo, si una palabra no ha aparecido en mensajes spam, entonces:
+
+P(palabra | spam) = 0
+
+El problema es que Naive Bayes calcula la probabilidad de un mensaje multiplicando las probabilidades de todas sus palabras. Entonces, si una sola palabra tiene probabilidad 0, toda la probabilidad del mensaje para esa clase pasa a ser 0.
+
+Esto es un problema importante porque una única palabra que no se ha visto antes puede hacer que el modelo descarte completamente una clase, aunque el resto del mensaje tenga muchas palabras que sí indican claramente spam o ham.
 
 ### Solución
-[Explica aquí por qué se usa alpha = 1.0 y cómo el suavizado de Laplace evita probabilidades nulas.]
+Para evitar este problema se utiliza el suavizado de Laplace, que consiste en añadir un valor (alpha = 1.0 en este caso) a todas las frecuencias de palabras.
+
+Gracias a esto, ninguna palabra tiene probabilidad 0, aunque no haya aparecido en el entrenamiento. En vez de eso, se le asigna una probabilidad muy pequeña.
+
+Esto hace que el modelo sea más robusto, ya que puede manejar palabras nuevas sin que toda la probabilidad del mensaje se anule. Así, el modelo tiene en cuenta toda la información disponible y no depende de una sola palabra.
 
 ### Caso pedido: palabra no vista
-[Responde aquí qué ocurriría si se intentara clasificar una palabra como "oferta" cuando no ha aparecido en el entrenamiento.
+Si intentamos clasificar una palabra como "oferta" y esa palabra no ha aparecido en el entrenamiento, sin suavizado ocurriría que su probabilidad sería 0 en alguna clase.
 
-Se debe dejar claro por qué, sin suavizado, una probabilidad nula podría arruinar el cálculo completo del modelo]
+Como el modelo multiplica probabilidades, esto haría que la probabilidad total del mensaje también fuese 0 para esa clase, lo que puede llevar a decisiones incorrectas o demasiado extremas.
+
+Con el suavizado de Laplace, en cambio, "oferta" tendría una probabilidad pequeña pero distinta de 0 en ambas clases. Esto permite que el modelo siga teniendo en cuenta el resto de palabras del mensaje y tome una decisión más razonable.
 
 ---
 
