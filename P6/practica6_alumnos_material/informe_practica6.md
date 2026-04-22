@@ -133,6 +133,7 @@ Con el suavizado de Laplace, en cambio, "oferta" tendría una probabilidad peque
 	- spam: precision [0.99], recall [0.89], f1 [0.94]
 
 ### Interpretación
+
 El modelo obtiene una accuracy del 98%, lo que indica un rendimiento global muy alto. En general, clasifica correctamente la gran mayoría de los mensajes.
 
 En la clase ham, el recall es 1.00, lo que significa que prácticamente todos los mensajes legítimos se clasifican correctamente. Además, la precisión también es muy alta, por lo que apenas se marcan mensajes normales como spam.
@@ -142,6 +143,7 @@ En la clase spam, la precisión es muy alta (0.99), lo que indica que cuando el 
 Esto sugiere que el modelo es bastante conservador a la hora de marcar mensajes como spam: prefiere evitar falsos positivos, aunque eso implique dejar pasar algunos mensajes no deseados.
 
 ### Qué error es más problemático
+
 En un filtro anti-spam real, el error más problemático suele ser el falso positivo (FP), es decir, un mensaje legítimo que se clasifica como spam.
 
 Esto ocurre porque un falso positivo puede hacer que el usuario pierda información importante, como mensajes personales o profesionales. En cambio, un falso negativo (FN), aunque molesto porque deja pasar spam, suele ser menos crítico, ya que el usuario simplemente recibe un mensaje no deseado.
@@ -156,7 +158,7 @@ La matriz de confusión muestra de forma clara el comportamiento del modelo:
 - El número de falsos positivos es muy bajo (2), lo que indica que el modelo rara vez marca mensajes legítimos como spam.
 - Hay algunos falsos negativos (20), lo que significa que parte del spam no se detecta.
 
-En conjunto, la matriz confirma que el modelo funciona bien, pero tiene una ligera tendencia a ser conservador al detectar spam.
+En conjunto, la matriz nos dice que el modelo funciona bien, pero tiene una ligera tendencia a ser conservador al detectar spam.
 
 <img src="matriz_confusion_spam_base.png" width="700">
 
@@ -165,16 +167,24 @@ En conjunto, la matriz confirma que el modelo funciona bien, pero tiene una lige
 ## Tarea 5: Inspeccionando qué aprendió el modelo
 
 ### Top 5 palabras más asociadas a spam
-1. [palabra 1]
-2. [palabra 2]
-3. [palabra 3]
-4. [palabra 4]
-5. [palabra 5]
+
+1. [claim]
+2. [prize]
+3. [150p]
+4. [tone]
+5. [500]
 
 ### Reflexión de interpretabilidad
-[Comenta aquí si las palabras encontradas son razonables o esperables y hasta qué punto esta inspección permite interpretar el comportamiento del clasificador.
 
-Puedes apoyarte en cuestiones como si el modelo parece aprender patrones comprensibles para una persona, si algunas palabras tienen sentido claramente comercial o promocional, y si el vocabulario aprendido refleja realmente diferencias entre spam y mensajes normales.]
+Las palabras identificadas como más asociadas al spam son normales. En este caso aparecen términos como "claim", "prize" o "500", que están relacionados con mensajes promocionales y premios típicos del spam.
+
+También hay términos como "150p" o "tone", que suelen estar asociados a servicios de pago o suscripciones, lo que es normal en mensajes fraudulentos o comerciales.
+
+Esto nos dice que el modelo ha aprendido patrones para una persona, basándose en la frecuencia de palabras características del spam. Es decir, ha aprendido correctamente qué tipo de palabras diferencia los mensajes no deseados de los mensajes normales.
+
+El análisis permite interpretar parcialmente el comportamiento del clasificador, ya que muestra qué palabras influyen más en la decisión. Sin embargo, el modelo no tiene en cuenta el contexto ni el orden de las palabras, por lo que la interpretación es limitada a nivel semántico.
+
+En general, el vocabulario aprendido tiene sentido que sirva para diferenciar entre spam y mensajes legítimos, lo que explica el porque funciona correctamente al compararlo con la evaluacion
 
 ---
 

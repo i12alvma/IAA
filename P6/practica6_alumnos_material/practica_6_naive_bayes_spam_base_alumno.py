@@ -352,22 +352,22 @@ def get_top_spam_words(model, vectorizer, top_n: int = 5) -> pd.DataFrame:
         más indicativa será esa palabra del spam.
     """
     # TODO: obtener el vocabulario
-    feature_names = None
+    feature_names = vectorizer.get_feature_names_out()
 
     # TODO: extraer las log-probabilidades para ham y spam
-    log_prob_ham = None
-    log_prob_spam = None
+    log_prob_ham = model.feature_log_prob_[0]
+    log_prob_spam = model.feature_log_prob_[1]
 
     # TODO: calcular una puntuación diferencial y ordenar
-    score = None
-    top_idx = None
+    score = log_prob_spam - log_prob_ham
+    top_idx = np.argsort(score)[::-1][:top_n]
 
     result = pd.DataFrame(
         {
-            "word": None,
-            "logP(word|spam)": None,
-            "logP(word|ham)": None,
-            "spam_minus_ham": None,
+            "word": feature_names[top_idx],
+            "logP(word|spam)": log_prob_spam[top_idx],
+            "logP(word|ham)": log_prob_ham[top_idx],
+            "spam_minus_ham": score[top_idx],
         }
     )
     return result
