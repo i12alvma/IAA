@@ -121,25 +121,44 @@ Con el suavizado de Laplace, en cambio, "oferta" tendría una probabilidad peque
 ## Tarea 4: Evaluación del modelo
 
 ### Resultados principales
-- Accuracy global: [completar]
+- Accuracy global: [0.98]
 - Matriz de confusión:
-	- TN = [completar]
-	- FP = [completar]
-	- FN = [completar]
-	- TP = [completar]
+	- TN = [1204]
+	- FP = [2]
+	- FN = [20]
+	- TP = [167]
 
 - Métricas por clase:
-	- ham: precision [completar], recall [completar], f1 [completar]
-	- spam: precision [completar], recall [completar], f1 [completar]
+	- ham: precision [0.98], recall [1.00], f1 [0.99]
+	- spam: precision [0.99], recall [0.89], f1 [0.94]
 
 ### Interpretación
-[Interpreta aquí qué indican estas métricas sobre el comportamiento del modelo: si detecta bien la mayoría del spam, si penaliza demasiado mensajes legítimos o si parece conservador a la hora de marcar mensajes sospechosos.]
+El modelo obtiene una accuracy del 98%, lo que indica un rendimiento global muy alto. En general, clasifica correctamente la gran mayoría de los mensajes.
+
+En la clase ham, el recall es 1.00, lo que significa que prácticamente todos los mensajes legítimos se clasifican correctamente. Además, la precisión también es muy alta, por lo que apenas se marcan mensajes normales como spam.
+
+En la clase spam, la precisión es muy alta (0.99), lo que indica que cuando el modelo detecta spam casi siempre acierta. Sin embargo, el recall es algo menor (0.89), lo que significa que algunos mensajes spam no son detectados y se clasifican como ham.
+
+Esto sugiere que el modelo es bastante conservador a la hora de marcar mensajes como spam: prefiere evitar falsos positivos, aunque eso implique dejar pasar algunos mensajes no deseados.
 
 ### Qué error es más problemático
-[Explica aquí cuál de los dos errores te parece más problemático en un filtro anti-spam real y por qué.]
+En un filtro anti-spam real, el error más problemático suele ser el falso positivo (FP), es decir, un mensaje legítimo que se clasifica como spam.
+
+Esto ocurre porque un falso positivo puede hacer que el usuario pierda información importante, como mensajes personales o profesionales. En cambio, un falso negativo (FN), aunque molesto porque deja pasar spam, suele ser menos crítico, ya que el usuario simplemente recibe un mensaje no deseado.
+
+En este caso, el modelo comete muy pocos falsos positivos (solo 2), lo cual es positivo, aunque a cambio deja pasar algunos mensajes spam (20 falsos negativos).	
 
 ### Figura generada
-[Inserta aquí la matriz de confusión y comenta brevemente su significado.]
+
+La matriz de confusión muestra de forma clara el comportamiento del modelo:
+
+- La mayoría de los mensajes ham se clasifican correctamente (1204 de 1206).
+- El número de falsos positivos es muy bajo (2), lo que indica que el modelo rara vez marca mensajes legítimos como spam.
+- Hay algunos falsos negativos (20), lo que significa que parte del spam no se detecta.
+
+En conjunto, la matriz confirma que el modelo funciona bien, pero tiene una ligera tendencia a ser conservador al detectar spam.
+
+<img src="matriz_confusion_spam_base.png" width="700">
 
 ---
 

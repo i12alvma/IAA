@@ -298,47 +298,37 @@ def train_model(X_train_dtm, y_train):
 # ============================================================================
 
 def evaluate_model(model, X_test_dtm, y_test, output_dir: str | Path | None = None):
-    """
-    Evalúa el modelo sobre el conjunto de prueba.
-
-    TODO:
-        - Obtener predicciones.
-        - Mostrar classification_report.
-        - Calcular la matriz de confusión.
-        - Guardar una imagen con la matriz de confusión.
-    """
-    y_pred = None
+    
+    y_pred = model.predict(X_test_dtm)
 
     print("\n" + "=" * 80)
     print("EVALUACIÓN DEL MODELO")
     print("=" * 80)
 
-    # TODO: imprimir métricas de clasificación
-    # print(...)
+    # Métricas de clasificación
+    print(classification_report(y_test, y_pred, target_names=["ham", "spam"]))
 
-    # TODO: calcular la matriz de confusión
-    cm = None
+    # Matriz de confusión
+    cm = confusion_matrix(y_test, y_pred)
 
     print("\nMatriz de confusión:")
     print(cm)
 
-    # TODO: representar la matriz con ConfusionMatrixDisplay
-    # disp = ...
-    # disp.plot(...)
-    # plt.title(...)
-    # plt.tight_layout()
+    # Representación gráfica
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["ham", "spam"])
+    disp.plot()
+    plt.title("Matriz de confusión - Clasificador Spam")
+    plt.tight_layout()
 
     if output_dir is not None:
         output_dir = Path(output_dir)
         output_dir.mkdir(parents=True, exist_ok=True)
         fig_path = output_dir / "matriz_confusion_spam_base.png"
 
-        # TODO: guardar la figura
-        # plt.savefig(...)
-
+        plt.savefig(fig_path)
         print(f"\nFigura guardada en: {fig_path}")
 
-    # Cerrar la figura si no hay entorno gráfico.
+    # Mostrar o cerrar figura
     backend = plt.get_backend().lower()
     if "agg" not in backend:
         plt.show()
