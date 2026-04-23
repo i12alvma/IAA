@@ -34,43 +34,45 @@ El objetivo es comprender no solo cuál obtiene mejor precisión, sino también 
 ## Tarea 1: El árbol solitario
 
 ### Qué se hizo
-- [Carga del dataset / explicación de qué se ha hecho aquí.]
-- [División entre entrenamiento y prueba.]
-- [Entrenamiento de un `DecisionTreeClassifier` sin limitar su profundidad.]
-- [Evaluación del rendimiento en entrenamiento y prueba.]
+- Se cargó el dataset Breast Cancer Wisconsin incluido en scikit-learn y se separaron las variables predictoras de la etiqueta objetivo.
+- Se dividieron los datos en entrenamiento y prueba con una partición estratificada para mantener la proporción de clases.
+- Se entrenó un árbol de decisión sin limitar la profundidad, de forma que el modelo pudiera crecer libremente.
+- Se evaluó el rendimiento del árbol en entrenamiento y en test para comprobar si aparecía sobreajuste.
 
 ### Cuestión
-[Debes explicar por qué un árbol de decisión muy profundo puede alcanzar resultados excelentes en entrenamiento y, sin embargo, empeorar al evaluar sobre datos no vistos.
+<strong>¿Por qué un árbol de decisión muy profundo puede ajustar muy bien los datos de entrenamiento pero rendir peor en test?</strong>
 
-No basta con indicar que el modelo "memoriza". Debes razonar qué significa eso en términos de particiones del espacio de entrada, sensibilidad al ruido y capacidad de generalización.]
+Un árbol de decisión muy profundo puede ajustar muy bien los datos de entrenamiento pero rendir peor en test debido a que al crecer sin restricciones el árbol crea particiones muy específicas del espacio de entrada y termina aprendiendo detalles del entrenamiento, incluso ruido o casos particulares. 
+Esto le permite acertar mucho sobre los datos vistos, pero hace que generalice peor cuando aparecen ejemplos nuevos.
 
 ### Análisis
-[Comenta si observas un comportamiento compatible con overfitting. En particular, interpreta una situación en la que el árbol obtenga una precisión muy alta, o incluso perfecta, en entrenamiento, pero claramente inferior en test.
+<strong>¿Se observa un comportamiento compatible con overfitting en este árbol?</strong>
 
-El objetivo de esta parte es que entiendas que una alta precisión en entrenamiento no garantiza un buen modelo.]
+Sí, porque el árbol obtiene una precisión muy alta en entrenamiento, incluso perfecta, pero baja claramente en test. 
+Esta diferencia indica que el modelo se ha ajustado demasiado a los datos de entrenamiento y no ha aprendido patrones suficientemente generales para funcionar igual de bien con datos no vistos.
 
 ---
 
 ## Tarea 2: Bagging y Random Forest
 
 ### Qué se hizo
-- [Entrenamiento de un `RandomForestClassifier`.]
-- [Experimento variando el número de árboles.]
-- [Evaluación del rendimiento en el conjunto de prueba para cada configuración.]
-- [Representación gráfica de la evolución del rendimiento frente al número de árboles.]
+- Se entrenó un Random Forest sobre el conjunto de entrenamiento.
+- Se repitió el experimento variando el número de árboles para comparar cómo cambia el rendimiento.
+- Se evaluó la precisión en test para cada configuración.
+- Se representó la evolución del accuracy frente al número de árboles para comprobar si el modelo se estabiliza.
 
 ### Qué se interpreta
-[Debes explicar por qué Random Forest suele generalizar mejor que un árbol individual.
+<strong>¿Por qué Random Forest suele generalizar mejor que un árbol individual?</strong>
 
-Tu explicación debe relacionar, al menos de forma intuitiva, ideas como:
-- el entrenamiento de múltiples árboles sobre subconjuntos distintos de ejemplos;
-- la reducción de la varianza del modelo;
-- y el efecto de la votación agregada sobre errores individuales.]
+Random Forest suele generalizar mejor porque combina varios árboles entrenados sobre subconjuntos distintos de los datos. 
+Cada árbol comete errores diferentes, pero al promediar o votar entre todos se reducen las decisiones demasiado inestables de un único árbol. Así disminuye la varianza del modelo y mejora su capacidad de generalizar a ejemplos nuevos.
 
 ### Cuestión
-[Analiza si llega un momento en el que añadir más árboles deja de mejorar claramente el resultado.
+<strong>¿Llega un punto en el que añadir más árboles en Random Forest deja de mejorar claramente el rendimiento?    </strong>
 
-No se trata solo de indicar que la curva se estabiliza. Debes explicar por qué, a partir de cierto punto, el ensemble ya ha capturado casi toda la mejora que puede obtenerse con esta estrategia.]
+Sí. En este experimento se observa que la mejora es notable al pasar de pocos árboles a una cantidad intermedia, pero a partir de cierto punto la curva de accuracy en test se estabiliza y las ganancias son cada vez menores. 
+Esto ocurre porque el ensamble ya ha reducido gran parte de la varianza del modelo: al incorporar más árboles, las nuevas predicciones aportan información muy parecida a la que ya tenía el conjunto. 
+Por tanto, seguir aumentando n_estimators incrementa el coste de entrenamiento y de inferencia, pero no produce una mejora proporcional en la capacidad de generalización.
 
 ### Variables más importantes en Random Forest
 1. [variable 1]
