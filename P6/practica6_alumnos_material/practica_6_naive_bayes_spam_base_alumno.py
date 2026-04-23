@@ -395,8 +395,8 @@ def classify_custom_messages(messages: list[str], model, vectorizer) -> pd.DataF
     {
         "message": messages,
         "predicted_label": predicted_class,
-        "P(ham)": predicted_proba[:, 0],
-        "P(spam)": predicted_proba[:, 1],
+        "P(ham)": np.round(predicted_proba[:, 0], 4),
+        "P(spam)": np.round(predicted_proba[:, 1], 4),
     }
 )
     return results
