@@ -209,7 +209,9 @@ En general, el vocabulario aprendido tiene sentido que sirva para diferenciar en
 ### Cuestiones
 - ¿Coincide con lo esperado?: [completar]
 - ¿Dónde está más seguro?: [completar]
-- ¿Por qué duda en el ambiguo?: [completar]
+- ¿Por qué duda en el ambiguo?: 
+  El modelo duda en el mensaje ambiguo porque contiene una mezcla de palabras asociadas tanto a spam como a mensajes legitimos, como el modelo Naive Bayes se basa en la frecuencia de palabras de forma independiente y no tiene en cuenta el contexto completo ni el orden de la frase, esto hace que las probabilidades de ham y spam se acerquen mas.
+
 
 ---
 
