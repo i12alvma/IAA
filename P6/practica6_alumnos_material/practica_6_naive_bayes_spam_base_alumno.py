@@ -387,18 +387,18 @@ def classify_custom_messages(messages: list[str], model, vectorizer) -> pd.DataF
         - Obtener predict_proba.
         - Devolver una tabla clara con resultados.
     """
-    X_new = None
-    predicted_class = None
-    predicted_proba = None
+    X_new = vectorizer.transform(messages)
+    predicted_class = model.predict(X_new)
+    predicted_proba = model.predict_proba(X_new)
 
     results = pd.DataFrame(
-        {
-            "message": messages,
-            "predicted_label": None,
-            "P(ham)": None,
-            "P(spam)": None,
-        }
-    )
+    {
+        "message": messages,
+        "predicted_label": predicted_class,
+        "P(ham)": predicted_proba[:, 0],
+        "P(spam)": predicted_proba[:, 1],
+    }
+)
     return results
 
 
@@ -484,8 +484,8 @@ def main() -> None:
     # 8. Prueba con mensajes inventados
     custom_messages = [
         "Hi, are we still meeting tomorrow at the library?",
-        "Congratulations! You have won a free vacation. Claim your prize now!",
-        "Hello, we have a special offer for you if you reply today.",
+        "Hey, you won something but I will tell you later",
+        "Hey, I found a great offer for you,they tone you with food and there is a prize let me know if you're interested for 500 or 150p",
     ]
 
     print("\n" + "=" * 80)
