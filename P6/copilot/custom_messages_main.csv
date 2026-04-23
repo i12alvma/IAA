@@ -1,4 +1,0 @@
-message,predicted_label,P(ham),P(spam)
-"Hi, are we still meeting tomorrow at the library?",ham,1.0,0.0
-Congratulations! You have won a free vacation. Claim your prize now!,spam,0.0,1.0
-"Hello, we have a special offer for you if you reply today.",ham,0.9743,0.0257

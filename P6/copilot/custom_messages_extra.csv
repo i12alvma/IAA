@@ -1,4 +1,0 @@
-message,predicted_label,P(ham),P(spam)
-oferta,ham,0.866,0.134
-gratis oferta premio,ham,0.866,0.134
-see you at home,ham,0.9998,0.0002
