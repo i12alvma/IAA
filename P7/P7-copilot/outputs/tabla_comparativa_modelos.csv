@@ -1,0 +1,4 @@
+Modelo,Accuracy test,Ventajas,Desventajas
+Árbol simple,0.9230769230769231,Muy interpretable y muy rápido,Sobreajusta con facilidad
+Random Forest,0.958041958041958,Robusto y estable,Menos interpretable y más costoso
+Gradient Boosting,0.958041958041958,Rendimiento competitivo,Entrenamiento secuencial más lento

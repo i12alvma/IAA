@@ -1,3 +1,5 @@
+<div style="text-align: justify;">
+
 <h1 style="margin-top: -5px;">Práctica 6: Clasificación de Texto y Filtros Anti-Spam (Naive Bayes)</h1>
 
 <h2 style="margin-top: -5px;">Introducción al Aprendizaje Automático</h2>
@@ -63,8 +65,7 @@ Sin embargo, también impone límites: al trabajar con recuentos, se pierde el o
 	- P(ham) = 0.8660
 	- P(spam) = 0.1340
 
-<strong>¿Qué significa la probabilidad a priori en el contexto de Naive Bayes y cómo se interpreta una probabilidad condicional como P("gratis" | spam)? </strong>
-
+<strong>¿Qué significa la probabilidad a priori en el contexto de Naive Bayes y cómo se interpreta una probabilidad condicional como P("gratis" | spam)? </strong><br>
 La probabilidad a priori representa la proporción de cada clase antes de mirar el contenido del mensaje. En este caso, (P(ham)=0.8660) y (P(spam)=0.1340), así que el modelo parte de la idea de que los mensajes ham son mucho más frecuentes que los spam. 
 La probabilidad condicional P("gratis" | spam) indica qué tan frecuente es la palabra “gratis” dentro de los mensajes etiquetados como spam. 
 
@@ -72,18 +73,13 @@ Si esa probabilidad es alta y, además, mayor que P("gratis" | spam), entonces l
 
 En general, el modelo combina muchas probabilidades condicionales de palabras junto con las probabilidades a priori para decidir la clase final del mensaje.
 
-<div class="page"></div>
-
-### Por qué se llama Naive
-<strong> ¿Por qué este modelo se llama Naive y por qué se acepta esta simplificación en esta práctica? </strong>
-
+<h3 style="margin-bottom: 10px;"> Por qué se llama Naive </h3>
+<strong> ¿Por qué este modelo se llama Naive y por qué se acepta esta simplificación en esta práctica? </strong><br>
 Se llama Naive porque asume independencia condicional entre palabras dado el tipo de mensaje (ham o spam). Es decir, trata cada palabra como si aportara evidencia de forma separada, sin considerar dependencias lingüísticas reales entre términos.
 
 En lenguaje natural esta hipótesis no se cumple estrictamente, pero simplifica mucho el cálculo probabilístico y permite entrenar un clasificador rápido y eficaz incluso con miles de palabras. En filtrado de spam suele funcionar bien porque muchas palabras individuales ya son muy informativas (por ejemplo, términos promocionales), por lo que la suma de evidencias suele ser suficiente para separar clases con buen rendimiento.
 
 Su principal limitación es que puede perder matices de contexto y orden de palabras, pero como aproximación práctica ofrece una buena relación entre simplicidad, velocidad y precisión.
-
-<div class="page"></div>
 
 ## Tarea 3: Papel del suavizado de Laplace
 
