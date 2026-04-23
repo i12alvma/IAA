@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Informe Práctica 6 - Naive Bayes</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --paper: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #0f766e;
+      --primary-hover: #115e59;
+      --border: #e5e7eb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #eef7f6 0%, var(--bg) 30%);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(6px);
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
+    }
+
+    .note {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      margin: 8px 0 0;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 24px auto 40px;
+      padding: 28px 36px;
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    #content h1, #content h2, #content h3 {
+      color: #0b3d3a;
+      line-height: 1.25;
+    }
+
+    #content p, #content li {
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    #content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    #content code {
+      background: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 0.95em;
+    }
+
+    #status {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .page {
+      page-break-after: always;
+      break-after: page;
+    }
+
+    @page {
+      margin-top: 1.2cm;
+      margin-bottom: 1.4cm;
+
+      @top-center {
+        content: "Práctica 6 — IAA — Escuela Politécnica Superior de Córdoba";
+        font-size: 9pt;
+        color: #666;
+      }
+
+      @bottom-center {
+        content: "Juan Luis Prieto Panadero y Alberto Álvarez Mejías";
+        font-size: 9pt;
+        color: #666;
+      }
+
+      @bottom-right {
+        content: "Página " counter(page) " de " counter(pages);
+        font-size: 9pt;
+        color: #666;
+      }
+    }
+
+    @media print {
+      .topbar, .note, #status { display: none !important; }
+      body { background: white; }
+      .page {
+        margin: 0;
+        max-width: none;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <button id="btnPdf" class="btn btn-primary">Descargar PDF</button>
+    <button id="btnPrint" class="btn">Imprimir</button>
+  </div>
+  <p class="note">Este HTML carga automáticamente el contenido de <strong>informe_practica6.md</strong>.</p>
+  <p id="status">Cargando informe...</p>
+
+  <main class="page" id="pdfArea">
+    <article id="content"></article>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+  <script>
+    const mdFile = "informe_practica6.md";
+    const statusEl = document.getElementById("status");
+    const contentEl = document.getElementById("content");
+
+    async function loadMarkdown() {
+      try {
+        const response = await fetch(mdFile);
+        if (!response.ok) {
+          throw new Error(`No se pudo cargar ${mdFile}`);
+        }
+        const markdown = await response.text();
+        contentEl.innerHTML = marked.parse(markdown);
+        statusEl.textContent = "Informe cargado correctamente.";
+      } catch (err) {
+        statusEl.textContent = "Error cargando el Markdown.";
+        contentEl.innerHTML = `<p style=\"color:#b91c1c;\">${err.message}</p>`;
+      }
+    }
+
+    document.getElementById("btnPrint").addEventListener("click", () => {
+      window.print();
+    });
+
+    document.getElementById("btnPdf").addEventListener("click", async () => {
+      const element = document.getElementById("pdfArea");
+      statusEl.textContent = "Generando PDF...";
+
+      const options = {
+        margin: [10, 10, 10, 10],
+        filename: "informe_practica6.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        pagebreak: { mode: ["css", "legacy"] }
+      };
+
+      try {
+        await html2pdf().set(options).from(element).save();
+        statusEl.textContent = "PDF descargado.";
+      } catch (err) {
+        statusEl.textContent = "No se pudo generar el PDF. Prueba con Imprimir -> Guardar como PDF.";
+      }
+    });
+
+    loadMarkdown();
+  </script>
+</body>
+</html>
