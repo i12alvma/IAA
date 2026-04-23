@@ -192,26 +192,34 @@ En general, el vocabulario aprendido tiene sentido que sirva para diferenciar en
 
 ### Mensajes propuestos y resultados
 1. Mensaje claramente ham:
-	 - [Escribe aquí tu mensaje]
-	 - Predicción: [completar]
-	 - P(ham) = [completar], P(spam) = [completar]
+	 - Hi, are we still meeting tomorrow at the library?
+	 - Predicción: ham
+	 - P(ham) = 0.999999, P(spam) = 0.000001
 
 2. Mensaje claramente spam:
-	 - [Escribe aquí tu mensaje]
-	 - Predicción: [completar]
-	 - P(ham) = [completar], P(spam) = [completar]
+	 - Congratulations! You have won a free vacation. Claim your prize now!
+	 - Predicción: spam
+	 - P(ham) = 0.000001, P(spam) = 0.999999
 
 3. Mensaje ambiguo:
 	 - Hey, I found a great offer for you,they tone you with food and there is a prize let me know if you're interested for 500 or 150p
 	 - Predicción: ham
-	 - P(ham) = [0.65], P(spam) = [0.35]
+	 - P(ham) = 0.65, P(spam) = 0.35
 
 ### Cuestiones
-- ¿Coincide con lo esperado?: [completar]
-- ¿Dónde está más seguro?: [completar]
-- ¿Por qué duda en el ambiguo?: 
-  El modelo duda en el mensaje ambiguo porque contiene una mezcla de palabras asociadas tanto a spam como a mensajes legitimos, como el modelo Naive Bayes se basa en la frecuencia de palabras de forma independiente y no tiene en cuenta el contexto completo ni el orden de la frase, esto hace que las probabilidades de ham y spam se acerquen mas.
+- ¿Coincide con lo esperado?:
 
+	Sí, en los mensajes que son claramente ham o spam el modelo clasifica correctamente con probabilidades muy extremas. 
+	Mientras que en el mensaje ambiguo, que contiene palabras asociadas a ambas clases, se clasifica como ham pero con una probabilidad menos contundente, lo que refleja la incertidumbre del modelo.
+
+- ¿Dónde está más seguro?:
+
+	Por un lado, el modelo está más seguro en los casos que son claramente ham o claramente spam, donde las probabilidades son extremas (cercanas a 0 o 1). 
+	Por otro lado,en el mensaje ambiguo, el modelo muestra menos seguridad, con probabilidades más cercanas entre sí.
+
+- ¿Por qué duda en el ambiguo?: 
+
+  El modelo duda en el mensaje ambiguo porque contiene una mezcla de palabras asociadas tanto a spam como a mensajes legitimos, como el modelo Naive Bayes se basa en la frecuencia de palabras de forma independiente y no tiene en cuenta el contexto completo ni el orden de la frase, esto hace que las probabilidades de ham y spam se acerquen mas.
 
 ---
 

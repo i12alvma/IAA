@@ -484,7 +484,7 @@ def main() -> None:
     # 8. Prueba con mensajes inventados
     custom_messages = [
         "Hi, are we still meeting tomorrow at the library?",
-        "Hey, you won something but I will tell you later",
+        "Congratulations! You have won a free vacation. Claim your prize now!",
         "Hey, I found a great offer for you,they tone you with food and there is a prize let me know if you're interested for 500 or 150p",
     ]
 
