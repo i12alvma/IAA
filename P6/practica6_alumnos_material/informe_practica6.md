@@ -202,9 +202,9 @@ En general, el vocabulario aprendido tiene sentido que sirva para diferenciar en
 	 - P(ham) = [completar], P(spam) = [completar]
 
 3. Mensaje ambiguo:
-	 - [Escribe aquí tu mensaje]
-	 - Predicción: [completar]
-	 - P(ham) = [completar], P(spam) = [completar]
+	 - Hey, I found a great offer for you,they tone you with food and there is a prize let me know if you're interested for 500 or 150p
+	 - Predicción: ham
+	 - P(ham) = [0.65], P(spam) = [0.35]
 
 ### Cuestiones
 - ¿Coincide con lo esperado?: [completar]
