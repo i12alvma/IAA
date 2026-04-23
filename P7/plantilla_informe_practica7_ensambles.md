@@ -75,11 +75,12 @@ Esto ocurre porque el ensamble ya ha reducido gran parte de la varianza del mode
 Por tanto, seguir aumentando n_estimators incrementa el coste de entrenamiento y de inferencia, pero no produce una mejora proporcional en la capacidad de generalización.
 
 ### Variables más importantes en Random Forest
-1. [variable 1]
-2. [variable 2]
-3. [variable 3]
+1. worst area
+2. worst concave points
+3. mean concave points
 
-[Comenta brevemente si estas variables te parecen razonables dentro del problema.]
+Estas variables me parecen razonables dentro del problema, porque están relacionadas con el tamaño y la forma de la lesión, que suelen ser rasgos muy informativos para diferenciar entre casos benignos y malignos.
+Además, el hecho de que aparezcan medidas de “worst” (valores extremos) sugiere que el modelo está captando patrones de mayor severidad morfológica, lo cual tiene sentido en una tarea de clasificación de cáncer de mama.
 
 ---
 
