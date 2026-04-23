@@ -214,4 +214,12 @@ En general, el vocabulario aprendido tiene sentido que sirva para diferenciar en
 ---
 
 ## Conclusión
-[Redacta aquí una conclusión breve sobre las ventajas y limitaciones de Naive Bayes para clasificación de texto.]
+Naive Bayes ha mostrado un rendimiento muy alto para clasificación de spam con una implementación sencilla y eficiente. La clave está en representar correctamente el texto mediante Bag of Words, ya que el modelo aprende patrones de frecuencia de palabras que separan bien mensajes ham y spam. El suavizado de Laplace es esencial para evitar probabilidades nulas y hacer el sistema más robusto ante términos no vistos.
+
+A nivel de evaluación, el clasificador obtiene buenas métricas globales y muy pocos falsos positivos, aunque todavía deja escapar parte del spam (falsos negativos), lo que evidencia el compromiso entre precisión y exhaustividad.
+
+También se ha comprobado que el modelo es parcialmente interpretable: al inspeccionar las palabras más asociadas al spam, aparecen términos coherentes con mensajes promocionales o fraudulentos.
+
+Como limitación, no capta el orden ni el contexto profundo de las frases, por lo que puede fallar en mensajes ambiguos o con redacciones menos típicas.
+
+En conjunto, es un enfoque muy útil como base por su simplicidad, velocidad y buen comportamiento general, aunque mejorable con representaciones lingüísticas más ricas.
