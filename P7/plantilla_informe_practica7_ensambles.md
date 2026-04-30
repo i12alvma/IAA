@@ -51,6 +51,12 @@ Esto le permite acertar mucho sobre los datos vistos, pero hace que generalice p
 Sí, porque el árbol obtiene una precisión muy alta en entrenamiento, incluso perfecta, pero baja claramente en test. 
 Esta diferencia indica que el modelo se ha ajustado demasiado a los datos de entrenamiento y no ha aprendido patrones suficientemente generales para funcionar igual de bien con datos no vistos.
 
+### Evidencia experimental
+
+<img src="outputs/confusion_DecisionTreeClassifier.png" width="360">
+
+La matriz de confusión muestra 49 verdaderos negativos, 83 verdaderos positivos, 4 falsos positivos y 7 falsos negativos. En test, el árbol simple alcanza una accuracy de 0.9231, pero la diferencia entre entrenamiento y prueba confirma que su complejidad es demasiado alta para generalizar con la misma solidez.
+
 ---
 
 ## Tarea 2: Bagging y Random Forest
@@ -74,13 +80,25 @@ Sí. En este experimento se observa que la mejora es notable al pasar de pocos �
 Esto ocurre porque el ensamble ya ha reducido gran parte de la varianza del modelo: al incorporar más árboles, las nuevas predicciones aportan información muy parecida a la que ya tenía el conjunto. 
 Por tanto, seguir aumentando n_estimators incrementa el coste de entrenamiento y de inferencia, pero no produce una mejora proporcional en la capacidad de generalización.
 
-### Variables más importantes en Random Forest
-1. worst area
-2. worst concave points
-3. mean concave points
+### Evidencia experimental
 
-Estas variables me parecen razonables dentro del problema, porque están relacionadas con el tamaño y la forma de la lesión, que suelen ser rasgos muy informativos para diferenciar entre casos benignos y malignos.
-Además, el hecho de que aparezcan medidas de “worst” (valores extremos) sugiere que el modelo está captando patrones de mayor severidad morfológica, lo cual tiene sentido en una tarea de clasificación de cáncer de mama.
+<img src="outputs/rf_accuracy_time.png" width="1100">
+
+La curva de accuracy muestra una mejora clara al pasar de 1 a 10 árboles y después una estabilización casi total. El tiempo de entrenamiento aumenta de forma casi lineal, así que la ganancia marginal a partir de 10-50 árboles ya es pequeña comparada con el coste extra.
+
+<img src="outputs/confusion_RandomForestClassifier.png" width="360">
+
+La matriz de confusión del modelo final con 100 árboles muestra 49 verdaderos negativos, 88 verdaderos positivos, 4 falsos positivos y 2 falsos negativos. Esto refuerza la idea de que el ensamble reduce errores respecto al árbol simple.
+
+### Variables más importantes en Random Forest
+
+| feature | importance |
+|---|---:|
+| worst area | 0.1497 |
+| worst concave points | 0.1272 |
+| mean concave points | 0.1046 |
+
+Estas variables siguen teniendo sentido clínico, porque describen tamaño e irregularidad de la lesión, dos rasgos relevantes para la clasificación.
 
 ---
 
@@ -106,9 +124,15 @@ Por tanto, mientras que Random Forest reduce sobre todo la varianza combinando m
 
 Variables más importantes según el modelo de Boosting
 
-- worst radius
-- worst concave points
-- worst perimeter
+<img src="outputs/confusion_GradientBoostingClassifier.png" width="360">
+
+La matriz de confusión muestra 48 verdaderos negativos, 89 verdaderos positivos, 5 falsos positivos y 1 falso negativo. El modelo mantiene una accuracy de 0.9580 y, en este conjunto, presenta un rendimiento muy sólido.
+
+| feature | importance |
+|---|---:|
+| worst radius | 0.5589 |
+| worst concave points | 0.1319 |
+| worst perimeter | 0.1277 |
 
 Estas variables tienen bastante sentido en el contexto del problema, ya que están relacionadas con el tamaño y la forma del tumor.
 Por ejemplo, worst radius y worst perimeter indican el tamaño máximo, que es un factor importante para diferenciar entre tumores benignos y malignos.
@@ -158,11 +182,13 @@ Sin embargo, esto tiene un coste:
 Por tanto, aunque los ensambles suelen ser más precisos, no siempre son la mejor opción dependiendo del contexto.
 
 ### Tabla comparativa final
-| Modelo | Accuracy test | Sobreajuste | Coste de entrenamiento | Interpretabilidad |
+| Modelo | Accuracy test | Sobreajuste | Ventajas | Desventajas |
 |---|---:|---|---|---|
-| Árbol simple | [0.9231] | [Alto] | [Bajo] | [Alto] |
-| Random Forest | [0.9580] | [Bajo] | [Medio] | [Medio] |
-| Gradient Boosting | [0.9580] | [Bajo] | [Alto] | [Bajo] |
+| Árbol simple | 0.9231 | Bajo | Interpretable, rápido de entrenar | Tendencia al overfitting sin restricciones |
+| Random Forest | 0.9580 | Bajo | Mejor generalización, reduce varianza | Menos interpretable, más lento |
+| Gradient Boosting | 0.9580 | Bajo | Excelente rendimiento, reduce sesgo | Entrenamiento secuencial (lento), muy poco interpretable |
+
+El fichero completo de esta tabla también se guarda en [outputs/comparison_df.csv](outputs/comparison_df.csv).
 
 ---
 
