@@ -32,6 +32,8 @@ import time
 from typing import Dict, List, Tuple
 
 import matplotlib.pyplot as plt
+import os
+import numpy as np
 import pandas as pd
 from sklearn.datasets import load_breast_cancer
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
@@ -42,6 +44,7 @@ from sklearn.tree import DecisionTreeClassifier
 
 RANDOM_STATE = 42
 TEST_SIZE = 0.25
+OUTPUTS_DIR = "i12alvma/IAA/P7/outputs"
 
 
 # -----------------------------------------------------------------------------
@@ -258,6 +261,14 @@ def plot_random_forest_results(results_df: pd.DataFrame) -> None:
     ax2.grid(True, alpha=0.3)
     
     plt.tight_layout()
+    # Guardar figura de accuracy vs tiempo
+    try:
+        os.makedirs(OUTPUTS_DIR, exist_ok=True)
+        fig_path = os.path.join(OUTPUTS_DIR, "rf_accuracy_time.png")
+        fig.savefig(fig_path, dpi=200, bbox_inches="tight")
+    except Exception as e:
+        print(f"No se pudo guardar figura RF: {e}")
+
     plt.show()
 
 
@@ -341,6 +352,29 @@ def print_confusion_and_report(model, X_test: pd.DataFrame, y_test: pd.Series) -
     print("\nClassification report:")
     print(report)
 
+    # Guardar matriz de confusión como imagen y el classification report como texto
+    try:
+        os.makedirs(OUTPUTS_DIR, exist_ok=True)
+        model_name = model.__class__.__name__
+        fig, ax = plt.subplots(figsize=(5, 4))
+        im = ax.imshow(cm, cmap="Blues")
+        ax.set_title(f"Matriz de confusión - {model_name}")
+        ax.set_xlabel("Predicted")
+        ax.set_ylabel("True")
+        # Annotate cells
+        for (i, j), val in np.ndenumerate(cm):
+            ax.text(j, i, f"{val}", ha="center", va="center", color="black")
+        fig.colorbar(im, ax=ax)
+        fig_path = os.path.join(OUTPUTS_DIR, f"confusion_{model_name}.png")
+        fig.savefig(fig_path, bbox_inches="tight", dpi=200)
+        plt.close(fig)
+
+        report_path = os.path.join(OUTPUTS_DIR, f"classification_report_{model_name}.txt")
+        with open(report_path, "w", encoding="utf-8") as fh:
+            fh.write(report)
+    except Exception as e:
+        print(f"No se pudo guardar outputs de evaluación: {e}")
+
 
 # -----------------------------------------------------------------------------
 # 7. PROGRAMA PRINCIPAL
@@ -399,6 +433,13 @@ def main() -> None:
     print("\nResultados Random Forest:")
     print(rf_results)
 
+    # Guardar resultados del experimento Random Forest
+    try:
+        os.makedirs(OUTPUTS_DIR, exist_ok=True)
+        rf_results.to_csv(os.path.join(OUTPUTS_DIR, "rf_results.csv"), index=False)
+    except Exception as e:
+        print(f"No se pudo guardar rf_results.csv: {e}")
+
     plot_random_forest_results(rf_results)
 
     # Entrenamos un modelo final con 100 árboles para analizarlo mejor.
@@ -409,7 +450,13 @@ def main() -> None:
     print_confusion_and_report(rf_model, X_test, y_test)
 
     print("\nTop 3 variables más importantes en Random Forest:")
-    print(show_top_features(rf_model, list(X.columns), top_k=3))
+    top_rf = show_top_features(rf_model, list(X.columns), top_k=3)
+    print(top_rf)
+    try:
+        os.makedirs(OUTPUTS_DIR, exist_ok=True)
+        top_rf.to_csv(os.path.join(OUTPUTS_DIR, "top_features_rf.csv"), index=False)
+    except Exception as e:
+        print(f"No se pudo guardar top_features_rf.csv: {e}")
 
     # TODO para el alumnado:
     # Responde en el informe:
@@ -434,7 +481,13 @@ def main() -> None:
     print_confusion_and_report(gb_model, X_test, y_test)
 
     print("\nTop 3 variables más importantes en Gradient Boosting:")
-    print(show_top_features(gb_model, list(X.columns), top_k=3))
+    top_gb = show_top_features(gb_model, list(X.columns), top_k=3)
+    print(top_gb)
+    try:
+        os.makedirs(OUTPUTS_DIR, exist_ok=True)
+        top_gb.to_csv(os.path.join(OUTPUTS_DIR, "top_features_gb.csv"), index=False)
+    except Exception as e:
+        print(f"No se pudo guardar top_features_gb.csv: {e}")
 
     # TODO para el alumnado:
     # Responde en el informe:
@@ -474,6 +527,13 @@ def main() -> None:
             },
         ]
     )
+
+    # Guardar tabla comparativa
+    try:
+        os.makedirs(OUTPUTS_DIR, exist_ok=True)
+        comparison_df.to_csv(os.path.join(OUTPUTS_DIR, "comparison_df.csv"), index=False)
+    except Exception as e:
+        print(f"No se pudo guardar comparison_df.csv: {e}")
 
     print(comparison_df)
 
