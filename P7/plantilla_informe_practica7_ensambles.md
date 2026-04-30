@@ -126,30 +126,43 @@ Además, el modelo obtiene una precisión muy alta tanto en entrenamiento como e
 ## Tarea 4: Comparación global de los modelos
 
 ### Qué se hizo
-- [Comparación entre el árbol simple, el Random Forest y el modelo de Boosting.]
-- [Análisis del rendimiento en test.]
-- [Comparación del comportamiento frente al sobreajuste.]
-- [Comparación del coste de entrenamiento aproximado.]
-- [Comparación de la facilidad de interpretación.]
+- Se compararon los tres modelos entrenados: árbol de decisión, Random Forest y Gradient Boosting.
+- Se analizó el rendimiento en test de cada uno.
+- Se comparó el comportamiento frente al sobreajuste.
+- Se tuvo en cuenta el coste de entrenamiento aproximado.
+- Se valoró la facilidad de interpretación de cada modelo.
 
 ### Cuestión
-[Debes responder razonadamente a esta idea central:
 ¿Por qué un conjunto de modelos puede ser mejor que un único modelo aparentemente muy potente?
 
-Tu respuesta debe mostrar que entiendes el papel de la diversidad, la agregación de decisiones y la reducción del error de generalización.]
+Un conjunto de modelos suele ser mejor porque combina varias predicciones en lugar de depender de una sola decisión.
+En un modelo individual, como un árbol de decisión, pequeños cambios en los datos pueden provocar resultados muy diferentes, lo que lo hace poco estable.
+
+En cambio, en los métodos de ensamble, como Random Forest o Boosting, cada modelo aporta su propia “opinión”.
+Al combinar estas decisiones ya sea mediante votación o corrigiendo errores, se consigue un resultado más robusto.
+
+Además, el uso de múltiples modelos introduce diversidad, lo que ayuda a reducir errores y mejora la capacidad de generalización.
+En conjunto, esto permite obtener mejores resultados en datos no vistos que usando un único modelo muy complejo.
 
 ### Reflexión
-[Comenta también qué inconvenientes presentan los métodos de ensamble. Por ejemplo, puedes discutir aspectos como:
-- el mayor coste computacional;
-- la pérdida de interpretabilidad frente a un árbol individual;
-- o la dificultad de desplegar modelos grandes en entornos limitados.]
+
+Los métodos de ensamble tienen varias ventajas, pero también algunos inconvenientes.
+
+Por un lado, suelen ofrecer un mejor rendimiento y una mayor estabilidad que un modelo individual, como se observa en los resultados obtenidos.
+Sin embargo, esto tiene un coste:
+
+- Mayor coste computacional, especialmente en modelos como Boosting, que entrenan de forma secuencial.
+- Menor interpretabilidad, ya que es mucho más difícil entender cómo toman decisiones muchos árboles juntos que un único árbol.
+- Mayor complejidad a la hora de desplegar el modelo, sobre todo en sistemas con recursos limitados.
+
+Por tanto, aunque los ensambles suelen ser más precisos, no siempre son la mejor opción dependiendo del contexto.
 
 ### Tabla comparativa final
 | Modelo | Accuracy test | Sobreajuste | Coste de entrenamiento | Interpretabilidad |
 |---|---:|---|---|---|
-| Árbol simple | [completar] | [completar] | [completar] | [completar] |
-| Random Forest | [completar] | [completar] | [completar] | [completar] |
-| Gradient Boosting | [completar] | [completar] | [completar] | [completar] |
+| Árbol simple | [0.9231] | [Alto] | [Bajo] | [Alto] |
+| Random Forest | [0.9580] | [Bajo] | [Medio] | [Medio] |
+| Gradient Boosting | [0.9580] | [Bajo] | [Alto] | [Bajo] |
 
 ---
 
