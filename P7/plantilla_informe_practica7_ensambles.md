@@ -188,8 +188,6 @@ Por tanto, aunque los ensambles suelen ser más precisos, no siempre son la mejo
 | Random Forest | 0.9580 | Bajo | Mejor generalización, reduce varianza | Menos interpretable, más lento |
 | Gradient Boosting | 0.9580 | Bajo | Excelente rendimiento, reduce sesgo | Entrenamiento secuencial (lento), muy poco interpretable |
 
-El fichero completo de esta tabla también se guarda en [outputs/comparison_df.csv](outputs/comparison_df.csv).
-
 ---
 
 ## Reto: Pensando en el despliegue
