@@ -54,6 +54,12 @@
       max-width: 100%;
     }
 
+    /* ── Centered images ── */
+    img.centered {
+      display: block;
+      margin: 12px auto;
+    }
+
     /* ── Tables ── */
     table {
       border-collapse: collapse;
@@ -253,7 +259,7 @@
     <p class="qa-a">Sí, porque el árbol obtiene una precisión muy alta en entrenamiento, incluso perfecta, pero baja claramente en test. Esta diferencia indica que el modelo se ha ajustado demasiado a los datos de entrenamiento y no ha aprendido patrones suficientemente generales para funcionar igual de bien con datos no vistos.</p>
 
     <h3>Evidencia experimental</h3>
-    <img src="outputs/confusion_DecisionTreeClassifier.png" style="max-width: 560px;">
+    <img src="outputs/confusion_DecisionTreeClassifier.png" class="centered" style="max-width: 360px;">
     <p>La matriz de confusión muestra 49 verdaderos negativos, 83 verdaderos positivos, 4 falsos positivos y 7 falsos negativos. En test, el árbol simple alcanza una accuracy de 0.9231, pero la diferencia entre entrenamiento y prueba confirma que su complejidad es demasiado alta para generalizar con la misma solidez.</p>
 
     <div class="page"></div>
@@ -276,10 +282,10 @@
     <p class="qa-a">Sí. En este experimento se observa que la mejora es notable al pasar de pocos árboles a una cantidad intermedia, pero a partir de cierto punto la curva de accuracy en test se estabiliza y las ganancias son cada vez menores. Esto ocurre porque el ensamble ya ha reducido gran parte de la varianza del modelo: al incorporar más árboles, las nuevas predicciones aportan información muy parecida a la que ya tenía el conjunto. Por tanto, seguir aumentando n_estimators incrementa el coste de entrenamiento y de inferencia, pero no produce una mejora proporcional en la capacidad de generalización.</p>
 
     <h3>Evidencia experimental</h3>
-    <img src="outputs/rf_accuracy_time.png" style="max-width: 1100px;">
+    <img src="outputs/rf_accuracy_time.png" class="centered" style="max-width: 1100px;">
     <p>La curva de accuracy muestra una mejora clara al pasar de 1 a 10 árboles y después una estabilización casi total. El tiempo de entrenamiento aumenta de forma casi lineal, así que la ganancia marginal a partir de 10-50 árboles ya es pequeña comparada con el coste extra.</p>
     
-    <img src="outputs/confusion_RandomForestClassifier.png" style="max-width: 560px;">
+    <img src="outputs/confusion_RandomForestClassifier.png" class="centered" style="max-width: 360px;">
     <p>La matriz de confusión del modelo final con 100 árboles muestra 49 verdaderos negativos, 88 verdaderos positivos, 4 falsos positivos y 2 falsos negativos. Esto refuerza la idea de que el ensamble reduce errores respecto al árbol simple.</p>
 
     <h3>Tabla de variables más importantes</h3>
@@ -327,7 +333,7 @@
     <h3>Análisis</h3>
     <p><strong>Variables más importantes según el modelo de Boosting:</strong></p>
     
-    <img src="outputs/confusion_GradientBoostingClassifier.png" style="max-width: 560px;">
+    <img src="outputs/confusion_GradientBoostingClassifier.png" class="centered" style="max-width: 360px;">
     <p>La matriz de confusión muestra 48 verdaderos negativos, 89 verdaderos positivos, 5 falsos positivos y 1 falso negativo. El modelo mantiene una accuracy de 0.9580 y, en este conjunto, presenta un rendimiento muy sólido.</p>
 
     <table>
@@ -420,8 +426,7 @@
         </tr>
       </tbody>
     </table>
-    <p>El fichero completo de esta tabla también se guarda en <code>outputs/comparison_df.csv</code>.</p>
-
+  
     <div class="page"></div>
 
     <h2>Reto: Pensando en el despliegue</h2>
