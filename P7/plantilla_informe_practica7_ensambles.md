@@ -87,20 +87,39 @@ Además, el hecho de que aparezcan medidas de “worst” (valores extremos) sug
 ## Tarea 3: El poder del Boosting
 
 ### Qué se hizo
-- [Entrenamiento de un `GradientBoostingClassifier` o, alternativamente, de un `AdaBoostClassifier`.]
-- [Evaluación del rendimiento sobre el conjunto de prueba.]
-- [Comparación del tiempo de entrenamiento respecto a Random Forest.]
-- [Extracción de la importancia de variables del modelo entrenado.]
+- Se entrenó un modelo de GradientBoostingClassifier sobre el conjunto de entrenamiento.
+- Se evaluó el rendimiento del modelo tanto en entrenamiento como en test.
+- Se midió el tiempo de entrenamiento para compararlo con Random Forest.
+- Se extrajeron las variables más importantes utilizando feature_importances_.
 
 ### Interpretación
-[Debes explicar en qué se diferencia conceptualmente el Boosting del Bagging.
+¿En qué se diferencia conceptualmente el Boosting del Bagging?
 
-En particular, debes comentar que en Boosting los modelos no son independientes entre sí, sino que cada nuevo árbol se construye para concentrarse en los errores o residuos que aún no han sido bien modelados.]
+La principal diferencia es que en Bagging (como en Random Forest) los modelos se entrenan de forma independiente y en paralelo, mientras que en Boosting se entrenan uno detrás de otro.
+
+En Boosting, cada nuevo árbol intenta corregir los errores que han cometido los anteriores, centrándose más en las muestras que se han clasificado mal.
+De esta forma, el modelo va mejorando poco a poco en cada iteración.
+
+Por tanto, mientras que Random Forest reduce sobre todo la varianza combinando muchos modelos, Boosting también intenta reducir el sesgo ajustando el modelo de forma progresiva.
 
 ### Análisis
-[A partir de `feature_importances_`, identifica las 3 variables que el modelo considera más relevantes y comenta si te parece razonable que esas características influyan en la clasificación.
 
-No es necesario realizar una interpretación médica exhaustiva del dataset, pero sí debes mostrar que entiendes que el modelo no trata todas las variables por igual y que algunas aportan más capacidad discriminativa que otras.]
+Variables más importantes según el modelo de Boosting
+
+- worst radius
+- worst concave points
+- worst perimeter
+
+Estas variables tienen bastante sentido en el contexto del problema, ya que están relacionadas con el tamaño y la forma del tumor.
+Por ejemplo, worst radius y worst perimeter indican el tamaño máximo, que es un factor importante para diferenciar entre tumores benignos y malignos.
+
+Además, worst concave points está relacionada con lo irregular que es la forma, que también es una característica relevante.
+
+También es interesante que varias de las variables más importantes sean del tipo “worst”, lo que indica que el modelo se fija en los valores más extremos, que suelen estar asociados a casos más graves.
+
+En general, esto muestra que el modelo no trata todas las variables por igual, sino que da más importancia a las que realmente ayudan a distinguir mejor entre las clases.
+
+Además, el modelo obtiene una precisión muy alta tanto en entrenamiento como en test. Aunque en entrenamiento llega a ser perfecta, en test sigue siendo muy alta, por lo que no parece que haya un sobreajuste tan fuerte como en el árbol simple.
 
 ---
 
