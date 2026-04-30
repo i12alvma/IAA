@@ -77,13 +77,21 @@ def split_dataset(
     - Revisa por qué usamos stratify=y.
     - Comprueba cuántas muestras hay en entrenamiento y en test.
     """
-    return train_test_split(
+    X_train, X_test, y_train, y_test = train_test_split(
         X,
         y,
         test_size=test_size,
         random_state=random_state,
         stratify=y,
     )
+    
+    # Mostrar resumen de la partición estratificada
+    print(f"\n  Partición estratificada (stratify=y):")
+    print(f"    Entrenamiento: {len(X_train)} muestras (clase 0: {(y_train == 0).sum()}, clase 1: {(y_train == 1).sum()})")
+    print(f"    Test: {len(X_test)} muestras (clase 0: {(y_test == 0).sum()}, clase 1: {(y_test == 1).sum()})")
+    print(f"    Proporción de test: {test_size:.1%}")
+    
+    return X_train, X_test, y_train, y_test
 
 
 # -----------------------------------------------------------------------------
@@ -114,26 +122,43 @@ def evaluate_model(
     y_test: pd.Series,
 ) -> Dict[str, float]:
     """
-    Evalúa un modelo en entrenamiento y en prueba.
+    Evalúa un modelo en entrenamiento y en prueba con múltiples métricas.
 
     Returns
     -------
     results : dict
-        Diccionario con accuracy en train y test.
+        Diccionario con accuracy, precision, recall y f1-score en train y test.
 
     TODO para el alumnado:
     - Añade otras métricas si lo consideras útil.
     - Interpreta la diferencia entre train_accuracy y test_accuracy.
     """
+    from sklearn.metrics import precision_score, recall_score, f1_score
+    
     y_train_pred = model.predict(X_train)
     y_test_pred = model.predict(X_test)
 
     train_accuracy = accuracy_score(y_train, y_train_pred)
     test_accuracy = accuracy_score(y_test, y_test_pred)
+    
+    train_precision = precision_score(y_train, y_train_pred, zero_division=0)
+    test_precision = precision_score(y_test, y_test_pred, zero_division=0)
+    
+    train_recall = recall_score(y_train, y_train_pred, zero_division=0)
+    test_recall = recall_score(y_test, y_test_pred, zero_division=0)
+    
+    train_f1 = f1_score(y_train, y_train_pred, zero_division=0)
+    test_f1 = f1_score(y_test, y_test_pred, zero_division=0)
 
     return {
         "train_accuracy": train_accuracy,
         "test_accuracy": test_accuracy,
+        "train_precision": train_precision,
+        "test_precision": test_precision,
+        "train_recall": train_recall,
+        "test_recall": test_recall,
+        "train_f1": train_f1,
+        "test_f1": test_f1,
     }
 
 
@@ -193,23 +218,45 @@ def random_forest_experiment(
 
 def plot_random_forest_results(results_df: pd.DataFrame) -> None:
     """
-    Representa la evolución del accuracy en test frente al número de árboles.
+    Representa la evolución del accuracy en test y tiempo de entrenamiento.
 
     TODO para el alumnado:
     - Cambia el gráfico para mostrar error en lugar de accuracy si lo prefieres.
     - Interpreta la forma de la curva en el informe.
     """
-    plt.figure(figsize=(8, 5))
-    plt.plot(
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
+    
+    # Gráfico 1: Accuracy
+    ax1.plot(
         results_df["n_estimators"],
         results_df["test_accuracy"],
         marker="o",
         linestyle="--",
+        color="#1f77b4",
+        linewidth=2,
+        markersize=8,
     )
-    plt.title("Random Forest: Accuracy en test vs número de árboles")
-    plt.xlabel("n_estimators")
-    plt.ylabel("Accuracy en test")
-    plt.grid(True)
+    ax1.set_title("Random Forest: Accuracy en test vs número de árboles", fontsize=12, fontweight="bold")
+    ax1.set_xlabel("n_estimators", fontsize=11)
+    ax1.set_ylabel("Accuracy en test", fontsize=11)
+    ax1.grid(True, alpha=0.3)
+    ax1.set_ylim([results_df["test_accuracy"].min() - 0.01, 1.0])
+    
+    # Gráfico 2: Tiempo de entrenamiento
+    ax2.plot(
+        results_df["n_estimators"],
+        results_df["train_time_seconds"],
+        marker="s",
+        linestyle="--",
+        color="#ff7f0e",
+        linewidth=2,
+        markersize=8,
+    )
+    ax2.set_title("Random Forest: Tiempo de entrenamiento vs número de árboles", fontsize=12, fontweight="bold")
+    ax2.set_xlabel("n_estimators", fontsize=11)
+    ax2.set_ylabel("Tiempo (segundos)", fontsize=11)
+    ax2.grid(True, alpha=0.3)
+    
     plt.tight_layout()
     plt.show()
 
@@ -406,21 +453,24 @@ def main() -> None:
         [
             {
                 "Modelo": "Árbol simple",
-                "Accuracy test": tree_results["test_accuracy"],
-                "Ventajas": "TODO",
-                "Desventajas": "TODO",
+                "Accuracy test": f"{tree_results['test_accuracy']:.4f}",
+                "Sobreajuste": "Alto" if tree_results["train_accuracy"] - tree_results["test_accuracy"] > 0.1 else "Bajo",
+                "Ventajas": "Interpretable, rápido de entrenar",
+                "Desventajas": "Tendencia al overfitting sin restricciones",
             },
             {
                 "Modelo": "Random Forest",
-                "Accuracy test": rf_model.score(X_test, y_test),
-                "Ventajas": "TODO",
-                "Desventajas": "TODO",
+                "Accuracy test": f"{rf_model.score(X_test, y_test):.4f}",
+                "Sobreajuste": "Bajo",
+                "Ventajas": "Mejor generalización, reduce varianza",
+                "Desventajas": "Menos interpretable, más lento",
             },
             {
                 "Modelo": "Gradient Boosting",
-                "Accuracy test": gb_results["test_accuracy"],
-                "Ventajas": "TODO",
-                "Desventajas": "TODO",
+                "Accuracy test": f"{gb_results['test_accuracy']:.4f}",
+                "Sobreajuste": "Bajo",
+                "Ventajas": "Excelente rendimiento, reduce sesgo",
+                "Desventajas": "Entrenamiento secuencial (lento), muy poco interpretable",
             },
         ]
     )
