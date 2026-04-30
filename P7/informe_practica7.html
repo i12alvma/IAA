@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Práctica 7: Modelos de Ensambles</title>
+
+  <style>
+    /* ── Base ── */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif;
+      font-size: 14px;
+      padding: 0 26px;
+      line-height: 22px;
+      word-wrap: break-word;
+      color: #1a1a1a;
+      text-align: justify;
+    }
+
+    h1 {
+      padding-bottom: 0.3em;
+      line-height: 1.2;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+      margin-top: -10px;
+    }
+
+    h2 {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      padding-bottom: 4px;
+      margin-top: 28px;
+    }
+
+    h3 {
+      margin-top: 20px;
+      border-bottom: none;
+    }
+
+    hr {
+      border: 0;
+      height: 2px;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+      margin: 18px 0;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    /* ── Tables ── */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 12px 0;
+    }
+
+    table > thead > tr > th {
+      text-align: center;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.45);
+      padding: 8px 10px;
+      background-color: #f4f4f4;
+      font-weight: 700;
+    }
+
+    table > thead > tr > td,
+    table > tbody > tr > th,
+    table > tbody > tr > td {
+      padding: 8px 10px;
+      text-align: center;
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    table > tbody > tr > td:last-child,
+    table > thead > tr > th:last-child {
+      border-right: none;
+    }
+
+    table > tbody > tr + tr > td {
+      border-top: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    /* ── Code ── */
+    code {
+      font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+      font-size: 13px;
+      background: #f0f0f0;
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #4d4d4c;
+    }
+
+    /* ── Blockquote ── */
+    blockquote {
+      margin: 0 7px 0 5px;
+      padding: 0 16px 0 10px;
+      border-left: 5px solid rgba(0, 122, 204, 0.5);
+      background: rgba(127, 127, 127, 0.06);
+    }
+
+    /* ── Q&A ── */
+    .qa-q {
+      font-weight: 700;
+      margin-top: 12px;
+      margin-bottom: 6px;
+    }
+
+    .qa-a {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    /* ── Ordered list bold markers ── */
+    ol.preguntas > li::marker {
+      font-weight: 700;
+    }
+
+    /* ── Print / PDF ── */
+    .no-print {
+      display: block;
+    }
+
+    @page {
+      margin-top: 1.2cm;
+      margin-bottom: 1.4cm;
+
+      @top-center {
+        content: "Práctica 7 — IAA — Escuela Politécnica Superior de Córdoba";
+        font-size: 9pt;
+        color: #666;
+      }
+
+      @bottom-right {
+        content: "Página " counter(page) " de " counter(pages);
+        font-size: 9pt;
+        color: #666;
+      }
+    }
+
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+
+      body {
+        font-size: 11px;
+        padding: 0 10px;
+      }
+
+      .page {
+        page-break-after: always;
+      }
+    }
+
+    /* ── Page break helper ── */
+    .page {
+      page-break-after: always;
+    }
+
+    /* ── Button ── */
+    #btn-pdf {
+      background: #4263eb;
+      color: #fff;
+      border: none;
+      padding: 9px 22px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 4px;
+    }
+
+    #btn-pdf:hover {
+      background: #364fc7;
+    }
+
+    /* ── Metadata section ── */
+    .metadata {
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+
+    .metadata p {
+      margin: 4px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="no-print" id="btn-pdf">📄 Guardar como PDF</button>
+  <p class="no-print" style="margin-top: -6px; color: #555; font-size: 10pt;">
+    Al pulsar, elige destino: <strong>Guardar como PDF</strong>.
+  </p>
+
+  <div style="text-align: justify;">
+
+    <h1>Práctica 7: La Inteligencia Colectiva (Modelos de Ensambles)</h1>
+
+    <div class="metadata">
+      <p><strong>Introducción al Aprendizaje Automático</strong></p>
+      <p><strong>3º Ingeniería Informática - Curso 2025/2026</strong></p>
+    </div>
+
+    <hr>
+
+    <h2>Objetivo</h2>
+    <p>Comprender por qué combinar múltiples modelos puede mejorar la capacidad de generalización frente a un clasificador individual. En particular, se estudiará el fenómeno del overfitting en árboles de decisión, el funcionamiento de estrategias de ensamble como Random Forest y Boosting, y la forma en que estos métodos logran reducir errores, estabilizar predicciones e identificar variables relevantes en un problema de clasificación real.</p>
+
+    <hr>
+
+    <h2>Material de partida</h2>
+    <ul>
+      <li>Un dataset real de clasificación, Breast Cancer Wisconsin, integrado en scikit-learn, por lo que no es necesario descargar ningún fichero externo.</li>
+      <li>Una plantilla de código base en Python con scikit-learn y matplotlib, para facilitar la carga de datos, el entrenamiento de los modelos y la representación gráfica de resultados.</li>
+      <li>Un problema de clasificación binaria con múltiples variables predictoras, apropiado para observar tanto el sobreajuste de un árbol individual como las ventajas de los métodos de ensamble.</li>
+    </ul>
+
+    <hr>
+
+    <h2>Introducción</h2>
+    <p>En muchos problemas reales, una única decisión tomada por un único modelo puede ser frágil. Un árbol de decisión sin restricciones, por ejemplo, puede adaptarse con enorme precisión a los datos de entrenamiento, pero esa misma flexibilidad puede convertirse en una debilidad cuando el modelo se enfrenta a ejemplos nuevos. Este fenómeno se conoce como sobreajuste u overfitting, y constituye uno de los problemas centrales del aprendizaje automático.</p>
+
+    <p>Una estrategia clásica para reducir este problema consiste en combinar múltiples modelos en lugar de confiar en uno solo. Esta idea da lugar a los métodos de ensamble, donde varios clasificadores cooperan para producir una predicción final más robusta. En lugar de depender de un único árbol potencialmente inestable, se construye un conjunto de árboles que votan, corrigen errores o reparten la carga de aprendizaje.</p>
+
+    <p>En esta práctica se trabajará con tres enfoques progresivos: un árbol de decisión simple, que servirá como línea base; un Random Forest, que combina múltiples árboles entrenados sobre distintas muestras de los datos; y un modelo de Boosting, que entrena árboles secuencialmente para corregir errores previos.</p>
+
+    <p>El objetivo es comprender no solo cuál obtiene mejor precisión, sino también por qué se comportan de forma distinta y qué compromisos existen entre capacidad predictiva, coste de entrenamiento, interpretabilidad y robustez.</p>
+
+    <div class="page"></div>
+
+    <h2>Tarea 1: El árbol solitario</h2>
+
+    <h3>Qué se hizo</h3>
+    <ul>
+      <li>Se cargó el dataset Breast Cancer Wisconsin incluido en scikit-learn y se separaron las variables predictoras de la etiqueta objetivo.</li>
+      <li>Se dividieron los datos en entrenamiento y prueba con una partición estratificada para mantener la proporción de clases.</li>
+      <li>Se entrenó un árbol de decisión sin limitar la profundidad, de forma que el modelo pudiera crecer libremente.</li>
+      <li>Se evaluó el rendimiento del árbol en entrenamiento y en test para comprobar si aparecía sobreajuste.</li>
+    </ul>
+
+    <h3>Cuestión</h3>
+    <p class="qa-q">¿Por qué un árbol de decisión muy profundo puede ajustar muy bien los datos de entrenamiento pero rendir peor en test?</p>
+    <p class="qa-a">Un árbol de decisión muy profundo puede ajustar muy bien los datos de entrenamiento pero rendir peor en test debido a que al crecer sin restricciones el árbol crea particiones muy específicas del espacio de entrada y termina aprendiendo detalles del entrenamiento, incluso ruido o casos particulares. Esto le permite acertar mucho sobre los datos vistos, pero hace que generalice peor cuando aparecen ejemplos nuevos.</p>
+
+    <h3>Análisis</h3>
+    <p class="qa-q">¿Se observa un comportamiento compatible con overfitting en este árbol?</p>
+    <p class="qa-a">Sí, porque el árbol obtiene una precisión muy alta en entrenamiento, incluso perfecta, pero baja claramente en test. Esta diferencia indica que el modelo se ha ajustado demasiado a los datos de entrenamiento y no ha aprendido patrones suficientemente generales para funcionar igual de bien con datos no vistos.</p>
+
+    <div class="page"></div>
+
+    <h2>Tarea 2: Bagging y Random Forest</h2>
+
+    <h3>Qué se hizo</h3>
+    <ul>
+      <li>Se entrenó un Random Forest sobre el conjunto de entrenamiento.</li>
+      <li>Se repitió el experimento variando el número de árboles para comparar cómo cambia el rendimiento.</li>
+      <li>Se evaluó la precisión en test para cada configuración.</li>
+      <li>Se representó la evolución del accuracy frente al número de árboles para comprobar si el modelo se estabiliza.</li>
+    </ul>
+
+    <h3>Qué se interpreta</h3>
+    <p class="qa-q">¿Por qué Random Forest suele generalizar mejor que un árbol individual?</p>
+    <p class="qa-a">Random Forest suele generalizar mejor porque combina varios árboles entrenados sobre subconjuntos distintos de los datos. Cada árbol comete errores diferentes, pero al promediar o votar entre todos se reducen las decisiones demasiado inestables de un único árbol. Así disminuye la varianza del modelo y mejora su capacidad de generalizar a ejemplos nuevos.</p>
+
+    <p class="qa-q">¿Llega un punto en el que añadir más árboles en Random Forest deja de mejorar claramente el rendimiento?</p>
+    <p class="qa-a">Sí. En este experimento se observa que la mejora es notable al pasar de pocos árboles a una cantidad intermedia, pero a partir de cierto punto la curva de accuracy en test se estabiliza y las ganancias son cada vez menores. Esto ocurre porque el ensamble ya ha reducido gran parte de la varianza del modelo: al incorporar más árboles, las nuevas predicciones aportan información muy parecida a la que ya tenía el conjunto. Por tanto, seguir aumentando n_estimators incrementa el coste de entrenamiento y de inferencia, pero no produce una mejora proporcional en la capacidad de generalización.</p>
+
+    <h3>Variables más importantes en Random Forest</h3>
+    <ol>
+      <li>worst area</li>
+      <li>worst concave points</li>
+      <li>mean concave points</li>
+    </ol>
+    <p>Estas variables me parecen razonables dentro del problema, porque están relacionadas con el tamaño y la forma de la lesión, que suelen ser rasgos muy informativos para diferenciar entre casos benignos y malignos. Además, el hecho de que aparezcan medidas de "worst" (valores extremos) sugiere que el modelo está captando patrones de mayor severidad morfológica, lo cual tiene sentido en una tarea de clasificación de cáncer de mama.</p>
+
+    <div class="page"></div>
+
+    <h2>Tarea 3: El poder del Boosting</h2>
+
+    <h3>Qué se hizo</h3>
+    <ul>
+      <li>Se entrenó un modelo de GradientBoostingClassifier sobre el conjunto de entrenamiento.</li>
+      <li>Se evaluó el rendimiento del modelo tanto en entrenamiento como en test.</li>
+      <li>Se midió el tiempo de entrenamiento para compararlo con Random Forest.</li>
+      <li>Se extrajeron las variables más importantes utilizando feature_importances_.</li>
+    </ul>
+
+    <h3>Interpretación</h3>
+    <p class="qa-q">¿En qué se diferencia conceptualmente el Boosting del Bagging?</p>
+    <p class="qa-a">La principal diferencia es que en Bagging (como en Random Forest) los modelos se entrenan de forma independiente y en paralelo, mientras que en Boosting se entrenan uno detrás de otro. En Boosting, cada nuevo árbol intenta corregir los errores que han cometido los anteriores, centrándose más en las muestras que se han clasificado mal. De esta forma, el modelo va mejorando poco a poco en cada iteración. Por tanto, mientras que Random Forest reduce sobre todo la varianza combinando muchos modelos, Boosting también intenta reducir el sesgo ajustando el modelo de forma progresiva.</p>
+
+    <h3>Análisis</h3>
+    <p><strong>Variables más importantes según el modelo de Boosting:</strong></p>
+    <ul>
+      <li>worst radius</li>
+      <li>worst concave points</li>
+      <li>worst perimeter</li>
+    </ul>
+    <p>Estas variables tienen bastante sentido en el contexto del problema, ya que están relacionadas con el tamaño y la forma del tumor. Por ejemplo, worst radius y worst perimeter indican el tamaño máximo, que es un factor importante para diferenciar entre tumores benignos y malignos. Además, worst concave points está relacionada con lo irregular que es la forma, que también es una característica relevante.</p>
+
+    <p>También es interesante que varias de las variables más importantes sean del tipo "worst", lo que indica que el modelo se fija en los valores más extremos, que suelen estar asociados a casos más graves.</p>
+
+    <p>En general, esto muestra que el modelo no trata todas las variables por igual, sino que da más importancia a las que realmente ayudan a distinguir mejor entre las clases. Además, el modelo obtiene una precisión muy alta tanto en entrenamiento como en test. Aunque en entrenamiento llega a ser perfecta, en test sigue siendo muy alta, por lo que no parece que haya un sobreajuste tan fuerte como en el árbol simple.</p>
+
+    <div class="page"></div>
+
+    <h2>Tarea 4: Comparación global de los modelos</h2>
+
+    <h3>Qué se hizo</h3>
+    <ul>
+      <li>Se compararon los tres modelos entrenados: árbol de decisión, Random Forest y Gradient Boosting.</li>
+      <li>Se analizó el rendimiento en test de cada uno.</li>
+      <li>Se comparó el comportamiento frente al sobreajuste.</li>
+      <li>Se tuvo en cuenta el coste de entrenamiento aproximado.</li>
+      <li>Se valoró la facilidad de interpretación de cada modelo.</li>
+    </ul>
+
+    <h3>Cuestión</h3>
+    <p class="qa-q">¿Por qué un conjunto de modelos puede ser mejor que un único modelo aparentemente muy potente?</p>
+    <p class="qa-a">Un conjunto de modelos suele ser mejor porque combina varias predicciones en lugar de depender de una sola decisión. En un modelo individual, como un árbol de decisión, pequeños cambios en los datos pueden provocar resultados muy diferentes, lo que lo hace poco estable. En cambio, en los métodos de ensamble, como Random Forest o Boosting, cada modelo aporta su propia "opinión". Al combinar estas decisiones ya sea mediante votación o corrigiendo errores, se consigue un resultado más robusto. Además, el uso de múltiples modelos introduce diversidad, lo que ayuda a reducir errores y mejora la capacidad de generalización. En conjunto, esto permite obtener mejores resultados en datos no vistos que usando un único modelo muy complejo.</p>
+
+    <h3>Reflexión</h3>
+    <p>Los métodos de ensamble tienen varias ventajas, pero también algunos inconvenientes. Por un lado, suelen ofrecer un mejor rendimiento y una mayor estabilidad que un modelo individual, como se observa en los resultados obtenidos. Sin embargo, esto tiene un coste:</p>
+    <ul>
+      <li>Mayor coste computacional, especialmente en modelos como Boosting, que entrenan de forma secuencial.</li>
+      <li>Menor interpretabilidad, ya que es mucho más difícil entender cómo toman decisiones muchos árboles juntos que un único árbol.</li>
+      <li>Mayor complejidad a la hora de desplegar el modelo, sobre todo en sistemas con recursos limitados.</li>
+    </ul>
+    <p>Por tanto, aunque los ensambles suelen ser más precisos, no siempre son la mejor opción dependiendo del contexto.</p>
+
+    <h3>Tabla comparativa final</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Modelo</th>
+          <th>Accuracy test</th>
+          <th>Sobreajuste</th>
+          <th>Coste de entrenamiento</th>
+          <th>Interpretabilidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Árbol simple</td>
+          <td>0.9231</td>
+          <td>Alto</td>
+          <td>Bajo</td>
+          <td>Alto</td>
+        </tr>
+        <tr>
+          <td>Random Forest</td>
+          <td>0.9580</td>
+          <td>Bajo</td>
+          <td>Medio</td>
+          <td>Medio</td>
+        </tr>
+        <tr>
+          <td>Gradient Boosting</td>
+          <td>0.9580</td>
+          <td>Bajo</td>
+          <td>Alto</td>
+          <td>Bajo</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page"></div>
+
+    <h2>Reto: Pensando en el despliegue</h2>
+
+    <h3>Qué se hizo</h3>
+    <ul>
+      <li>Se evaluaron las características de coste y precisión de los tres modelos (árbol individual, Random Forest y Gradient Boosting) para un escenario con recursos limitados.</li>
+      <li>Se decidió desplegar una versión ligera del árbol de decisión: se reentrenó limitando la profundidad (p. ej. max_depth=4) y aplicando poda para reducir el sobreajuste, y se consideró la cuantización del modelo para ahorrar memoria y acelerar la inferencia.</li>
+    </ul>
+
+    <h3>Cuestiones</h3>
+
+    <p class="qa-q">¿Qué modelo elegirías?</p>
+    <p class="qa-a">Eligiría un árbol de decisión con profundidad limitada, ya que aunque su precisión es algo menor que la de los ensambles, es mucho más ligero y fácil de interpretar. Además, al limitar la profundidad se reduce el riesgo de sobreajuste, lo que mejora la capacidad de generalización sin necesidad de recurrir a modelos más complejos. Esto es especialmente importante en un entorno con recursos limitados, donde el coste computacional y la memoria son factores críticos.</p>
+
+    <p class="qa-q">¿Qué ganarías con esa decisión?</p>
+    <p class="qa-a">Con esta decisión se gana en eficiencia, tanto en términos de tiempo de entrenamiento como de velocidad de inferencia, lo cuál es crucial en un entorno con recursos limitados. También se gana en interpretabilidad, ya que un árbol de decisión es mucho más fácil de entender y explicar a usuarios no técnicos que un conjunto de modelos. Esto puede ser importante para la confianza y la adopción del modelo en aplicaciones sensibles, como el diagnóstico médico.</p>
+
+    <p class="qa-q">¿Qué estarías sacrificando a cambio?</p>
+    <p class="qa-a">A cambio, se estaría sacrificando algo de precisión, ya que el árbol de decisión con profundidad limitada no puede capturar patrones tan complejos como los métodos de ensamble. Sin embargo, en muchos casos esta pérdida de precisión puede ser aceptable si se compensa con una mayor eficiencia y facilidad de uso. Además, al aplicar técnicas como la poda y la cuantización, se puede mitigar parte del sobreajuste y mejorar la capacidad de generalización del modelo, lo que ayuda a mantener un rendimiento razonable a pesar de la simplicidad del modelo elegido.</p>
+
+    <h3>Interpretación</h3>
+    <p>Se observa que la elección de un modelo no depende únicamente de la precisión obtenida. En problemas reales también es importante tener en cuenta otros factores, como el coste computacional, la latencia, la memoria disponible y la facilidad de mantenimiento. Aunque los métodos de ensamble suelen ofrecer mejores resultados, también implican un mayor consumo de recursos y una mayor complejidad de uso. Por ello, en determinados contextos puede ser preferible optar por un modelo más simple si ofrece un rendimiento suficientemente bueno y resulta más eficiente para su despliegue.</p>
+
+    <div class="page"></div>
+
+    <h2>Conclusión</h2>
+    <p>[]</p>
+
+  </div>
+
+  <script>
+    document.getElementById('btn-pdf').addEventListener('click', () => {
+      window.print();
+    });
+  </script>
+
+</body>
+</html>
