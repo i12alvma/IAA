@@ -169,15 +169,28 @@ Por tanto, aunque los ensambles suelen ser más precisos, no siempre son la mejo
 ## Reto: Pensando en el despliegue
 
 ### Qué se hizo
-[Debes elegir cuál de los tres modelos desplegarías en un contexto con recursos limitados, como un dispositivo móvil o un sistema con poca memoria y CPU.]
+- Se evaluaron las características de coste y precisión de los tres modelos (árbol individual, Random Forest y Gradient Boosting) para un escenario con recursos limitados.
+- Se decidió desplegar una versión ligera del árbol de decisión: se reentrenó limitando la profundidad (p. ej. max_depth=4) y aplicando poda para reducir el sobreajuste, y se consideró la cuantización del modelo para ahorrar memoria y acelerar la inferencia
 
 ### Cuestiones
 - ¿Qué modelo elegirías?
+
+    Eligiría un árbol de decisión con profundidad limitada, ya que aunque su precisión es algo menor que la de los ensambles, es mucho más ligero y fácil de interpretar.
+    Además, al limitar la profundidad se reduce el riesgo de sobreajuste, lo que mejora la capacidad de generalización sin necesidad de recurrir a modelos más complejos. Esto es especialmente importante en un entorno con recursos limitados, donde el coste computacional y la memoria son factores críticos.
+
 - ¿Qué ganarías con esa decisión?
+
+    Con esta decisión se gana en eficiencia, tanto en términos de tiempo de entrenamiento como de velocidad de inferencia, lo cuál es crucial en un entorno con recursos limitados. También se gana en interpretabilidad, ya que un árbol de decisión es mucho más fácil de entender y explicar a usuarios no técnicos que un conjunto de modelos. Esto puede ser importante para la confianza y la adopción del modelo en aplicaciones sensibles, como el diagnóstico médico.
+
 - ¿Qué estarías sacrificando a cambio?
 
+    A cambio, se estaría sacrificando algo de precisión, ya que el árbol de decisión con profundidad limitada no puede capturar patrones tan complejos como los métodos de ensamble. 
+    Sin embargo, en muchos casos esta pérdida de precisión puede ser aceptable si se compensa con una mayor eficiencia y facilidad de uso. 
+    Además, al aplicar técnicas como la poda y la cuantización, se puede mitigar parte del sobreajuste y mejorar la capacidad de generalización del modelo, lo que ayuda a mantener un rendimiento razonable a pesar de la simplicidad del modelo elegido.
+
 ### Interpretación
-[El objetivo de esta parte es que entiendas que elegir un modelo no depende solo de la precisión. En problemas reales también importan el coste computacional, la latencia, la memoria disponible y la facilidad de mantenimiento.]
+
+    Se observa que la elección de un modelo no depende únicamente de la precisión obtenida. En problemas reales también es importante tener en cuenta otros factores, como el coste computacional, la latencia, la memoria disponible y la facilidad de mantenimiento. Aunque los métodos de ensamble suelen ofrecer mejores resultados, también implican un mayor consumo de recursos y una mayor complejidad de uso. Por ello, en determinados contextos puede ser preferible optar por un modelo más simple si ofrece un rendimiento suficientemente bueno y resulta más eficiente para su despliegue.
 
 ---
 
