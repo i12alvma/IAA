@@ -1,0 +1,4 @@
+Modelo,Accuracy test,Sobreajuste,Ventajas,Desventajas
+Árbol simple,0.9231,Bajo,"Interpretable, rápido de entrenar",Tendencia al overfitting sin restricciones
+Random Forest,0.9580,Bajo,"Mejor generalización, reduce varianza","Menos interpretable, más lento"
+Gradient Boosting,0.9580,Bajo,"Excelente rendimiento, reduce sesgo","Entrenamiento secuencial (lento), muy poco interpretable"

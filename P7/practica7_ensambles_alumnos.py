@@ -41,11 +41,10 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 
+OUTPUTS_DIR = "P7/outputs"
 
 RANDOM_STATE = 42
 TEST_SIZE = 0.25
-OUTPUTS_DIR = "i12alvma/IAA/P7/outputs"
-
 
 # -----------------------------------------------------------------------------
 # 1. CARGA Y PREPARACIÓN DE LOS DATOS
