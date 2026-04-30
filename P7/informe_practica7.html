@@ -252,6 +252,10 @@
     <p class="qa-q">¿Se observa un comportamiento compatible con overfitting en este árbol?</p>
     <p class="qa-a">Sí, porque el árbol obtiene una precisión muy alta en entrenamiento, incluso perfecta, pero baja claramente en test. Esta diferencia indica que el modelo se ha ajustado demasiado a los datos de entrenamiento y no ha aprendido patrones suficientemente generales para funcionar igual de bien con datos no vistos.</p>
 
+    <h3>Evidencia experimental</h3>
+    <img src="outputs/confusion_DecisionTreeClassifier.png" style="max-width: 560px;">
+    <p>La matriz de confusión muestra 49 verdaderos negativos, 83 verdaderos positivos, 4 falsos positivos y 7 falsos negativos. En test, el árbol simple alcanza una accuracy de 0.9231, pero la diferencia entre entrenamiento y prueba confirma que su complejidad es demasiado alta para generalizar con la misma solidez.</p>
+
     <div class="page"></div>
 
     <h2>Tarea 2: Bagging y Random Forest</h2>
@@ -271,13 +275,38 @@
     <p class="qa-q">¿Llega un punto en el que añadir más árboles en Random Forest deja de mejorar claramente el rendimiento?</p>
     <p class="qa-a">Sí. En este experimento se observa que la mejora es notable al pasar de pocos árboles a una cantidad intermedia, pero a partir de cierto punto la curva de accuracy en test se estabiliza y las ganancias son cada vez menores. Esto ocurre porque el ensamble ya ha reducido gran parte de la varianza del modelo: al incorporar más árboles, las nuevas predicciones aportan información muy parecida a la que ya tenía el conjunto. Por tanto, seguir aumentando n_estimators incrementa el coste de entrenamiento y de inferencia, pero no produce una mejora proporcional en la capacidad de generalización.</p>
 
-    <h3>Variables más importantes en Random Forest</h3>
-    <ol>
-      <li>worst area</li>
-      <li>worst concave points</li>
-      <li>mean concave points</li>
-    </ol>
-    <p>Estas variables me parecen razonables dentro del problema, porque están relacionadas con el tamaño y la forma de la lesión, que suelen ser rasgos muy informativos para diferenciar entre casos benignos y malignos. Además, el hecho de que aparezcan medidas de "worst" (valores extremos) sugiere que el modelo está captando patrones de mayor severidad morfológica, lo cual tiene sentido en una tarea de clasificación de cáncer de mama.</p>
+    <h3>Evidencia experimental</h3>
+    <img src="outputs/rf_accuracy_time.png" style="max-width: 1100px;">
+    <p>La curva de accuracy muestra una mejora clara al pasar de 1 a 10 árboles y después una estabilización casi total. El tiempo de entrenamiento aumenta de forma casi lineal, así que la ganancia marginal a partir de 10-50 árboles ya es pequeña comparada con el coste extra.</p>
+    
+    <img src="outputs/confusion_RandomForestClassifier.png" style="max-width: 560px;">
+    <p>La matriz de confusión del modelo final con 100 árboles muestra 49 verdaderos negativos, 88 verdaderos positivos, 4 falsos positivos y 2 falsos negativos. Esto refuerza la idea de que el ensamble reduce errores respecto al árbol simple.</p>
+
+    <h3>Tabla de variables más importantes</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Importance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>worst area</td>
+          <td>0.1497</td>
+        </tr>
+        <tr>
+          <td>worst concave points</td>
+          <td>0.1272</td>
+        </tr>
+        <tr>
+          <td>mean concave points</td>
+          <td>0.1046</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Estas variables siguen teniendo sentido clínico, porque describen tamaño e irregularidad de la lesión, dos rasgos relevantes para la clasificación.</p>
 
     <div class="page"></div>
 
@@ -297,11 +326,33 @@
 
     <h3>Análisis</h3>
     <p><strong>Variables más importantes según el modelo de Boosting:</strong></p>
-    <ul>
-      <li>worst radius</li>
-      <li>worst concave points</li>
-      <li>worst perimeter</li>
-    </ul>
+    
+    <img src="outputs/confusion_GradientBoostingClassifier.png" style="max-width: 560px;">
+    <p>La matriz de confusión muestra 48 verdaderos negativos, 89 verdaderos positivos, 5 falsos positivos y 1 falso negativo. El modelo mantiene una accuracy de 0.9580 y, en este conjunto, presenta un rendimiento muy sólido.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Importance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>worst radius</td>
+          <td>0.5589</td>
+        </tr>
+        <tr>
+          <td>worst concave points</td>
+          <td>0.1319</td>
+        </tr>
+        <tr>
+          <td>worst perimeter</td>
+          <td>0.1277</td>
+        </tr>
+      </tbody>
+    </table>
+    
     <p>Estas variables tienen bastante sentido en el contexto del problema, ya que están relacionadas con el tamaño y la forma del tumor. Por ejemplo, worst radius y worst perimeter indican el tamaño máximo, que es un factor importante para diferenciar entre tumores benignos y malignos. Además, worst concave points está relacionada con lo irregular que es la forma, que también es una característica relevante.</p>
 
     <p>También es interesante que varias de las variables más importantes sean del tipo "worst", lo que indica que el modelo se fija en los valores más extremos, que suelen estar asociados a casos más graves.</p>
@@ -341,34 +392,35 @@
           <th>Modelo</th>
           <th>Accuracy test</th>
           <th>Sobreajuste</th>
-          <th>Coste de entrenamiento</th>
-          <th>Interpretabilidad</th>
+          <th>Ventajas</th>
+          <th>Desventajas</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>Árbol simple</td>
           <td>0.9231</td>
-          <td>Alto</td>
           <td>Bajo</td>
-          <td>Alto</td>
+          <td>Interpretable, rápido de entrenar</td>
+          <td>Tendencia al overfitting sin restricciones</td>
         </tr>
         <tr>
           <td>Random Forest</td>
           <td>0.9580</td>
           <td>Bajo</td>
-          <td>Medio</td>
-          <td>Medio</td>
+          <td>Mejor generalización, reduce varianza</td>
+          <td>Menos interpretable, más lento</td>
         </tr>
         <tr>
           <td>Gradient Boosting</td>
           <td>0.9580</td>
           <td>Bajo</td>
-          <td>Alto</td>
-          <td>Bajo</td>
+          <td>Excelente rendimiento, reduce sesgo</td>
+          <td>Entrenamiento secuencial (lento), muy poco interpretable</td>
         </tr>
       </tbody>
     </table>
+    <p>El fichero completo de esta tabla también se guarda en <code>outputs/comparison_df.csv</code>.</p>
 
     <div class="page"></div>
 
