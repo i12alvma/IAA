@@ -214,11 +214,19 @@ Por tanto, aunque los ensambles suelen ser más precisos, no siempre son la mejo
 
 ### Interpretación
 
-    Se observa que la elección de un modelo no depende únicamente de la precisión obtenida. En problemas reales también es importante tener en cuenta otros factores, como el coste computacional, la latencia, la memoria disponible y la facilidad de mantenimiento. Aunque los métodos de ensamble suelen ofrecer mejores resultados, también implican un mayor consumo de recursos y una mayor complejidad de uso. Por ello, en determinados contextos puede ser preferible optar por un modelo más simple si ofrece un rendimiento suficientemente bueno y resulta más eficiente para su despliegue.
+Se observa que la elección de un modelo no depende únicamente de la precisión obtenida. En problemas reales también es importante tener en cuenta otros factores, como el coste computacional, la latencia, la memoria disponible y la facilidad de mantenimiento. Aunque los métodos de ensamble suelen ofrecer mejores resultados, también implican un mayor consumo de recursos y una mayor complejidad de uso. Por ello, en determinados contextos puede ser preferible optar por un modelo más simple si ofrece un rendimiento suficientemente bueno y resulta más eficiente para su despliegue.
 
 ---
 
 ## Conclusión
-[Redacta aquí una conclusión breve sobre las ventajas y limitaciones de los métodos de ensamble frente a un árbol de decisión individual.]
+
+En esta práctica se ha visto que combinar varios modelos suele dar mejores resultados que usar uno solo.
+El árbol de decisión, aunque es sencillo y fácil de entender, tiende a sobreajustar cuando crece demasiado, por lo que funciona muy bien en entrenamiento pero peor en test.
+
+En cambio, modelos como Random Forest y Gradient Boosting consiguen mejorar la precisión en datos no vistos, ya que combinan múltiples árboles o corrigen errores de forma progresiva. Esto hace que sus predicciones sean más estables y fiables.
+
+Sin embargo, estos modelos también tienen inconvenientes. Son más costosos de entrenar y mucho menos interpretables que un árbol simple, lo que puede ser un problema en algunos casos.
+
+En general, se puede concluir que los métodos de ensamble son muy útiles cuando se busca el mejor rendimiento, pero no siempre son la mejor opción si se prioriza la simplicidad o el coste computacional.
 
 </div>
