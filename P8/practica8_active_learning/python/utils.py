@@ -90,7 +90,7 @@ def plot_learning_curves(
     random_acc: list[float],
     uncertainty_labels: list[int],
     uncertainty_acc: list[float],
-    output_path: str = "learning_curve_python.png",
+    output_path: str = "P8/practica8_active_learning/output/learning_curve_python.png",
 ) -> None:
     """Representa la curva de aprendizaje de ambas estrategias."""
     plt.figure(figsize=(8, 5))
