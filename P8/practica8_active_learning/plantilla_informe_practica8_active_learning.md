@@ -57,17 +57,26 @@ La pregunta clave será: **¿Es mejor gastar el presupuesto de etiquetas al azar
 - [Cálculo del accuracy inicial]
 
 ### Resultados
-- Accuracy inicial: [completar]
+- Accuracy inicial: 0.7567
 - Número de etiquetas usadas: 10
-- Observaciones: [completar]
+- Observaciones: El modelo funciona bastante bien para tener tan pocos datos, pero todavía comete bastantes errores. Se necesitan más ejemplos para que el modelo sea mas preciso.
 
 ### Cuestión: ¿Te parece fiable el rendimiento inicial?
 
-[Explica aquí si el rendimiento inicial te parece fiable o no. Ten en cuenta que el modelo se ha entrenado con muy pocos ejemplos, por lo que puede haber zonas del espacio de entrada mal representadas. Reflexiona sobre la poca representatividad del conjunto inicial, la sensibilidad a qué ejemplos concretos han sido elegidos, y la dificultad de aprender una frontera de decisión adecuada con tan pocas muestras.]
+No demasiado. Aunque el resultado no está mal, el modelo solo ha aprendido con 10 ejemplos y eso es muy poco. Puede pasar que justo esos ejemplos no representen bien todos los casos posibles.
+
+El modelo seguramente ha aprendido algunas cosas básicas, pero todavía no conoce muchas situaciones diferentes. Por eso el resultado puede cambiar bastante dependiendo de qué ejemplos se hayan escogido al principio.
+
+También es posible que haya zonas donde el modelo realmente no sepa qué hacer porque nunca ha visto ejemplos parecidos.
 
 ### Análisis de limitaciones
 
-[Comenta qué limitaciones tiene entrenar un modelo con solo 10 ejemplos etiquetados.]
+- Hay muy poca información para aprender.
+- El modelo no ha visto suficientes casos diferentes.
+- Puede equivocarse fácilmente en ejemplos nuevos.
+- Los resultados dependen mucho de los ejemplos iniciales.
+- El modelo todavía no entiende bien el problema completo.
+- Hace falta añadir más datos para que aprenda mejor y sea más fiable
 
 ---
 
