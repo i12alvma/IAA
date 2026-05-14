@@ -94,8 +94,8 @@ def plot_learning_curves(
 ) -> None:
     """Representa la curva de aprendizaje de ambas estrategias."""
     plt.figure(figsize=(8, 5))
-    plt.plot(random_labels, random_acc, marker="o", label="Selección aleatoria")
-    plt.plot(uncertainty_labels, uncertainty_acc, marker="s", label="Selección por incertidumbre")
+    plt.plot(random_labels, random_acc, marker="o", label="Random Search")
+    plt.plot(uncertainty_labels, uncertainty_acc, marker="s", label="Active Learning")
     plt.xlabel("Número de etiquetas utilizadas")
     plt.ylabel("Accuracy en test")
     plt.title("Curva de aprendizaje: Random vs Active Learning")

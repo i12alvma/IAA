@@ -25,7 +25,7 @@ from utils import (
 
 
 BATCH_SIZE = 5
-MAX_LABELS = 50
+MAX_LABELS = 100
 
 
 def select_random(X_unlabeled: np.ndarray, batch_size: int, rng: np.random.Generator) -> np.ndarray:
