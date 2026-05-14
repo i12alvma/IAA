@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Práctica 8: Active Learning</title>
+  <style>
+    :root {
+      --text: #1a1a1a;
+      --muted: #555;
+      --border: rgba(0, 0, 0, 0.12);
+      --border-strong: rgba(0, 0, 0, 0.22);
+      --accent: #2f6fed;
+      --accent-hover: #245ad0;
+      --paper: #ffffff;
+      --bg: #f6f7fb;
+      --soft: #f3f6ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+      background: linear-gradient(180deg, #f3f7ff 0%, var(--bg) 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Segoe WPC", "Ubuntu", "Droid Sans", sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(6px);
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    .note {
+      text-align: center;
+      color: var(--muted);
+      margin: 10px 0 0;
+      font-size: 13px;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 24px auto 40px;
+      padding: 30px 36px;
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 12px 28px rgba(18, 28, 45, 0.08);
+    }
+
+    h1, h2, h3 {
+      line-height: 1.25;
+      color: #0b214a;
+      margin-top: 0;
+    }
+
+    h1 {
+      padding-bottom: 0.3em;
+      border-bottom: 1px solid var(--border-strong);
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin-top: 28px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h3 {
+      margin-top: 20px;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    ul, ol {
+      margin-top: 0;
+      padding-left: 22px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+    }
+
+    thead th {
+      text-align: center;
+      border-bottom: 1px solid var(--border-strong);
+      padding: 8px 10px;
+      background: #f5f7fb;
+      font-weight: 700;
+    }
+
+    td, th {
+      padding: 8px 10px;
+      border-right: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    td:last-child, th:last-child {
+      border-right: none;
+    }
+
+    tbody tr + tr td {
+      border-top: 1px solid var(--border);
+    }
+
+    code {
+      font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+      font-size: 0.95em;
+      background: #f2f4f8;
+      padding: 1px 5px;
+      border-radius: 5px;
+      color: #374151;
+    }
+
+    blockquote {
+      margin: 14px 0;
+      padding: 0 16px;
+      border-left: 5px solid rgba(47, 111, 237, 0.45);
+      background: rgba(47, 111, 237, 0.06);
+      border-radius: 0 10px 10px 0;
+    }
+
+    .lead {
+      font-size: 15px;
+    }
+
+    .qa-q {
+      font-weight: 700;
+      margin-top: 12px;
+      margin-bottom: 6px;
+    }
+
+    .qa-a {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .info-box {
+      margin: 14px 0 18px;
+      padding: 14px 16px;
+      background: linear-gradient(180deg, #f9fbff, #f1f5ff);
+      border: 1px solid rgba(47, 111, 237, 0.16);
+      border-radius: 12px;
+    }
+
+    .page-break {
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .center-img {
+      display: block;
+      margin: 16px auto;
+      max-width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: white;
+    }
+
+    .figure-caption {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      margin-top: -6px;
+      margin-bottom: 12px;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    ol.preguntas > li::marker {
+      font-weight: 700;
+    }
+
+    @page {
+      margin-top: 1.2cm;
+      margin-bottom: 1.4cm;
+
+      @top-center {
+        content: "Práctica 8 — IAA — Escuela Politécnica Superior de Córdoba";
+        font-size: 9pt;
+        color: #666;
+      }
+
+      @bottom-center {
+        content: "Juan Luis Prieto Panadero y Alberto Álvarez Mejías";
+        font-size: 9pt;
+        color: #666;
+      }
+
+      @bottom-right {
+        content: "Página " counter(page) " de " counter(pages);
+        font-size: 9pt;
+        color: #666;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        font-size: 12px;
+      }
+
+      .topbar,
+      .note {
+        display: none !important;
+      }
+
+      .page {
+        margin: 0;
+        max-width: none;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+      }
+
+      .page-break {
+        page-break-after: always;
+        break-after: page;
+      }
+
+      a {
+        color: inherit;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar no-print">
+    <button id="btnPdf" class="btn btn-primary">Descargar PDF</button>
+    <button id="btnPrint" class="btn">Imprimir</button>
+  </div>
+  <p class="note no-print">Este HTML está preparado para abrirse en el navegador y guardarse como PDF.</p>
+
+  <main class="page" id="pdfArea">
+    <article>
+      <h1>Práctica 8: Active Learning (Aprendizaje Activo)</h1>
+      <div class="info-box">
+        <p><strong>Introducción al Aprendizaje Automático</strong></p>
+        <p><strong>3º Ingeniería Informática - Curso 2025/2026</strong></p>
+      </div>
+
+      <hr>
+
+      <h2>Objetivo</h2>
+      <p class="lead">Comprender cómo un modelo puede aprender de forma más eficiente cuando no se etiquetan ejemplos al azar, sino que se seleccionan de manera inteligente aquellos datos que resultan más informativos. En particular, se estudiará el enfoque de Active Learning o Aprendizaje Activo, comparando una estrategia de etiquetado aleatorio frente a una estrategia basada en la incertidumbre del modelo. El objetivo final será analizar cómo maximizar el rendimiento de un clasificador cuando el número de etiquetas disponibles es limitado.</p>
+
+      <h2>Material de partida</h2>
+      <ul>
+        <li>Un código base que prepara automáticamente un dataset sintético de clasificación binaria mediante <code>make_moons</code>.</li>
+        <li>Un conjunto inicial de 10 puntos etiquetados.</li>
+        <li>Un conjunto amplio de puntos no etiquetados, denominado pool.</li>
+        <li>Un conjunto de test separado para evaluar el rendimiento del modelo.</li>
+        <li>El vector de etiquetas reales, que actuará como oráculo durante el proceso de consulta.</li>
+        <li>Una plantilla con las librerías necesarias para entrenar modelos, calcular probabilidades y representar gráficas.</li>
+      </ul>
+
+      <h2>Introducción</h2>
+      <p>En muchos problemas reales de aprendizaje automático, disponer de datos no suele ser el principal problema. Lo difícil, costoso o lento suele ser conseguir datos correctamente etiquetados. Por ejemplo, puede ser relativamente fácil recopilar miles de imágenes, señales o registros, pero etiquetarlos puede requerir la intervención de expertos.</p>
+      <p>En esta práctica simularemos este escenario con un dataset sintético. Aunque conocemos todas las etiquetas verdaderas, el modelo solo podrá acceder inicialmente a 10 etiquetas. El resto estarán ocultas para el modelo y únicamente se revelarán cuando el algoritmo decida consultar esos puntos.</p>
+      <p>Una estrategia sencilla sería seleccionar nuevos ejemplos al azar. Sin embargo, esta selección puede ser poco eficiente, ya que algunos ejemplos pueden ser redundantes, muy fáciles o poco informativos. El Active Learning propone una idea diferente: dejar que el modelo indique qué ejemplos le resultan más útiles para aprender. Para ello, se seleccionan aquellos puntos sobre los que el modelo tiene mayor incertidumbre.</p>
+      <p>En esta práctica vas a comparar dos estrategias:</p>
+      <ul>
+        <li>una estrategia aleatoria, que selecciona nuevos ejemplos sin tener en cuenta el estado del modelo;</li>
+        <li>una estrategia de aprendizaje activo por incertidumbre, que selecciona los ejemplos cuya predicción está más cerca de la duda.</li>
+      </ul>
+      <p>La pregunta clave será: <strong>¿Es mejor gastar el presupuesto de etiquetas al azar o usarlo en los ejemplos que más pueden ayudar al modelo?</strong></p>
+
+      <div class="page-break"></div>
+
+      <h2>Tarea 1: Entrenamiento inicial</h2>
+      <h3>Qué se hizo</h3>
+      <ul>
+        <li>Se cargó un dataset inicial con 10 etiquetas.</li>
+        <li>Se entrenó el modelo de clasificación base RandomForest con los parámetros <code>n_estimators=100</code> y <code>random_state=42</code> usando únicamente las 10 etiquetas iniciales.</li>
+        <li>Se evaluó el modelo en el conjunto de test calculando el accuracy inicial.</li>
+        <li>Se implementó la función <code>select_random</code>, que selecciona índices aleatorios del pool no etiquetado para la estrategia de referencia.</li>
+        <li>Se implementó la función <code>select_uncertainty</code>, la cuál calcula las probabilidades predichas por el modelo sobre el pool no etiquetado, identifica los puntos más cercanos a 0.5 (máxima incertidumbre) y devuelve sus índices.</li>
+        <li>Se ejecutó el ciclo de consulta por cada iteración hasta alcanzar 50 etiquetas totales, reentrenando el modelo en cada paso y evaluando su rendimiento.</li>
+      </ul>
+
+      <h3>Resultados</h3>
+      <ul>
+        <li>Accuracy inicial: 0.7567</li>
+        <li>Número de etiquetas usadas: 10</li>
+        <li>Observaciones: El modelo funciona bastante bien para tener tan pocos datos, pero todavía comete bastantes errores. Se necesitan más ejemplos para que el modelo sea más preciso.</li>
+      </ul>
+
+      <h3>Cuestión: ¿Te parece fiable el rendimiento inicial?</h3>
+      <p class="qa-a">No demasiado. Aunque el resultado no está mal, el modelo solo ha aprendido con 10 ejemplos y eso es muy poco. Puede pasar que justo esos ejemplos no representen bien todos los casos posibles.</p>
+      <p class="qa-a">El modelo seguramente ha aprendido algunas cosas básicas, pero todavía no conoce muchas situaciones diferentes. Por eso el resultado puede cambiar bastante dependiendo de qué ejemplos se hayan escogido al principio.</p>
+      <p class="qa-a">También es posible que haya zonas donde el modelo realmente no sepa qué hacer porque nunca ha visto ejemplos parecidos.</p>
+
+      <h3>Análisis de limitaciones</h3>
+      <ul>
+        <li>Hay muy poca información para aprender.</li>
+        <li>El modelo no ha visto suficientes casos diferentes.</li>
+        <li>Puede equivocarse fácilmente en ejemplos nuevos.</li>
+        <li>Los resultados dependen mucho de los ejemplos iniciales.</li>
+        <li>El modelo todavía no entiende bien el problema completo.</li>
+        <li>Hace falta añadir más datos para que aprenda mejor y sea más fiable.</li>
+      </ul>
+
+      <div class="page-break"></div>
+
+      <h2>Tarea 2: Estrategia baseline con selección aleatoria</h2>
+      <h3>Qué se hizo</h3>
+      <ul>
+        <li>Se implementó una función de selección aleatoria (<code>select_random</code>) que elige <code>BATCH_SIZE</code> índices sin reemplazo del pool no etiquetado.</li>
+        <li>Se ejecutó el ciclo de consulta hasta alcanzar 50 etiquetas totales (partiendo de 10 iniciales), reentrenando un RandomForest en cada iteración.</li>
+        <li>En cada paso, se evaluó el modelo en el conjunto de test y se registró el accuracy obtenido.</li>
+        <li>Se guardó la evolución del número de etiquetas y los accuracies para representar la curva de aprendizaje y comparar con la estrategia por incertidumbre.</li>
+      </ul>
+
+      <h3>Tabla de evolución</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Número de etiquetas</th>
+            <th>Accuracy</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>10</td><td>0.7567</td><td>Estado inicial</td></tr>
+          <tr><td>15</td><td>0.8433</td><td>Después de la 1ª consulta aleatoria</td></tr>
+          <tr><td>20</td><td>0.8400</td><td>Después de la 2ª consulta</td></tr>
+          <tr><td>25</td><td>0.8567</td><td>Continúa</td></tr>
+          <tr><td>30</td><td>0.8567</td><td>Continúa</td></tr>
+          <tr><td>35</td><td>0.9033</td><td>Continúa</td></tr>
+          <tr><td>40</td><td>0.9067</td><td>Continúa</td></tr>
+          <tr><td>45</td><td>0.9167</td><td>Continúa</td></tr>
+          <tr><td>50</td><td>0.9533</td><td>Estado final</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Cuestión: ¿Por qué constituye una línea base razonable?</h3>
+      <p>La selección aleatoria se trata de una línea base razonable al ser independiente del modelo, ya que permite observar qué rendimiento se obtiene simplemente al aumentar el número de etiquetas sin aplicar ningún criterio inteligente de selección.</p>
+      <p>De este modo, sirve como referencia para comparar el comportamiento de la estrategia activa y comprobar si realmente aporta una mejora frente a un muestreo no guiado.</p>
+      <p>Como la estrategia activa supera claramente a la aleatoria, entonces queda demostrado que elegir ejemplos informativos es más eficiente que etiquetar al azar.</p>
+
+      <div class="page-break"></div>
+
+      <h2>Tarea 3: Ciclo de consulta mediante incertidumbre</h2>
+      <h3>Qué se hizo</h3>
+      <ul>
+        <li>Se implementó la estrategia de selección por incertidumbre del modelo.</li>
+        <li>Se calcularon las probabilidades predichas sobre el pool no etiquetado.</li>
+        <li>Se identificaron los ejemplos más cercanos a 0.5, que son los de mayor incertidumbre.</li>
+        <li>Se consultaron esos puntos al oráculo y se añadieron al conjunto de entrenamiento.</li>
+        <li>Se repitió el proceso hasta alcanzar 50 etiquetas totales, reentrenando y evaluando el modelo en cada iteración.</li>
+      </ul>
+
+      <h3>Tabla de evolución</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Número de etiquetas</th>
+            <th>Accuracy</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>10</td><td>0.7567</td><td>Estado inicial</td></tr>
+          <tr><td>15</td><td>0.8300</td><td>Después de la 1ª consulta por incertidumbre</td></tr>
+          <tr><td>20</td><td>0.8800</td><td>Después de la 2ª consulta</td></tr>
+          <tr><td>25</td><td>0.9000</td><td>Continúa</td></tr>
+          <tr><td>30</td><td>0.9533</td><td>Continúa</td></tr>
+          <tr><td>35</td><td>0.9833</td><td>Continúa</td></tr>
+          <tr><td>40</td><td>0.9733</td><td>Continúa</td></tr>
+          <tr><td>45</td><td>0.9700</td><td>Continúa</td></tr>
+          <tr><td>50</td><td>0.9600</td><td>Estado final</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Cuestión: ¿Por qué tiene sentido seleccionar puntos cercanos a la frontera?</h3>
+      <p>Tiene sentido seleccionar los puntos donde el modelo tiene más dudas porque son los ejemplos que más información pueden aportar al aprendizaje.</p>
+      <p>Cuando una probabilidad está cerca de 0.5 significa que el modelo no sabe claramente a qué clase pertenece ese ejemplo. Esos puntos suelen estar cerca de la frontera entre clases, que es precisamente la zona más difícil de aprender.</p>
+      <p>Si se eligieran ejemplos al azar, muchos podrían ser casos fáciles que el modelo ya sabe clasificar bien. En esos casos, añadir más ejemplos no ayuda demasiado a mejorar.</p>
+      <p>En cambio, los ejemplos dudosos obligan al modelo a corregir y ajustar mejor la frontera de decisión. Gracias a eso, el modelo aprende más rápido y consigue mejores resultados utilizando menos etiquetas.</p>
+
+      <div class="page-break"></div>
+
+      <h2>Tarea 4: Comparativa final mediante curva de aprendizaje</h2>
+      <h3>Qué se hizo</h3>
+      <ul>
+        <li>Se representó en una gráfica la evolución del accuracy a medida que aumentaba el número de etiquetas disponibles.</li>
+        <li>Se incluyeron ambas curvas de aprendizaje, una para la selección aleatoria y otra para la selección por incertidumbre.</li>
+        <li>Se comparó visualmente el comportamiento de ambas estrategias para analizar cuál aprende más rápido y cuál aprovecha mejor cada nueva etiqueta.</li>
+      </ul>
+
+      <h3>Figura generada</h3>
+      <img class="center-img" src="output/learning_curve_python.png" alt="Curva de aprendizaje Random vs Active Learning" style="max-width: 900px;" />
+      <p class="figure-caption">Curva comparativa entre selección aleatoria y aprendizaje activo por incertidumbre.</p>
+
+      <h3>Cuestión: ¿Qué estrategia obtiene mejor rendimiento con el mismo número de etiquetas?</h3>
+      <p>La estrategia basada en incertidumbre obtiene mejores resultados utilizando el mismo número de etiquetas.</p>
+      <p>Observando la gráfica completa, puede verse que el aprendizaje activo mejora mucho más rápido durante las primeras iteraciones. Con pocas etiquetas adicionales ya consigue accuracies muy altos, mientras que la selección aleatoria necesita más ejemplos para alcanzar resultados similares.</p>
+      <p>Por ejemplo, la estrategia por incertidumbre supera el 90% de accuracy utilizando aproximadamente 25 etiquetas, mientras que la selección aleatoria tarda bastante más en llegar a ese nivel.</p>
+      <p>También se observa que ambas estrategias presentan pequeñas oscilaciones. Esto es normal, ya que al añadir nuevos ejemplos la frontera de decisión cambia y el rendimiento puede subir o bajar ligeramente en algunas iteraciones.</p>
+      <p>Aunque al final ambas estrategias consiguen buenos resultados, la selección por incertidumbre aprovecha mejor las primeras consultas y aprende de forma más eficiente.</p>
+
+      <h3>Interpretación</h3>
+      <p>Las diferencias entre ambas estrategias son bastante claras, especialmente al principio del proceso.</p>
+      <p>La selección por incertidumbre consigue mejoras más rápidas porque el modelo elige ejemplos donde tiene más dudas, es decir, los casos más útiles para aprender. Gracias a eso, el clasificador ajusta antes la frontera entre clases.</p>
+      <p>La estrategia aleatoria también mejora progresivamente, pero lo hace de forma más lenta porque algunos ejemplos seleccionados aportan poca información nueva.</p>
+      <p>En algunos puntos concretos las diferencias se reducen e incluso puede haber pequeñas oscilaciones donde la estrategia aleatoria obtiene resultados parecidos o ligeramente mejores en una iteración concreta. Sin embargo, la tendencia general muestra que el aprendizaje activo basado en incertidumbre utiliza las etiquetas de forma más eficiente y consigue mejores accuracies con menos ejemplos etiquetados.</p>
+      <p>Además, si ambas estrategias siguieran recibiendo cada vez más etiquetas, las diferencias terminarían reduciéndose. Cuando el número de ejemplos etiquetados tiende a ser muy grande, ambos métodos acabarían disponiendo prácticamente de toda la información del problema, por lo que sus resultados tenderían a parecerse mucho.</p>
+      <p>La principal ventaja del aprendizaje activo no es necesariamente conseguir un accuracy final muchísimo mayor, sino alcanzar buenos resultados utilizando menos etiquetas y menos esfuerzo de etiquetado.</p>
+
+      <div class="page-break"></div>
+
+      <h2>Tarea 5: Reflexión sobre la frontera de decisión</h2>
+      <h3>Pregunta de reflexión: ¿Por qué el modelo aprende más rápido cuando elige puntos cercanos a la frontera?</h3>
+      <p>El modelo aprende más rápido porque los puntos cercanos a la frontera de decisión son justamente los que más dudas le generan. Son ejemplos difíciles de clasificar, ya que el modelo no tiene claro a qué clase pertenecen y suele asignar probabilidades cercanas a 0.5.</p>
+      <p>Cuando se obtiene la etiqueta real de esos puntos, el modelo recibe información muy útil para corregir y ajustar mejor la separación entre clases. Es decir, aprende justo en las zonas donde más se equivoca o donde tiene más incertidumbre.</p>
+      <p>En cambio, los puntos muy alejados de la frontera suelen ser ejemplos “fáciles”. El modelo ya está bastante seguro de cómo clasificarlos, por lo que añadir sus etiquetas normalmente aporta poca información nueva. Aunque ayudan un poco, no mejoran tanto el aprendizaje como los ejemplos dudosos.</p>
+      <p>Por eso la estrategia basada en incertidumbre aprovecha mejor el presupuesto limitado de etiquetas. En vez de gastar etiquetas en ejemplos fáciles o repetitivos, se centra en los casos más útiles para mejorar el modelo rápidamente. Esto explica por qué en los resultados obtenidos el método de incertidumbre alcanza accuracies altas antes que la selección aleatoria.</p>
+      <p>Además, aunque ambas estrategias pueden terminar obteniendo resultados parecidos si se añaden muchísimas etiquetas, la estrategia activa consigue aprender mejor utilizando menos ejemplos, lo que la hace más eficiente.</p>
+
+      <h3>Análisis crítico: Limitaciones de la estrategia</h3>
+      <p>Esta estrategia también tiene algunas limitaciones. Una de las más importantes es que depende mucho del modelo inicial. Si el modelo empieza muy mal entrenado con los primeros 10 ejemplos, puede calcular mal qué puntos son realmente inciertos y acabar seleccionando ejemplos poco útiles.</p>
+      <p>También hay que tener en cuenta que la incertidumbre estimada por el modelo no siempre es totalmente fiable. A veces el modelo puede sentirse “seguro” aunque esté equivocado, o al contrario, tener dudas en zonas que realmente no son importantes.</p>
+      <p>Otro problema es que elegir siempre los puntos más inciertos puede hacer que los ejemplos seleccionados sean demasiado parecidos entre sí. Eso puede provocar que algunas regiones del espacio queden poco representadas y el modelo no llegue a aprender bien ciertos casos.</p>
+      <p>Además, si solo se consultan puntos cercanos a la frontera, pueden ignorarse ejemplos alejados que también podrían ser útiles para entender mejor la distribución general de los datos.</p>
+      <p>Por tanto, aunque la estrategia por incertidumbre suele funcionar mejor y aprender más rápido, no es perfecta y su rendimiento depende bastante de cómo empiece el modelo y de la calidad de los datos seleccionados.</p>
+
+      <h2>Reto: Pensando en un problema real</h2>
+      <p>Imagina ahora que cada etiqueta tiene un coste económico. Por ejemplo, cada dato debe ser revisado por una persona experta y solo puedes pagar un número muy reducido de anotaciones.</p>
+
+      <h3>Cuestiones</h3>
+      <ol class="preguntas">
+        <li>
+          <p><strong>¿Qué estrategia elegirías?</strong></p>
+          <p class="qa-a">Elegiría una estrategia de aprendizaje activo basada en incertidumbre, ya que permite aprovechar mejor cada etiqueta disponible. Además, en lugar de gastar el presupuesto en ejemplos elegidos al azar, el modelo consulta los puntos sobre los que tiene más dudas y, por tanto, los que más pueden ayudarle a mejorar.</p>
+        </li>
+        <li>
+          <p><strong>¿Qué ventajas tendría respecto a etiquetar ejemplos al azar?</strong></p>
+          <p class="qa-a">La principal ventaja es la eficiencia, ya que con las mismas etiquetas, Active Learning suele alcanzar mejores resultados porque selecciona ejemplos más informativos. Esto hace que el modelo aprenda antes la frontera de decisión y mejore más rápido que con muestreo aleatorio.</p>
+        </li>
+        <li>
+          <p><strong>¿Qué riesgos o limitaciones podría tener?</strong></p>
+          <p class="qa-a">El principal riesgo es que el modelo inicial no sea lo suficientemente bueno, lo que podría llevar a seleccionar ejemplos poco útiles o incluso perjudiciales para el aprendizaje. Además, al centrarse solo en los puntos más inciertos, podría acabar seleccionando ejemplos muy similares entre sí, lo que podría limitar la diversidad de los datos y hacer que el modelo no aprenda bien ciertas regiones del espacio.</p>
+        </li>
+        <li>
+          <p><strong>¿Qué ocurriría si el modelo inicial estuviera muy mal entrenado?</strong></p>
+          <p class="qa-a">Si el modelo inicial fuese muy malo, la incertidumbre que calcule también podría ser poco fiable. En este caso, podría seleccionar ejemplos que realmente no sean muy útiles y el proceso de aprendizaje activo perdería eficacia. Por todo ello, es importante partir de una base mínima razonable.</p>
+        </li>
+        <li>
+          <p><strong>¿Puede Active Learning seleccionar ejemplos poco representativos si solo se centra en la incertidumbre?</strong></p>
+          <p class="qa-a">Sí, podría ocurrir, porque aunque los puntos más inciertos suelen estar cerca de la frontera, esto no garantiza que representen bien toda la distribución de datos. Si solo se eligieran estos casos, el modelo podría aprender muy bien la frontera local pero seguir sin ver ejemplos variados del resto del problema.</p>
+        </li>
+      </ol>
+
+      <h3>Interpretación</h3>
+      <p class="footer-note">El objetivo de esta parte es que entiendas que Active Learning no es una solución mágica, sino una estrategia que puede mejorar bastante la eficiencia cuando las etiquetas son caras, pero que también tiene limitaciones. Su rendimiento depende de la calidad del modelo inicial, de cómo se seleccionan los ejemplos y de si los puntos consultados aportan información realmente útil. Por eso, aunque suele necesitar menos etiquetas que la selección aleatoria para alcanzar buenos resultados, no siempre garantiza la mejor generalización si las primeras predicciones del modelo son malas o si solo se seleccionan ejemplos muy parecidos entre sí.</p>
+
+      <h2>Conclusión</h2>
+      <p>[]</p>
+    </article>
+  </main>
+
+  <script>
+    const btnPdf = document.getElementById('btnPdf');
+    const btnPrint = document.getElementById('btnPrint');
+
+    btnPrint.addEventListener('click', () => window.print());
+    btnPdf.addEventListener('click', () => window.print());
+  </script>
+</body>
+</html>
