@@ -132,7 +132,13 @@ También es posible que haya zonas donde el modelo realmente no sepa qué hacer 
 
 ### Cuestión: ¿Por qué tiene sentido seleccionar puntos cercanos a la frontera?
 
-[Explica aquí por qué seleccionar puntos cercanos a 0.5 de probabilidad es más informativo que seleccionar al azar. Tu explicación debe relacionar la incertidumbre del modelo con la cantidad de información que puede aportar una nueva etiqueta. Un ejemplo muy fácil puede confirmar algo que el modelo ya sabe. En cambio, un ejemplo dudoso puede ayudar a corregir o ajustar la frontera de decisión.]
+Tiene sentido seleccionar los puntos donde el modelo tiene más dudas porque son los ejemplos que más información pueden aportar al aprendizaje.
+
+Cuando una probabilidad está cerca de 0.5 significa que el modelo no sabe claramente a qué clase pertenece ese ejemplo. Esos puntos suelen estar cerca de la frontera entre clases, que es precisamente la zona más difícil de aprender.
+
+Si se eligieran ejemplos al azar, muchos podrían ser casos fáciles que el modelo ya sabe clasificar bien. En esos casos, añadir más ejemplos no ayuda demasiado a mejorar.
+
+En cambio, los ejemplos dudosos obligan al modelo a corregir y ajustar mejor la frontera de decisión. Gracias a eso, el modelo aprende más rápido y consigue mejores resultados utilizando menos etiquetas.
 
 ---
 
@@ -144,7 +150,8 @@ También es posible que haya zonas donde el modelo realmente no sepa qué hacer 
 - [Análisis visual de la tendencia general y las diferencias entre estrategias]
 
 ### Figura generada
-[Inserta aquí la gráfica de aprendizaje con ambas curvas: la curva azul para selección aleatoria y la naranja para selección por incertidumbre]
+![/P8/practica8_active_learning/output/learning_curve_python.png
+](output/learning_curve_python.png)
 
 ### Cuestión: ¿Qué estrategia obtiene mejor rendimiento con el mismo número de etiquetas?
 
