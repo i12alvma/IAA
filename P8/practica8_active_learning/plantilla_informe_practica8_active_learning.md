@@ -51,10 +51,12 @@ La pregunta clave será: **¿Es mejor gastar el presupuesto de etiquetas al azar
 ## Tarea 1: Entrenamiento inicial
 
 ### Qué se hizo
-- [Carga del dataset inicial con 10 puntos etiquetados]
-- [Entrenamiento del clasificador base]
-- [Evaluación del modelo en el conjunto de test]
-- [Cálculo del accuracy inicial]
+- Se cargó un dataset inicial con 10 etiquetas.
+- Se entrenó el modelo de clasificación base RandomForest con los parámetros n_estimators=100 y random_state=42 usando únicamente las 10 etiquetas iniciales.
+- Se evaluó el modelo en el conjunto de test calculando el accuracy inicial.
+- Se implementó la función select_random, que selecciona índices aleatorios del pool no etiquetado para la estrategia de referencia.
+- Se implementó la función select_uncertainty, la cuál calcula las probabilidades predichas por el modelo sobre el pool no etiquetado, identifica los puntos más cercanos a 0.5 (máxima incertidumbre) y devuelve sus índices.
+- Se ejecutó el ciclo de consulta por cada iteración hasta alcanzar 50 etiquetas totales, reentrenando el modelo en cada paso y evaluando su rendimiento.
 
 ### Resultados
 - Accuracy inicial: 0.7567
