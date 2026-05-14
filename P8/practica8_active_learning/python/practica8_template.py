@@ -182,6 +182,7 @@ def tarea_arbol_solitario() -> None:
     # 4. Entrenamiento
     model.fit(X_train, y_train)
     
+
     # 5. Accuracy entrenamiento
     train_pred = model.predict(X_train)
     train_acc = accuracy_score(y_train, train_pred)
@@ -201,7 +202,7 @@ def main() -> None:
     X_initial, y_initial, X_unlabeled, y_unlabeled, X_test, y_test = load_data()
     initial_model = train_model(X_initial, y_initial)
     initial_acc = accuracy(initial_model, X_test, y_test)
-    
+    print(f"Accuracy inicial con 10 etiquetas: {initial_acc:.4f}")
 
     tarea_arbol_solitario()
 
