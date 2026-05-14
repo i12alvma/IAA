@@ -9,7 +9,10 @@ la selección aleatoria, la selección por incertidumbre y la curva comparativa.
 
 from __future__ import annotations
 from sklearn.ensemble import RandomForestClassifier
-
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
 
 import numpy as np
 import pandas as pd
@@ -150,6 +153,39 @@ def run_query_strategy(strategy: str) -> tuple[list[int], list[float]]:
 
     return n_labels_history, accuracy_history
 
+def tarea_arbol_solitario() -> None:
+    # 1. Cargar dataset
+    data = load_breast_cancer()
+
+    X = data.data
+    y = data.target
+
+    # 2. Dividir datos
+    X_train, X_test, y_train, y_test = train_test_split(
+        X,
+        y,
+        test_size=0.2,
+        random_state=42
+    )
+
+    # 3. Árbol sin restricciones
+    model = DecisionTreeClassifier(random_state=42)
+
+    # 4. Entrenamiento
+    model.fit(X_train, y_train)
+
+    # 5. Accuracy entrenamiento
+    train_pred = model.predict(X_train)
+    train_acc = accuracy_score(y_train, train_pred)
+
+    # 6. Accuracy test
+    test_pred = model.predict(X_test)
+    test_acc = accuracy_score(y_test, test_pred)
+
+    # 7. Resultados
+    print("\n=== ÁRBOL SOLITARIO ===")
+    print(f"Accuracy entrenamiento: {train_acc:.4f}")
+    print(f"Accuracy test: {test_acc:.4f}")
 
 def main() -> None:
     # Entrenamiento inicial orientativo: puedes usar esta parte para comprobar
@@ -158,6 +194,8 @@ def main() -> None:
     #initial_model = train_model(X_initial, y_initial)
     #initial_acc = accuracy(initial_model, X_test, y_test)
     #print(f"Accuracy inicial con 10 etiquetas: {initial_acc:.4f}")
+
+    tarea_arbol_solitario()
 
     # TODO 7: ejecuta la estrategia aleatoria.
     random_labels, random_acc = run_query_strategy("random")
