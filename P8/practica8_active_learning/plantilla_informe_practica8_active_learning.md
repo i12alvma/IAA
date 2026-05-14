@@ -224,23 +224,40 @@ Imagina ahora que cada etiqueta tiene un coste económico. Por ejemplo, cada dat
 Debes responder razonadamente a estas preguntas:
 
 1. **¿Qué estrategia elegirías?**  
-   [completar]
+
+   Elegiría una estrategia de aprendizaje activo basada en incertidumbre, ya que permite aprovechar mejor cada etiqueta disponible. 
+
+   Además, en lugar de gastar el presupuesto en ejemplos elegidos al azar, el modelo consulta los puntos sobre los que tiene más dudas y, por tanto, los que más pueden ayudarle a mejorar.
 
 2. **¿Qué ventajas tendría respecto a etiquetar ejemplos al azar?**  
-   [completar]
+
+   La principal ventaja es la eficiencia, ya que con las mismas etiquetas, Active Learning suele alcanzar mejores resultados porque selecciona ejemplos más informativos. Esto hace que el modelo aprenda antes la frontera de decisión y mejore más rápido que con muestreo aleatorio.
 
 3. **¿Qué riesgos o limitaciones podría tener?**  
-   [completar]
+   
+   El principal riesgo es que el modelo inicial no sea lo suficientemente bueno, lo que podría llevar a seleccionar ejemplos poco útiles o incluso perjudiciales para el aprendizaje, al final el rendimiento depende bastante del modelo inicial y de la calidad de las primeras etiquetas.
+   Por otro lado, al centrarse solo en los puntos más inciertos, podría acabar seleccionando ejemplos muy similares entre sí, lo que podría limitar la diversidad de los datos y hacer que el modelo no aprenda bien ciertas regiones del espacio.
 
 4. **¿Qué ocurriría si el modelo inicial estuviera muy mal entrenado?**  
-   [completar]
+
+   Si el modelo inicial fuese muy malo, la incertidumbre que calcule también podría ser poco fiable.
+
+   En este caso, podría seleccionar ejemplos que realmente no sean muy útiles y el proceso de aprendizaje activo perdería eficacia.
+
+   Por todo ello, es importante partir de una base mínima razonable.
 
 5. **¿Puede Active Learning seleccionar ejemplos poco representativos si solo se centra en la incertidumbre?**  
-   [completar]
+
+   Sí, podría ocurrir, porque aunque los puntos más inciertos suelen estar cerca de la frontera, esto no garantiza que representen bien toda la distribución de datos, ya que, si sólo se eligieran estos casos, el modelo podría aprender muy bien la frontera local pero seguir sin ver ejemplos variados del resto del problema.
+
 
 ### Interpretación
 
-[El objetivo de esta parte es que entiendas que Active Learning no es una solución mágica. Aunque puede reducir el número de etiquetas necesarias, también depende de la calidad del modelo inicial, de la estrategia de consulta y de que los ejemplos seleccionados sean realmente útiles para mejorar la generalización.]
+   El objetivo de esta sección es entender que Active Learning no es una solución mágica, sino una estrategia que puede mejorar bastante la eficiencia cuando las etiquetas son caras, pero que también tiene limitaciones.
+
+   Su rendimiento depende de la calidad del modelo inicial, de cómo se seleccionan los ejemplos y de si los puntos consultados aportan información realmente útil. 
+
+   Por eso, aunque suele necesitar menos etiquetas que la selección aleatoria para alcanzar buenos resultados, no siempre garantiza la mejor generalización si las primeras predicciones del modelo son malas o si solo se seleccionan ejemplos muy parecidos entre sí.
 
 ---
 
