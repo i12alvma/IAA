@@ -39,12 +39,12 @@ La pregunta clave será: **¿Es mejor gastar el presupuesto de etiquetas al azar
 ---
 
 ## Configuración experimental
-- Dataset: [completar]
-- Total de muestras: [completar]
-- Etiquetas iniciales: [completar]
-- Etiquetas por iteración: [completar]
-- Presupuesto máximo: [completar]
-- Modelo base: [completar]
+- Dataset: Dataset de clasificación binaria con dos variables
+- Total de muestras: 1000
+- Etiquetas iniciales: 10
+- Etiquetas por iteración: 5
+- Presupuesto máximo: 50
+- Modelo base: RandomForestClassifier
 
 ---
 
