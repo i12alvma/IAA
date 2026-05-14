@@ -92,15 +92,15 @@ También es posible que haya zonas donde el modelo realmente no sepa qué hacer 
 
 | Número de etiquetas | Accuracy | Descripción |
 |---|---:|---|
-| 10 | [completar] | Estado inicial |
-| 15 | [completar] | Después de la 1ª consulta aleatoria |
-| 20 | [completar] | Después de la 2ª consulta |
-| 25 | [completar] | Continúa |
-| 30 | [completar] | Continúa |
-| 35 | [completar] | Continúa |
-| 40 | [completar] | Continúa |
-| 45 | [completar] | Continúa |
-| 50 | [completar] | Estado final |
+| 10 | 0.7567 | Estado inicial |
+| 15 | 0.8433 | Después de la 1ª consulta aleatoria |
+| 20 | 0.8400 | Después de la 2ª consulta |
+| 25 | 0.8567 | Continúa |
+| 30 | 0.8567 | Continúa |
+| 35 | 0.9033 | Continúa |
+| 40 | 0.9067 | Continúa |
+| 45 | 0.9167 | Continúa |
+| 50 | 0.9533 | Estado final |
 
 ### Cuestión: ¿Por qué constituye una línea base razonable?
 
@@ -120,15 +120,15 @@ También es posible que haya zonas donde el modelo realmente no sepa qué hacer 
 
 | Número de etiquetas | Accuracy | Descripción |
 |---|---:|---|
-| 10 | [completar] | Estado inicial |
-| 15 | [completar] | Después de la 1ª consulta por incertidumbre |
-| 20 | [completar] | Después de la 2ª consulta |
-| 25 | [completar] | Continúa |
-| 30 | [completar] | Continúa |
-| 35 | [completar] | Continúa |
-| 40 | [completar] | Continúa |
-| 45 | [completar] | Continúa |
-| 50 | [completar] | Estado final |
+| 10 | 0.7567 | Estado inicial |
+| 15 | 0.8300 | Después de la 1ª consulta por incertidumbre |
+| 20 | 0.8800 | Después de la 2ª consulta |
+| 25 | 0.9000 | Continúa |
+| 30 | 0.9533 | Continúa |
+| 35 | 0.9833 | Continúa |
+| 40 | 0.9733 | Continúa |
+| 45 | 0.9700 | Continúa |
+| 50 | 0.9600 | Estado final |
 
 ### Cuestión: ¿Por qué tiene sentido seleccionar puntos cercanos a la frontera?
 
