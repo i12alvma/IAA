@@ -101,6 +101,11 @@ def run_query_strategy(strategy: str) -> tuple[list[int], list[float]]:
     df_test= pd.read_csv(base_dir / "data" / "test.csv")
     X_test = df_test[["x1", "x2"]].values
     y_test = df_test["y"].values
+
+    if strategy == "random":
+        print("\n=== RANDOM FOREST RANDOM ===")
+    elif strategy == "uncertainty":
+        print("\n=== RANDOM FOREST UNCERTAINTY ===")
     while len(y_train) <= MAX_LABELS:
         # TODO 1: entrena el modelo con X_train, y_train.
         # TODO usando RandomForestClassifier
@@ -176,7 +181,7 @@ def tarea_arbol_solitario() -> None:
 
     # 4. Entrenamiento
     model.fit(X_train, y_train)
-
+    
     # 5. Accuracy entrenamiento
     train_pred = model.predict(X_train)
     train_acc = accuracy_score(y_train, train_pred)
@@ -193,10 +198,10 @@ def tarea_arbol_solitario() -> None:
 def main() -> None:
     # Entrenamiento inicial orientativo: puedes usar esta parte para comprobar
     # el rendimiento con solo 10 etiquetas antes de completar los bucles.
-    #X_initial, y_initial, X_unlabeled, y_unlabeled, X_test, y_test = load_data()
-    #initial_model = train_model(X_initial, y_initial)
-    #initial_acc = accuracy(initial_model, X_test, y_test)
-    #print(f"Accuracy inicial con 10 etiquetas: {initial_acc:.4f}")
+    X_initial, y_initial, X_unlabeled, y_unlabeled, X_test, y_test = load_data()
+    initial_model = train_model(X_initial, y_initial)
+    initial_acc = accuracy(initial_model, X_test, y_test)
+    
 
     tarea_arbol_solitario()
 
