@@ -157,10 +157,28 @@ En cambio, los ejemplos dudosos obligan al modelo a corregir y ajustar mejor la 
 
 ### Cuestión: ¿Qué estrategia obtiene mejor rendimiento con el mismo número de etiquetas?
 
-[Analiza aquí la tendencia completa. No mires solo el último punto de la curva: observa si una estrategia mejora antes, si hay oscilaciones, si ambas acaban pareciéndose o si la estrategia activa aprovecha mejor las primeras consultas. Comenta cuántas etiquetas necesita cada estrategia para alcanzar un rendimiento aceptable (por ejemplo, 90%, 95%, etc.).]
+La estrategia basada en incertidumbre obtiene mejores resultados utilizando el mismo número de etiquetas.
+
+Observando la gráfica completa, puede verse que el aprendizaje activo mejora mucho más rápido durante las primeras iteraciones. Con pocas etiquetas adicionales ya consigue accuracies muy altos, mientras que la selección aleatoria necesita más ejemplos para alcanzar resultados similares.
+
+Por ejemplo, la estrategia por incertidumbre supera el 90% de accuracy utilizando aproximadamente 25 etiquetas, mientras que la selección aleatoria tarda bastante más en llegar a ese nivel.
+
+También se observa que ambas estrategias presentan pequeñas oscilaciones. Esto es normal, ya que al añadir nuevos ejemplos la frontera de decisión cambia y el rendimiento puede subir o bajar ligeramente en algunas iteraciones.
+
+Aunque al final ambas estrategias consiguen buenos resultados, la selección por incertidumbre aprovecha mejor las primeras consultas y aprende de forma más eficiente.
 
 ### Interpretación
-[Comenta si se observan diferencias claras entre ambas estrategias. ¿En qué momentos una supera a la otra? ¿Hay puntos donde la estrategia aleatoria acerta mejor?]
+Las diferencias entre ambas estrategias son bastante claras, especialmente al principio del proceso.
+
+La selección por incertidumbre consigue mejoras más rápidas porque el modelo elige ejemplos donde tiene más dudas, es decir, los casos más útiles para aprender. Gracias a eso, el clasificador ajusta antes la frontera entre clases.
+
+La estrategia aleatoria también mejora progresivamente, pero lo hace de forma más lenta porque algunos ejemplos seleccionados aportan poca información nueva.
+
+En algunos puntos concretos las diferencias se reducen e incluso puede haber pequeñas oscilaciones donde la estrategia aleatoria obtiene resultados parecidos o ligeramente mejores en una iteración concreta. Sin embargo, la tendencia general muestra que el aprendizaje activo basado en incertidumbre utiliza las etiquetas de forma más eficiente y consigue mejores accuracies con menos ejemplos etiquetados.
+
+Además, si ambas estrategias siguieran recibiendo cada vez más etiquetas, las diferencias terminarían reduciéndose. Cuando el número de ejemplos etiquetados tiende a ser muy grande, ambos métodos acabarían disponiendo prácticamente de toda la información del problema, por lo que sus resultados tenderían a parecerse mucho.
+
+La principal ventaja del aprendizaje activo no es necesariamente conseguir un accuracy final muchísimo mayor, sino alcanzar buenos resultados utilizando menos etiquetas y menos esfuerzo de etiquetado.
 
 ---
 
