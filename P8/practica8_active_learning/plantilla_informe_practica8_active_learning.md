@@ -83,10 +83,10 @@ También es posible que haya zonas donde el modelo realmente no sepa qué hacer 
 ## Tarea 2: Estrategia baseline con selección aleatoria
 
 ### Qué se hizo
-- [Implementación de la selección aleatoria de ejemplos del pool no etiquetado]
-- [Iteración hasta alcanzar 50 etiquetas total]
-- [Reentrenamiento y evaluación del modelo en cada paso]
-- [Seguimiento del accuracy frente al número de etiquetas utilizadas]
+- Se implementó una función de selección aleatoria (select_random) que elige BATCH_SIZE índices sin reemplazo del pool no etiquetado.
+- Se ejecutó el ciclo de consulta hasta alcanzar 50 etiquetas totales (partiendo de 10 iniciales), reentrenando un RandomForest en cada iteración.
+- En cada paso, se evaluó el modelo en el conjunto de test y se registró el accuracy obtenido.
+- Se guardó la evolución del número de etiquetas y los accuracies para representar la curva de aprendizaje y comparar con la estrategia por incertidumbre.
 
 ### Tabla de evolución
 
