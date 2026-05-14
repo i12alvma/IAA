@@ -148,9 +148,9 @@ En cambio, los ejemplos dudosos obligan al modelo a corregir y ajustar mejor la 
 ## Tarea 4: Comparativa final mediante curva de aprendizaje
 
 ### Qué se hizo
-- [Representación en una gráfica de la evolución del accuracy]
-- [Inclusión de ambas curvas: aleatoria e incertidumbre]
-- [Análisis visual de la tendencia general y las diferencias entre estrategias]
+- Se representó en una gráfica la evolución del accuracy a medida que aumentaba el número de etiquetas disponibles.
+- Se incluyeron ambas curvas de aprendizaje, una para la selección aleatoria y otra para la selección por incertidumbre.
+- Se comparó visualmente el comportamiento de ambas estrategias para analizar cuál aprende más rápido y cuál aprovecha mejor cada nueva etiqueta.
 
 ### Figura generada
 ![/P8/practica8_active_learning/output/learning_curve_python.png
