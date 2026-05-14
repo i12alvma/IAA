@@ -113,10 +113,11 @@ También es posible que haya zonas donde el modelo realmente no sepa qué hacer 
 ## Tarea 3: Ciclo de consulta mediante incertidumbre
 
 ### Qué se hizo
-- [Implementación de la selección por incertidumbre del modelo]
-- [Cálculo de probabilidades predichas sobre el pool no etiquetado]
-- [Identificación de los puntos más cercanos a 0.5 (máxima incertidumbre)]
-- [Iteración hasta alcanzar 50 etiquetas total, en cada paso reentrenando y evaluando]
+- Se implementó la estrategia de selección por incertidumbre del modelo.
+- Se calcularon las probabilidades predichas sobre el pool no etiquetado.
+- Se identificaron los ejemplos más cercanos a 0.5, que son los de mayor incertidumbre.
+- Se consultaron esos puntos al oráculo y se añadieron al conjunto de entrenamiento.
+- Se repitió el proceso hasta alcanzar 50 etiquetas totales, reentrenando y evaluando el modelo en cada iteración.
 
 ### Tabla de evolución
 
