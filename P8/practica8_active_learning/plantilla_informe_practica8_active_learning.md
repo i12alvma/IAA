@@ -187,20 +187,27 @@ La principal ventaja del aprendizaje activo no es necesariamente conseguir un ac
 
 ### Pregunta de reflexión: ¿Por qué el modelo aprende más rápido cuando elige puntos cercanos a la frontera?
 
-[Responde aquí razonadamente. Tu respuesta debe relacionar al menos estas ideas:
-- los puntos cercanos a la frontera son más difíciles de clasificar;
-- esos puntos suelen generar mayor incertidumbre en el modelo;
-- conocer su etiqueta ayuda a ajustar mejor la frontera de decisión;
-- los puntos muy alejados de la frontera suelen aportar menos información nueva;
-- una buena estrategia de consulta puede aprovechar mejor un presupuesto limitado de etiquetas.]
+El modelo aprende más rápido porque los puntos cercanos a la frontera de decisión son justamente los que más dudas le generan. Son ejemplos difíciles de clasificar, ya que el modelo no tiene claro a qué clase pertenecen y suele asignar probabilidades cercanas a 0.5.
+
+Cuando se obtiene la etiqueta real de esos puntos, el modelo recibe información muy útil para corregir y ajustar mejor la separación entre clases. Es decir, aprende justo en las zonas donde más se equivoca o donde tiene más incertidumbre.
+
+En cambio, los puntos muy alejados de la frontera suelen ser ejemplos “fáciles”. El modelo ya está bastante seguro de cómo clasificarlos, por lo que añadir sus etiquetas normalmente aporta poca información nueva. Aunque ayudan un poco, no mejoran tanto el aprendizaje como los ejemplos dudosos.
+
+Por eso la estrategia basada en incertidumbre aprovecha mejor el presupuesto limitado de etiquetas. En vez de gastar etiquetas en ejemplos fáciles o repetitivos, se centra en los casos más útiles para mejorar el modelo rápidamente. Esto explica por qué en los resultados obtenidos el método de incertidumbre alcanza accuracies altas antes que la selección aleatoria.
+
+Además, aunque ambas estrategias pueden terminar obteniendo resultados parecidos si se añaden muchísimas etiquetas, la estrategia activa consigue aprender mejor utilizando menos ejemplos, lo que la hace más eficiente.
 
 ### Análisis crítico: Limitaciones de la estrategia
 
-[Comenta también alguna posible limitación de esta estrategia. Por ejemplo:
-- ¿Qué ocurre si el modelo inicial está mal entrenado?
-- ¿Es la incertidumbre estimada por el modelo siempre fiable?
-- ¿Puede elegir siempre los puntos más inciertos producir una muestra poco representativa?
-- ¿Hay regiones del espacio no bien cubiertas si solo se seleccionan puntos en la frontera?]
+Esta estrategia también tiene algunas limitaciones. Una de las más importantes es que depende mucho del modelo inicial. Si el modelo empieza muy mal entrenado con los primeros 10 ejemplos, puede calcular mal qué puntos son realmente inciertos y acabar seleccionando ejemplos poco útiles.
+
+También hay que tener en cuenta que la incertidumbre estimada por el modelo no siempre es totalmente fiable. A veces el modelo puede sentirse “seguro” aunque esté equivocado, o al contrario, tener dudas en zonas que realmente no son importantes.
+
+Otro problema es que elegir siempre los puntos más inciertos puede hacer que los ejemplos seleccionados sean demasiado parecidos entre sí. Eso puede provocar que algunas regiones del espacio queden poco representadas y el modelo no llegue a aprender bien ciertos casos.
+
+Además, si solo se consultan puntos cercanos a la frontera, pueden ignorarse ejemplos alejados que también podrían ser útiles para entender mejor la distribución general de los datos.
+
+Por tanto, aunque la estrategia por incertidumbre suele funcionar mejor y aprender más rápido, no es perfecta y su rendimiento depende bastante de cómo empiece el modelo y de la calidad de los datos seleccionados.
 
 ---
 
