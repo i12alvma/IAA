@@ -106,7 +106,11 @@ También es posible que haya zonas donde el modelo realmente no sepa qué hacer 
 
 ### Cuestión: ¿Por qué constituye una línea base razonable?
 
-[Explica aquí por qué la selección aleatoria es una estrategia de referencia adecuada. La selección aleatoria no utiliza información del modelo, pero permite medir qué rendimiento se obtiene simplemente aumentando el número de etiquetas sin aplicar ninguna estrategia inteligente de selección. Esto facilita la comparación con la estrategia activa.]
+   La selección aleatoria se trata de una línea base razonable al ser independiente del modelo, ya que permite observar qué rendimiento se obtiene simplemente al aumentar el número de etiquetas sin aplicar ningún criterio inteligente de selección.
+
+   De este modo, sirve como referencia para comparar el comportamiento de la estrategia activa y comprobar si realmente aporta una mejora frente a un muestreo no guiado.
+   
+   Como la estrategia activa supera claramente a la aleatoria, entonces queda demostrado que elegir ejemplos informativos es más eficiente que etiquetar al azar.
 
 ---
 
