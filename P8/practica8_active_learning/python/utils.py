@@ -90,7 +90,7 @@ def plot_learning_curves(
     random_acc: list[float],
     uncertainty_labels: list[int],
     uncertainty_acc: list[float],
-    output_path: str = "P8/practica8_active_learning/output/learning_curve_python.png",
+    output_path: str | Path = None,
 ) -> None:
     """Representa la curva de aprendizaje de ambas estrategias."""
     plt.figure(figsize=(8, 5))
@@ -102,5 +102,14 @@ def plot_learning_curves(
     plt.legend()
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
+    # Determine default output path relative to the project if not provided
+    if output_path is None:
+        output_path = Path(__file__).resolve().parents[1] / "output" / "learning_curve_python.png"
+    else:
+        output_path = Path(output_path)
+
+    # Ensure the output directory exists
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
     plt.savefig(output_path, dpi=200)
     plt.show()

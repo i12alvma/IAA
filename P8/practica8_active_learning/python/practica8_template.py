@@ -16,6 +16,7 @@ from sklearn.metrics import accuracy_score
 
 import numpy as np
 import pandas as pd
+from pathlib import Path
 
 from utils import (
     RANDOM_STATE,
@@ -91,11 +92,13 @@ def run_query_strategy(strategy: str) -> tuple[list[int], list[float]]:
     n_labels_history: list[int] = []
     accuracy_history: list[float] = []
 
-    df_train = pd.read_csv("P8/practica8_active_learning/data/initial_labeled.csv")
+    # Build paths relative to this script to avoid depending on the current working directory
+    base_dir = Path(__file__).resolve().parents[1]
+    df_train = pd.read_csv(base_dir / "data" / "initial_labeled.csv")
     X_train = df_train[["x1", "x2"]].values
     y_train = df_train["y"].values
 
-    df_test= pd.read_csv("P8/practica8_active_learning/data/test.csv")
+    df_test= pd.read_csv(base_dir / "data" / "test.csv")
     X_test = df_test[["x1", "x2"]].values
     y_test = df_test["y"].values
     while len(y_train) <= MAX_LABELS:
