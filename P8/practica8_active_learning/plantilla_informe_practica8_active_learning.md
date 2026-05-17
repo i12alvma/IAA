@@ -263,12 +263,11 @@ Debes responder razonadamente a estas preguntas:
 
 ## Conclusión
 
-[Redacta aquí una conclusión breve que resuma:
-- Lo que has aprendido sobre la importancia del etiquetado inteligente versus aleatorio;
-- cómo Active Learning puede reducir el coste de etiquetado en problemas reales;
-- en qué condiciones vale la pena usar Active Learning frente a muestreo aleatorio;
-- qué limitaciones tiene esta estrategia;
-- cuándo la elegirías en un problema real y bajo qué circunstancias.
-- La relación entre la densidad de datos, la posición de la frontera de decisión y la efectividad del algoritmo.]
+En esta práctica se ha visto que no basta con tener muchos datos, sino que también importa elegir bien cuáles etiquetar. El Active Learning aprende más rápido porque selecciona los ejemplos donde el modelo tiene más dudas, mientras que la selección aleatoria puede desperdiciar etiquetas en casos fáciles o poco útiles.
 
+Además, esta estrategia puede ahorrar bastante tiempo y coste de etiquetado en problemas reales, sobre todo cuando etiquetar datos es caro o requiere expertos.
+
+Aun así, no es una técnica perfecta. Si el modelo inicial es malo, puede elegir ejemplos poco útiles, y si solo se centra en los puntos más inciertos, algunas zonas de los datos pueden quedar mal representadas.
+
+En general, Active Learning merece la pena cuando hay muchos datos sin etiquetar y pocas etiquetas disponibles, ya que permite conseguir buenos resultados usando menos ejemplos.
 </div>
