@@ -508,7 +508,10 @@
       <p class="footer-note">El objetivo de esta parte es que entiendas que Active Learning no es una solución mágica, sino una estrategia que puede mejorar bastante la eficiencia cuando las etiquetas son caras, pero que también tiene limitaciones. Su rendimiento depende de la calidad del modelo inicial, de cómo se seleccionan los ejemplos y de si los puntos consultados aportan información realmente útil. Por eso, aunque suele necesitar menos etiquetas que la selección aleatoria para alcanzar buenos resultados, no siempre garantiza la mejor generalización si las primeras predicciones del modelo son malas o si solo se seleccionan ejemplos muy parecidos entre sí.</p>
 
       <h2>Conclusión</h2>
-      <p>[]</p>
+      <p>En esta práctica se ha visto que no basta con tener muchos datos, sino que también importa elegir bien cuáles etiquetar. El Active Learning aprende más rápido porque selecciona los ejemplos donde el modelo tiene más dudas, mientras que la selección aleatoria puede desperdiciar etiquetas en casos fáciles o poco útiles.</p>
+      <p>Además, esta estrategia puede ahorrar bastante tiempo y coste de etiquetado en problemas reales, sobre todo cuando etiquetar datos es caro o requiere expertos.</p>
+      <p>Aun así, no es una técnica perfecta. Si el modelo inicial es malo, puede elegir ejemplos poco útiles, y si solo se centra en los puntos más inciertos, algunas zonas de los datos pueden quedar mal representadas.</p>
+      <p>En general, Active Learning merece la pena cuando hay muchos datos sin etiquetar y pocas etiquetas disponibles, ya que permite conseguir buenos resultados usando menos ejemplos.</p>
     </article>
   </main>
 
