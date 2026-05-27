@@ -70,10 +70,10 @@ Completa esta tabla con los valores reales obtenidos al ejecutar el código.
 | Tamaño de imagen | [28 x 28] |
 | Clase nueva | [7] |
 | Clases conocidas | [0, 1, 2, 3, 4, 5, 6, 8, 9] |
-| Tamaño del support set | [1-shot / 5-shot] |
-| Tamaño del query set | [inserta valor] |
-| Arquitectura del clasificador | [inserta arquitectura] |
-| Dimensión del embedding | [inserta dimensión] |
+| Tamaño del support set | Pendiente de Tareas 3-5 |
+| Tamaño del query set | Pendiente de Tareas 3-5 |
+| Arquitectura del clasificador | CNN con 2 capas Conv2D + MaxPooling, Flatten, Dense(64, `embedding`) y Dense(9, softmax) |
+| Dimensión del embedding | 64 |
 
 ---
 
@@ -93,17 +93,19 @@ Completa esta tabla con los resultados obtenidos.
 
 | Métrica | Valor |
 |---|---:|
-| Accuracy sobre clases conocidas | [inserta valor] |
-| Loss final | [inserta valor] |
-| Épocas de entrenamiento | [inserta valor] |
-| Ruta del modelo guardado | [inserta ruta] |
+| Accuracy sobre clases conocidas | 0.9879 |
+| Loss final | 0.0403 |
+| Épocas de entrenamiento | 3 |
+| Ruta del modelo guardado | `outputs/classifier_known_classes.h5` |
 
 ### Cuestión: ¿Por qué tiene sentido eliminar la clase 7 durante el entrenamiento inicial?
 
-[responde aquí]
+Tiene sentido porque la clase 7 es la clase nueva que se quiere evaluar después con few-shot learning. Si el modelo la viera durante el entrenamiento inicial, ya no sería un problema de reconocimiento de clase nueva, sino un clasificador convencional. Al excluirla, se fuerza al modelo a aprender una representación útil para las clases conocidas sin adaptar directamente sus pesos al 7.
 
 ### Interpretación
-[explica qué significa que el modelo no haya visto nunca el 7 y qué implicaciones tiene para el aprendizaje posterior]
+<strong>¿Qué implica para el aprendizaje posterior que el modelo no haya visto nunca la clase 7?</strong>
+
+Que el modelo no haya visto nunca el 7 significa que no ha ajustado sus pesos para separar explícitamente esa clase. Por tanto, al incorporarla después solo con unos pocos ejemplos, no se espera que la reconozca por una regla aprendida directamente, sino por similitud en el espacio de embeddings. Esto hace que la calidad del extractor de características sea clave para que el aprendizaje posterior funcione.
 
 ---
 
@@ -121,16 +123,18 @@ Completa los datos observados.
 
 | Elemento | Valor |
 |---|---:|
-| Capa elegida como embedding | [inserta nombre] |
-| Dimensión del embedding | [inserta valor] |
-| Ejemplo de embedding | [inserta un vector representativo] |
+| Capa elegida como embedding | `embedding` |
+| Dimensión del embedding | 64 |
+| Ejemplo de embedding | Vector representativo de 64 componentes generado por la capa `embedding` |
 
 ### Cuestión: ¿Por qué no usamos directamente los píxeles de la imagen para calcular las distancias?
 
-[responde aquí]
+Porque los píxeles están en un espacio de alta dimensión y no capturan directamente la similitud semántica entre dígitos. Dos imágenes de un mismo número pueden verse muy distintas a nivel de píxel, mientras que el embedding intenta agrupar juntas las imágenes parecidas en una representación más compacta y estable para medir distancias.
 
 ### Interpretación
-[explica por qué el espacio de embeddings suele ser más útil que el espacio original de píxeles]
+<strong>¿Por qué el espacio de embeddings suele ser más útil que el espacio original de píxeles? </strong>
+
+El espacio de embeddings suele ser más útil porque concentra información relevante y reduce ruido visual irrelevante. Así, las distancias entre puntos reflejan mejor relaciones de clase que la comparación directa entre intensidades de píxeles.
 
 ---
 
