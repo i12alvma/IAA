@@ -354,14 +354,19 @@ def main() -> None:
 
     feature_extractor = create_feature_extractor(classifier)
 
-    # save trained classifier and export 1-shot prototype
-    outputs_dir = os.path.join(os.path.dirname(__file__), "..", "..", "outputs")
-    outputs_dir = os.path.normpath(outputs_dir)
-    model_path = save_classifier(classifier, output_dir=outputs_dir)
-    print(f"Saved classifier to: {model_path}")
+    results = {}
+    for n_shots in [1, 5]:
+        X_support, y_support, X_query, y_query = build_fewshot_episode(data, n_shots=n_shots)
+        prototypes, prototype_labels = compute_prototypes(feature_extractor, X_support, y_support)
+        y_pred = classify_by_nearest_prototype(feature_extractor, X_query, prototypes, prototype_labels)
+        acc = accuracy_score(y_query, y_pred)
+        results[f"{n_shots}-shot"] = acc
+        print(f"{n_shots}-shot accuracy: {acc:.4f}")
 
-    prototype_path = export_1shot_prototype(feature_extractor, data, n_shots=1, output_dir=outputs_dir)
-    print(f"Saved 1-shot prototype to: {prototype_path}")
+    plot_accuracy_comparison(results)
+
+    # Visualización opcional
+    # plot_embeddings_pca(feature_extractor, X_query, y_query)
 
 
 if __name__ == "__main__":
