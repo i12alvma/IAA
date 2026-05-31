@@ -70,8 +70,8 @@ Completa esta tabla con los valores reales obtenidos al ejecutar el código.
 | Tamaño de imagen | [28 x 28] |
 | Clase nueva | [7] |
 | Clases conocidas | [0, 1, 2, 3, 4, 5, 6, 8, 9] |
-| Tamaño del support set | Pendiente de Tareas 3-5 |
-| Tamaño del query set | Pendiente de Tareas 3-5 |
+| Tamaño del support set | 10 imágenes (1-shot) / 50 imágenes (5-shot) |
+| Tamaño del query set | 1000 imágenes |
 | Arquitectura del clasificador | CNN con 2 capas Conv2D + MaxPooling, Flatten, Dense(64, `embedding`) y Dense(9, softmax) |
 | Dimensión del embedding | 64 |
 
@@ -152,17 +152,18 @@ Completa esta tabla.
 
 | Configuración | Número de ejemplos | Dimensión del prototipo | Observaciones |
 |---|---:|---:|---|
-| 1-shot | [1] | [inserta valor] | [inserta observación] |
-| 5-shot | [5] | [inserta valor] | [inserta observación] |
-| Ruta del prototipo 1-shot | [inserta ruta] |  |  |
-| Ruta del prototipo 5-shot | [inserta ruta] |  |  |
+| 1-shot | 1 | 64 | El prototipo coincide con el embedding de una única imagen y puede verse afectado por las características particulares de ese ejemplo. |
+| 5-shot | 5 | 64 | El prototipo se obtiene promediando cinco embeddings, proporcionando una representación más estable y robusta de la clase. |
+| Ruta del prototipo 1-shot |  |  | `outputs/prototype_7_1shot.npy` |
+| Ruta del prototipo 5-shot |  |  | `outputs/prototype_7_5shot.npy` |
 
 ### Cuestión: Explica qué representa el prototipo de una clase en cada uno de los casos.
 
-[responde aquí]
+El prototipo es como una representación "media" de una clase dentro del espacio de características que genera la red. En el caso de 1-shot, el prototipo se obtiene a partir de una sola imagen, por lo que depende totalmente de ese ejemplo. En el caso de 5-shot, se calcula haciendo la media de cinco embeddings diferentes, por lo que representa mejor las características generales del número 7.
 
 ### Interpretación
-[explica qué cambia entre usar un solo ejemplo y usar varios]
+
+La principal diferencia es que con 5 ejemplos el prototipo suele ser más fiable. Si usamos solo una imagen, puede ocurrir que ese ejemplo tenga alguna particularidad que no represente bien a toda la clase. Al utilizar cinco imágenes, esas diferencias se compensan y el prototipo resulta más estable.
 
 ---
 
@@ -182,19 +183,21 @@ Completa la tabla.
 
 | Clase | Número de prototipos | Prototipo usado | Observaciones |
 |---|---:|---|---|
-| Clases conocidas | [inserta valor] | [inserta descripción] | [inserta observación] |
-| Clase nueva 7 | [1] | [prototipo 1-shot / 5-shot] | [inserta observación] |
+| Clases conocidas | 9 | Media de embeddings de cada clase conocida | Buena separación entre la mayoría de clases. |
+| Clase nueva 7 | 1 | Prototipo 1-shot o 5-shot | Se incorpora sin reentrenar el modelo. |
 
 | Métrica | Valor |
 |---|---:|
-| Accuracy final | [inserta valor] |
+| Accuracy final (1-shot) | 0.8880 |
+| Accuracy final (5-shot) | 0.9400 |
 
 ### Cuestión: Explica por qué clasificar por distancia puede funcionar en un espacio de embeddings.
 
-[responde aquí]
+Porque el extractor de características intenta colocar cerca las imágenes que son parecidas y separar las que pertenecen a clases diferentes. De esta forma, cuando calculamos la distancia entre una imagen y los prototipos, normalmente la menor distancia corresponde a la clase correcta.
 
 ### Interpretación
-[explica qué significa que dos clases estén cerca o lejos en el espacio de características]
+
+Si dos clases aparecen muy separadas en el espacio de embeddings, el modelo las distinguirá fácilmente. En cambio, si están muy cerca o se mezclan entre sí, habrá más posibilidades de cometer errores al clasificar.
 
 ---
 
@@ -212,12 +215,12 @@ Completa la tabla comparativa.
 
 | Configuración | Accuracy | Observaciones |
 |---|---:|---|
-| 1-shot | [inserta valor] | [inserta observación] |
-| 5-shot | [inserta valor] | [inserta observación] |
+| 1-shot | 0.8880 | Buen rendimiento utilizando únicamente un ejemplo por clase. |
+| 5-shot | 0.9400 | Mejora la precisión gracias a una representación más estable de cada clase. |
 
 ### Cuestión: ¿Mejora el rendimiento al pasar de 1-shot a 5-shot? ¿Por qué?
 
-[responde aquí]
+Sí, en este caso la precisión pasa de 0.8880 a 0.9400. Esto ocurre porque al utilizar más ejemplos para crear el prototipo, este representa mejor a la clase y es menos sensible a las características de una única imagen.
 
 ### Figura comparativa
 Inserta aquí la gráfica de barras generada.
@@ -225,7 +228,8 @@ Inserta aquí la gráfica de barras generada.
 ![Comparación 1-shot vs 5-shot](outputs/fewshot_accuracy_comparison.png)
 
 ### Interpretación
-[explica qué mejora y qué limitaciones siguen presentes]
+
+Los resultados muestran que disponer de algunos ejemplos más ayuda bastante al modelo. Aunque sigue siendo un problema de few-shot learning, el uso de cinco imágenes permite obtener una representación más robusta y mejorar la clasificación.
 
 ---
 
@@ -245,10 +249,11 @@ Inserta aquí la visualización del espacio de embeddings.
 
 ### Cuestión: Explica qué aporta esta visualización para entender el método.
 
-[responde aquí]
+La visualización permite ver cómo organiza el modelo las imágenes dentro del espacio de embeddings. Gracias a ella podemos comprobar si las distintas clases forman grupos diferenciados y observar dónde se sitúa el número 7 respecto al resto de dígitos.
 
 ### Interpretación
-[describe si el 7 aparece separado, mezclado o cerca de clases concretas]
+
+Si el 7 aparece agrupado y separado de otras clases, será más fácil reconocerlo correctamente. Si aparece mezclado con otros números parecidos, como el 1 o el 9, es más probable que se produzcan errores de clasificación.
 
 ---
 
@@ -262,7 +267,8 @@ Inserta aquí la visualización del espacio de embeddings.
 - limitaciones de usar una única distancia para decidir la clase.
 
 ### Reflexión
-[explica aquí por qué el método funciona bien o mal según el caso]
+
+El método funciona bastante bien porque aprovecha un extractor de características que ya ha aprendido información útil sobre los dígitos. Gracias a ello, es capaz de representar una clase nueva utilizando muy pocos ejemplos. Sin embargo, el rendimiento depende mucho de la calidad de los embeddings obtenidos. Si el support set no es representativo o las clases aparecen muy mezcladas en el espacio de características, la precisión puede disminuir. Además, utilizar más ejemplos, como en el caso 5-shot, suele generar prototipos más robustos que en el caso 1-shot.
 
 ---
 
@@ -275,39 +281,33 @@ Responde razonadamente a las siguientes preguntas:
 
 1. ¿Qué ventajas tendría usar un extractor de características preentrenado?
 
-   [responde aquí]
+   Permite aprovechar lo que el modelo ya ha aprendido y reconocer nuevas clases sin necesidad de entrenarlo desde cero. Además, hace falta menos cantidad de datos.
 
 2. ¿Qué riesgos existen si los pocos ejemplos del support set no son representativos?
 
-   [responde aquí]
+   El prototipo puede no representar bien a la clase y provocar errores al clasificar nuevas imágenes.
 
 3. ¿Qué ocurriría si el extractor no genera buenos embeddings para la nueva clase?
 
-   [responde aquí]
+   Las imágenes de esa clase quedarían mezcladas con otras y sería más difícil diferenciarlas correctamente.
 
 4. ¿Por qué el enfoque 5-shot puede ser más robusto que el enfoque 1-shot?
 
-   [responde aquí]
+   Porque utiliza varios ejemplos para crear el prototipo y reduce la influencia de una única imagen que pueda ser poco representativa.
 
 5. ¿En qué tipo de problemas reales podría ser útil esta estrategia?
 
-   [responde aquí]
+   En reconocimiento de especies poco comunes, enfermedades raras, detección de defectos en productos o cualquier situación donde haya pocos ejemplos disponibles.
 
 ### Interpretación
-El objetivo de esta parte es entender que Few-shot Learning no consiste simplemente en entrenar con pocos datos. La clave está en reutilizar una representación aprendida previamente y clasificar nuevas clases mediante comparación en un espacio de características.
+
+El few-shot learning permite aprender nuevas clases utilizando muy pocos ejemplos. La clave está en reutilizar un buen extractor de características y comparar las imágenes mediante prototipos en lugar de volver a entrenar todo el modelo.
+
 
 ---
 
 ## Conclusión
-Redacta aquí una conclusión razonada sobre lo aprendido en la práctica.
 
-Pistas para la conclusión:
-- qué significa aprender con pocos ejemplos;
-- qué diferencia hay entre entrenamiento supervisado convencional y Few-shot Learning;
-- qué es un support set y qué es un query set;
-- qué representa un prototipo;
-- por qué se clasifican las imágenes por distancia;
-- por qué 5 ejemplos pueden ser mejores que 1;
-- qué limitaciones tiene depender de un extractor de características previamente entrenado.
+En esta práctica hemos comprobado cómo el few-shot learning permite reconocer una clase nueva utilizando muy pocos ejemplos. Para ello, se reutiliza un extractor de características entrenado previamente y se crean prototipos para representar cada clase. Los resultados muestran que el método funciona bastante bien y que utilizar 5 ejemplos proporciona mejores resultados que utilizar solo 1. También hemos visto que el rendimiento depende mucho de la calidad de los embeddings y de que los ejemplos de apoyo sean representativos.
 
 </div>

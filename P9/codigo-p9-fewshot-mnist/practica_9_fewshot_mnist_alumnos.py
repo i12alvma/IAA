@@ -152,104 +152,147 @@ def create_feature_extractor(classifier: tf.keras.Model) -> tf.keras.Model:
     return tf.keras.Model(inputs=classifier.inputs, outputs=classifier.get_layer("embedding").output, name="feature_extractor")
 
 
-def sample_support_set(X: np.ndarray, y: np.ndarray, class_label: int, n_shots: int) -> tuple[np.ndarray, np.ndarray]:
-    """
-    Sample n_shots examples from one class.
+def sample_support_set(
+    X: np.ndarray,
+    y: np.ndarray,
+    class_label: int,
+    n_shots: int
+) -> tuple[np.ndarray, np.ndarray]:
 
-    Parameters
-    ----------
-    X : np.ndarray
-        Image array.
-    y : np.ndarray
-        Label array.
-    class_label : int
-        Class to sample.
-    n_shots : int
-        Number of support examples.
+    indices = np.where(y == class_label)[0]
 
-    Returns
-    -------
-    tuple[np.ndarray, np.ndarray]
-        Support images and support labels.
-    """
-    # TODO: seleccionar aleatoriamente n_shots índices de la clase indicada
-    raise NotImplementedError
+    selected = np.random.choice(
+        indices,
+        size=n_shots,
+        replace=False
+    )
+
+    return X[selected], y[selected]
 
 
-def compute_prototypes(feature_extractor: tf.keras.Model, X_support: np.ndarray, y_support: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    """
-    Compute one prototype per class.
+def compute_prototypes(
+    feature_extractor: tf.keras.Model,
+    X_support: np.ndarray,
+    y_support: np.ndarray
+) -> tuple[np.ndarray, np.ndarray]:
 
-    Parameters
-    ----------
-    feature_extractor : tf.keras.Model
-        Model that maps images to embeddings.
-    X_support : np.ndarray
-        Support images.
-    y_support : np.ndarray
-        Support labels.
+    embeddings = feature_extractor.predict(X_support, verbose=0)
 
-    Returns
-    -------
-    tuple[np.ndarray, np.ndarray]
-        Prototype vectors and their class labels.
-    """
-    # TODO 1: obtener embeddings del support set
-    # TODO 2: para cada clase, calcular la media de sus embeddings
-    # TODO 3: devolver matriz de prototipos y vector de etiquetas
-    raise NotImplementedError
+    prototypes = []
+    prototype_labels = []
 
+    for label in np.unique(y_support):
 
-def classify_by_nearest_prototype(feature_extractor: tf.keras.Model, X_query: np.ndarray, prototypes: np.ndarray, prototype_labels: np.ndarray) -> np.ndarray:
-    """
-    Classify query images by nearest prototype.
+        class_embeddings = embeddings[y_support == label]
 
-    Parameters
-    ----------
-    feature_extractor : tf.keras.Model
-        Model that maps images to embeddings.
-    X_query : np.ndarray
-        Query images.
-    prototypes : np.ndarray
-        Prototype matrix.
-    prototype_labels : np.ndarray
-        Labels associated with prototypes.
+        prototype = np.mean(class_embeddings, axis=0)
 
-    Returns
-    -------
-    np.ndarray
-        Predicted labels.
-    """
-    # TODO 1: obtener embeddings de query
-    # TODO 2: calcular distancias euclídeas a todos los prototipos
-    # TODO 3: asignar la etiqueta del prototipo más cercano
-    raise NotImplementedError
+        prototypes.append(prototype)
+        prototype_labels.append(label)
+
+    return (
+        np.array(prototypes),
+        np.array(prototype_labels)
+    )
 
 
-def build_fewshot_episode(data: FewShotData, n_shots: int, n_query_per_class: int = 100):
-    """
-    Build a few-shot episode using all MNIST classes, including digit 7.
+def classify_by_nearest_prototype(
+    feature_extractor: tf.keras.Model,
+    X_query: np.ndarray,
+    prototypes: np.ndarray,
+    prototype_labels: np.ndarray
+) -> np.ndarray:
 
-    Parameters
-    ----------
-    data : FewShotData
-        Dataset object.
-    n_shots : int
-        Number of support examples per class.
-    n_query_per_class : int
-        Number of query examples per class.
+    query_embeddings = feature_extractor.predict(
+        X_query,
+        verbose=0
+    )
 
-    Returns
-    -------
-    tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
-        X_support, y_support, X_query, y_query.
-    """
-    # TODO:
-    # - construir un support set con n_shots ejemplos por clase
-    # - para clases conocidas, puedes tomar ejemplos del entrenamiento conocido
-    # - para la clase 7, toma ejemplos del test o de una reserva separada
-    # - construir un query set equilibrado con n_query_per_class por clase desde test
-    raise NotImplementedError
+    predictions = []
+
+    for embedding in query_embeddings:
+
+        distances = np.linalg.norm(
+            prototypes - embedding,
+            axis=1
+        )
+
+        nearest = np.argmin(distances)
+
+        predictions.append(
+            prototype_labels[nearest]
+        )
+
+    return np.array(predictions)
+
+
+def build_fewshot_episode(
+    data: FewShotData,
+    n_shots: int,
+    n_query_per_class: int = 100
+):
+
+    X_support_list = []
+    y_support_list = []
+
+    for cls in data.known_classes:
+
+        X_s, y_s = sample_support_set(
+            data.X_train_known,
+            data.y_train_known,
+            cls,
+            n_shots
+        )
+
+        X_support_list.append(X_s)
+        y_support_list.append(y_s)
+
+    X7, y7 = sample_support_set(
+        data.X_test,
+        data.y_test,
+        data.novel_class,
+        n_shots
+    )
+
+    X_support_list.append(X7)
+    y_support_list.append(y7)
+
+    X_support = np.concatenate(X_support_list)
+    y_support = np.concatenate(y_support_list)
+
+    X_query_list = []
+    y_query_list = []
+
+    all_classes = list(data.known_classes)
+    all_classes.append(data.novel_class)
+
+    for cls in all_classes:
+
+        idx = np.where(data.y_test == cls)[0]
+
+        chosen = np.random.choice(
+            idx,
+            size=n_query_per_class,
+            replace=False
+        )
+
+        X_query_list.append(
+            data.X_test[chosen]
+        )
+
+        y_query_list.append(
+            data.y_test[chosen]
+        )
+
+    X_query = np.concatenate(X_query_list)
+    y_query = np.concatenate(y_query_list)
+
+    return (
+        X_support,
+        y_support,
+        X_query,
+        y_query
+    )
 
 
 def plot_accuracy_comparison(results: dict[str, float], output_path: str = "fewshot_accuracy_comparison.png") -> None:
@@ -267,12 +310,48 @@ def plot_accuracy_comparison(results: dict[str, float], output_path: str = "fews
     plt.show()
 
 
-def plot_embeddings_pca(feature_extractor: tf.keras.Model, X: np.ndarray, y: np.ndarray, output_path: str = "fewshot_embeddings_pca.png") -> None:
-    """
-    Visualize embeddings using PCA.
-    """
-    # TODO: obtener embeddings, aplicar PCA a 2D y representar por clase
-    raise NotImplementedError
+def plot_embeddings_pca(
+    feature_extractor: tf.keras.Model,
+    X: np.ndarray,
+    y: np.ndarray,
+    output_path: str = "fewshot_embeddings_pca.png"
+):
+
+    embeddings = feature_extractor.predict(
+        X,
+        verbose=0
+    )
+
+    pca = PCA(n_components=2)
+
+    reduced = pca.fit_transform(
+        embeddings
+    )
+
+    plt.figure(figsize=(8, 6))
+
+    for cls in np.unique(y):
+
+        mask = y == cls
+
+        plt.scatter(
+            reduced[mask, 0],
+            reduced[mask, 1],
+            s=10,
+            alpha=0.6,
+            label=str(cls)
+        )
+
+    plt.legend()
+    plt.title("PCA of embedding space")
+    plt.tight_layout()
+
+    plt.savefig(
+        output_path,
+        dpi=200
+    )
+
+    plt.show()
 
 
 def save_classifier(classifier: tf.keras.Model, output_dir: str = "../../P9/outputs") -> str:
@@ -354,14 +433,82 @@ def main() -> None:
 
     feature_extractor = create_feature_extractor(classifier)
 
-    # save trained classifier and export 1-shot prototype
-    outputs_dir = os.path.join(os.path.dirname(__file__), "..", "..", "outputs")
+    outputs_dir = os.path.join(
+        os.path.dirname(__file__),
+        "..",
+        "outputs"
+    )
+
     outputs_dir = os.path.normpath(outputs_dir)
+
+    results = {}
+
+    for shots in [1, 5]:
+
+        X_support, y_support, X_query, y_query = build_fewshot_episode(
+            data,
+            n_shots=shots
+        )
+
+        prototypes, prototype_labels = compute_prototypes(
+            feature_extractor,
+            X_support,
+            y_support
+        )
+
+        predictions = classify_by_nearest_prototype(
+            feature_extractor,
+            X_query,
+            prototypes,
+            prototype_labels
+        )
+
+        acc = accuracy_score(
+            y_query,
+            predictions
+        )
+
+        results[f"{shots}-shot"] = acc
+
+        print(f"{shots}-shot accuracy: {acc:.4f}")
+
+    plot_accuracy_comparison(
+        results,
+        output_path=os.path.join(
+            outputs_dir,
+            "fewshot_accuracy_comparison.png"
+        )
+    )
+
+    plot_embeddings_pca(
+        feature_extractor,
+        X_query,
+        y_query,
+        output_path=os.path.join(
+            outputs_dir,
+            "fewshot_embeddings_pca.png"
+        )
+    )
     model_path = save_classifier(classifier, output_dir=outputs_dir)
     print(f"Saved classifier to: {model_path}")
 
-    prototype_path = export_1shot_prototype(feature_extractor, data, n_shots=1, output_dir=outputs_dir)
+    prototype_path = export_1shot_prototype(
+        feature_extractor,
+        data,
+        n_shots=1,
+        output_dir=outputs_dir
+    )
+
     print(f"Saved 1-shot prototype to: {prototype_path}")
+
+    prototype_path_5 = export_1shot_prototype(
+        feature_extractor,
+        data,
+        n_shots=5,
+        output_dir=outputs_dir
+    )
+
+    print(f"Saved 5-shot prototype to: {prototype_path_5}")
 
 
 if __name__ == "__main__":
