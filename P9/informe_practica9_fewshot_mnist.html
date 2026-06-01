@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Práctica 9: Few-shot Learning</title>
+  <style>
+    :root {
+      --text: #1a1a1a;
+      --muted: #555;
+      --border: rgba(0, 0, 0, 0.12);
+      --border-strong: rgba(0, 0, 0, 0.22);
+      --accent: #2f6fed;
+      --accent-hover: #245ad0;
+      --paper: #ffffff;
+      --bg: #f6f7fb;
+      --soft: #f3f6ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+      background: linear-gradient(180deg, #f3f7ff 0%, var(--bg) 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Segoe WPC", "Ubuntu", "Droid Sans", sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(6px);
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    .note {
+      text-align: center;
+      color: var(--muted);
+      margin: 10px 0 0;
+      font-size: 13px;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 24px auto 40px;
+      padding: 30px 36px;
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 12px 28px rgba(18, 28, 45, 0.08);
+    }
+
+    h1, h2, h3 {
+      line-height: 1.25;
+      color: #0b214a;
+      margin-top: 0;
+    }
+
+    h1 {
+      padding-bottom: 0.3em;
+      border-bottom: 1px solid var(--border-strong);
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin-top: 28px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h3 {
+      margin-top: 20px;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    ul, ol {
+      margin-top: 0;
+      padding-left: 22px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+    }
+
+    thead th {
+      text-align: center;
+      border-bottom: 1px solid var(--border-strong);
+      padding: 8px 10px;
+      background: #f5f7fb;
+      font-weight: 700;
+    }
+
+    td, th {
+      padding: 8px 10px;
+      border-right: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    td:last-child, th:last-child {
+      border-right: none;
+    }
+
+    tbody tr + tr td {
+      border-top: 1px solid var(--border);
+    }
+
+    code {
+      font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+      font-size: 0.95em;
+      background: #f2f4f8;
+      padding: 1px 5px;
+      border-radius: 5px;
+      color: #374151;
+    }
+
+    blockquote {
+      margin: 14px 0;
+      padding: 0 16px;
+      border-left: 5px solid rgba(47, 111, 237, 0.45);
+      background: rgba(47, 111, 237, 0.06);
+      border-radius: 0 10px 10px 0;
+    }
+
+    .lead {
+      font-size: 15px;
+    }
+
+    .qa-q {
+      font-weight: 700;
+      margin-top: 12px;
+      margin-bottom: 6px;
+    }
+
+    .qa-a {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .info-box {
+      margin: 14px 0 18px;
+      padding: 14px 16px;
+      background: linear-gradient(180deg, #f9fbff, #f1f5ff);
+      border: 1px solid rgba(47, 111, 237, 0.16);
+      border-radius: 12px;
+    }
+
+    .page-break {
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .center-img {
+      display: block;
+      margin: 16px auto;
+      max-width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: white;
+    }
+
+    .figure-caption {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      margin-top: -6px;
+      margin-bottom: 12px;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .math {
+      display: block;
+      text-align: center;
+      margin: 12px 0;
+      font-style: italic;
+      color: #374151;
+    }
+
+    ol.preguntas > li::marker {
+      font-weight: 700;
+    }
+
+    @page {
+      margin-top: 1.2cm;
+      margin-bottom: 1.4cm;
+
+      @top-center {
+        content: "Práctica 9 — IAA — Escuela Politécnica Superior de Córdoba";
+        font-size: 9pt;
+        color: #666;
+      }
+
+      @bottom-center {
+        content: "Juan Luis Prieto Panadero y Alberto Álvarez Mejías";
+        font-size: 9pt;
+        color: #666;
+      }
+
+      @bottom-right {
+        content: "Página " counter(page) " de " counter(pages);
+        font-size: 9pt;
+        color: #666;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        font-size: 12px;
+      }
+
+      .topbar,
+      .note {
+        display: none !important;
+      }
+
+      .page {
+        margin: 0;
+        max-width: none;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+      }
+
+      .page-break {
+        page-break-after: always;
+        break-after: page;
+      }
+
+      a {
+        color: inherit;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar no-print">
+    <button id="btnPdf" class="btn btn-primary">Descargar PDF</button>
+    <button id="btnPrint" class="btn">Imprimir</button>
+  </div>
+  <p class="note no-print">Este HTML está preparado para abrirse en el navegador y guardarse como PDF.</p>
+
+  <main class="page" id="pdfArea">
+    <article>
+      <h1>Práctica 9: Few-shot Learning</h1>
+      <div class="info-box">
+        <p><strong>Aprendizaje con Pocos Ejemplos</strong></p>
+        <p><strong>3º Ingeniería Informática - Curso 2025/2026</strong></p>
+      </div>
+
+      <hr>
+
+      <h2>Objetivo</h2>
+      <p class="lead">Comprender cómo un modelo puede reconocer una clase nueva utilizando muy pocos ejemplos etiquetados. En particular, se estudiará el enfoque de Few-shot Learning mediante una versión sencilla de Redes Prototípicas aplicada al dataset MNIST. El objetivo final será analizar si un modelo entrenado sin ver una clase concreta puede reutilizar su extractor de características para representar esa clase nueva mediante un pequeño conjunto de ejemplos de apoyo.</p>
+
+      <h2>Material de partida</h2>
+      <ul>
+        <li>Un código base que carga automáticamente el dataset MNIST.</li>
+        <li>Una división del problema en un mundo sin sietes, donde el modelo se entrena inicialmente sin imágenes de la clase 7.</li>
+        <li>Una red neuronal sencilla que actúa primero como clasificador y posteriormente como extractor de características (embedding).</li>
+        <li>Un support set con pocos ejemplos del dígito 7.</li>
+        <li>Un query set con ejemplos de test para evaluar si el modelo reconoce correctamente la nueva clase.</li>
+        <li>Funciones auxiliares para calcular prototipos, distancias euclídeas y precisión.</li>
+        <li>Una plantilla con las librerías necesarias para entrenar el modelo, obtener embeddings y representar resultados.</li>
+      </ul>
+
+      <h2>Introducción</h2>
+      <p>En muchos problemas reales de aprendizaje automático no siempre se dispone de cientos o miles de ejemplos etiquetados para cada clase. En ocasiones aparece una clase nueva de la que solo tenemos unas pocas muestras: una nueva especie animal, un defecto raro en una cadena de producción, una enfermedad poco frecuente o una categoría visual que el sistema no había visto antes.</p>
+      <p>Una solución ingenua sería reentrenar el modelo completo con esos pocos ejemplos. Sin embargo, esto suele ser poco fiable: con tan pocos datos, el modelo puede sobreajustarse y no aprender una representación general de la nueva clase. Además, si se reentrena de forma inadecuada, puede empeorar su rendimiento sobre las clases que ya conocía.</p>
+      <p>El Few-shot Learning propone una idea distinta: en lugar de aprender una nueva clase desde cero, se intenta aprovechar una representación ya aprendida. En esta práctica, entrenaremos primero una red neuronal con los dígitos de MNIST excepto el 7. Después eliminaremos su última capa y usaremos la red como extractor de características. De esta forma, cada imagen se convertirá en un vector numérico o embedding.</p>
+      <p>A partir de unos pocos ejemplos del número 7, calcularemos un prototipo: el vector medio de sus embeddings. Para clasificar nuevas imágenes, calcularemos qué prototipo queda más cerca en el espacio de características.</p>
+      <p>La pregunta clave será: <strong>¿puede un modelo reconocer una clase nueva usando solo 1 o 5 ejemplos?</strong></p>
+
+      <div class="page-break"></div>
+      <h2>Conceptos clave</h2>
+      <p>En esta práctica se utilizarán tres ideas fundamentales:</p>
+      <ul>
+        <li><strong>Support set:</strong> pequeño conjunto de ejemplos etiquetados que se usa para definir una clase nueva.</li>
+        <li><strong>Query set:</strong> conjunto de ejemplos que se desea clasificar después de construir los prototipos.</li>
+        <li><strong>Prototipo:</strong> representación media de una clase en el espacio de embeddings.</li>
+      </ul>
+      <p>Para una clase k, su prototipo se calcula como:</p>
+      <div class="math">c_k = (1/|S_k|) × Σ f(x_i) para x_i ∈ S_k</div>
+      <p>Donde S_k es el conjunto de apoyo de la clase k y f(x_i) es el embedding producido por el extractor de características.</p>
+      <p>Una imagen de consulta se clasifica asignándola a la clase cuyo prototipo esté más cerca:</p>
+      <div class="math">ŷ = arg min_k d(f(x), c_k)</div>
+      <p>En esta práctica utilizaremos distancia euclídea.</p>
+
+      <h2>Configuración experimental</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Elemento</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Dataset</td><td>MNIST</td></tr>
+          <tr><td>Tamaño de imagen</td><td>28 × 28</td></tr>
+          <tr><td>Clase nueva</td><td>7</td></tr>
+          <tr><td>Clases conocidas</td><td>0, 1, 2, 3, 4, 5, 6, 8, 9</td></tr>
+          <tr><td>Tamaño del support set (1-shot)</td><td>1 imagen</td></tr>
+          <tr><td>Tamaño del support set (5-shot)</td><td>5 imágenes</td></tr>
+          <tr><td>Tamaño del query set</td><td>1000 imágenes</td></tr>
+          <tr><td>Dimensión del embedding</td><td>64</td></tr>
+        </tbody>
+      </table>
+
+      <div class="page-break"></div>
+      <h2>Tarea 1: Preparación del mundo sin sietes</h2>
+      <h3>Qué se hizo</h3>
+      <ul>
+        <li>Se cargó el dataset MNIST.</li>
+        <li>Se normalizaron las imágenes para que los valores quedaran en el rango [0,1].</li>
+        <li>Se añadió un canal final para trabajar con imágenes de forma (28, 28, 1).</li>
+        <li>Se separaron del entrenamiento todas las imágenes del dígito 7.</li>
+        <li>Se entrenó una red neuronal sencilla usando únicamente las clases conocidas.</li>
+        <li>Se evaluó el clasificador sobre las clases conocidas.</li>
+        <li>Se guardó el modelo entrenado.</li>
+      </ul>
+
+      <h3>Resultados</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Métrica</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Accuracy sobre clases conocidas</td><td>0.9879</td></tr>
+          <tr><td>Loss final</td><td>0.0403</td></tr>
+          <tr><td>Épocas de entrenamiento</td><td>3</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Cuestión: ¿Por qué tiene sentido eliminar la clase 7 durante el entrenamiento inicial?</h3>
+      <p class="qa-a">Tiene sentido porque la clase 7 es la clase nueva que se quiere evaluar después con few-shot learning. Si el modelo la viera durante el entrenamiento inicial, ya no sería un problema de reconocimiento de clase nueva, sino un clasificador convencional. Al excluirla, se fuerza al modelo a aprender una representación útil para las clases conocidas sin adaptar directamente sus pesos al 7.</p>
+
+      <h3>Interpretación</h3>
+      <p class="qa-q">¿Qué implica para el aprendizaje posterior que el modelo no haya visto nunca la clase 7?</p>
+      <p class="qa-a">Que el modelo no haya visto nunca el 7 significa que no ha ajustado sus pesos para separar explícitamente esa clase. Por tanto, al incorporarla después solo con unos pocos ejemplos, no se espera que la reconozca por una regla aprendida directamente, sino por similitud en el espacio de embeddings. Esto hace que la calidad del extractor de características sea clave para que el aprendizaje posterior funcione.</p>
+
+      <div class="page-break"></div>
+
+      <h2>Tarea 2: Construcción del extractor de características</h2>
+      <h3>Qué se hizo</h3>
+      <ul>
+        <li>Se tomó el modelo entrenado en la tarea anterior.</li>
+        <li>Se identificó una capa intermedia adecuada para usarla como representación de la imagen.</li>
+        <li>Se construyó un nuevo modelo que recibe una imagen y devuelve su embedding.</li>
+        <li>Se obtuvieron embeddings para algunas imágenes de ejemplo.</li>
+        <li>Se comprobó la dimensión del vector generado.</li>
+      </ul>
+
+      <h3>Resultados</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Elemento</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Capa elegida como embedding</td><td>embedding</td></tr>
+          <tr><td>Dimensión del embedding</td><td>64</td></tr>
+          <tr><td>Observaciones</td><td>Vector representativo de 64 componentes</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Cuestión: ¿Por qué no usamos directamente los píxeles de la imagen para calcular las distancias?</h3>
+      <p class="qa-a">Porque los píxeles están en un espacio de alta dimensión y no capturan directamente la similitud semántica entre dígitos. Dos imágenes de un mismo número pueden verse muy distintas a nivel de píxel, mientras que el embedding intenta agrupar juntas las imágenes parecidas en una representación más compacta y estable para medir distancias.</p>
+
+      <h3>Interpretación</h3>
+      <p class="qa-q">¿Por qué el espacio de embeddings suele ser más útil que el espacio original de píxeles?</p>
+      <p class="qa-a">El espacio de embeddings suele ser más útil porque concentra información relevante y reduce ruido visual irrelevante. Así, las distancias entre puntos reflejan mejor relaciones de clase que la comparación directa entre intensidades de píxeles.</p>
+
+      <div class="page-break"></div>
+
+      <h2>Tarea 3: Cálculo del prototipo del número 7</h2>
+      <h3>Qué se hizo</h3>
+      <ul>
+        <li>Se seleccionó 1 imagen del número 7 para construir un prototipo 1-shot.</li>
+        <li>Se seleccionaron 5 imágenes del número 7 para construir un prototipo 5-shot.</li>
+        <li>Se pasaron esas imágenes por el extractor de características.</li>
+        <li>Se calculó el vector medio de los embeddings seleccionados.</li>
+        <li>Se guardaron ambos prototipos.</li>
+      </ul>
+
+      <h3>Resultados</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Configuración</th>
+            <th>Número de ejemplos</th>
+            <th>Dimensión</th>
+            <th>Observaciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1-shot</td><td>1</td><td>64</td><td>Prototipo simple, sensible a características particulares</td></tr>
+          <tr><td>5-shot</td><td>5</td><td>64</td><td>Prototipo promediado, más robusto</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Cuestión: Explica qué representa el prototipo de una clase en cada uno de los casos.</h3>
+      <p class="qa-a">El prototipo es como una representación "media" de una clase dentro del espacio de características que genera la red. En el caso de 1-shot, el prototipo se obtiene a partir de una sola imagen, por lo que depende totalmente de ese ejemplo. En el caso de 5-shot, se calcula haciendo la media de cinco embeddings diferentes, por lo que representa mejor las características generales del número 7.</p>
+
+      <h3>Interpretación</h3>
+      <p>La principal diferencia es que con 5 ejemplos el prototipo suele ser más fiable. Si usamos solo una imagen, puede ocurrir que ese ejemplo tenga alguna particularidad que no represente bien a toda la clase. Al utilizar cinco imágenes, esas diferencias se compensan y el prototipo resulta más estable.</p>
+
+      <div class="page-break"></div>
+      <h2>Tarea 4: Clasificación por distancia</h2>
+      <h3>Qué se hizo</h3>
+      <ul>
+        <li>Se construyeron prototipos para varias clases conocidas usando pocos ejemplos por clase.</li>
+        <li>Se añadió también el prototipo del número 7.</li>
+        <li>Se seleccionó un query set con imágenes de test.</li>
+        <li>Se obtuvo el embedding de cada imagen de consulta.</li>
+        <li>Se calculó la distancia euclídea entre cada query y cada prototipo.</li>
+        <li>Se asignó a cada query la clase del prototipo más cercano.</li>
+        <li>Se calculó la precisión obtenida.</li>
+      </ul>
+
+      <h3>Resultados</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Métrica</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Accuracy final (1-shot)</td><td>0.8880</td></tr>
+          <tr><td>Accuracy final (5-shot)</td><td>0.9400</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Cuestión: Explica por qué clasificar por distancia puede funcionar en un espacio de embeddings.</h3>
+      <p class="qa-a">Porque el extractor de características intenta colocar cerca las imágenes que son parecidas y separar las que pertenecen a clases diferentes. De esta forma, cuando calculamos la distancia entre una imagen y los prototipos, normalmente la menor distancia corresponde a la clase correcta.</p>
+
+      <div class="page-break"></div>
+
+      <h2>Tarea 5: Comparación entre 1-shot y 5-shot</h2>
+      <h3>Qué se hizo</h3>
+      <ul>
+        <li>Se ejecutó la clasificación usando prototipos construidos con 1 ejemplo por clase.</li>
+        <li>Se ejecutó la clasificación usando prototipos construidos con 5 ejemplos por clase.</li>
+        <li>Se evaluaron ambos casos sobre el mismo query set.</li>
+        <li>Se guardó la accuracy de cada configuración.</li>
+        <li>Se representó una gráfica de barras comparando 1-shot y 5-shot.</li>
+      </ul>
+
+      <h3>Resultados comparativos</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Configuración</th>
+            <th>Accuracy</th>
+            <th>Observaciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1-shot</td><td>0.8880</td><td>Buen rendimiento utilizando un único ejemplo</td></tr>
+          <tr><td>5-shot</td><td>0.9400</td><td>Mejora significativa con representación más estable</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Cuestión: ¿Mejora el rendimiento al pasar de 1-shot a 5-shot? ¿Por qué?</h3>
+      <p class="qa-a">Sí, la precisión pasa de 0.8880 a 0.9400. Esto ocurre porque al utilizar más ejemplos para crear el prototipo, este representa mejor a la clase y es menos sensible a las características de una única imagen.</p>
+
+      <div class="page-break"></div>
+
+      <h2>Tarea 6: Visualización del espacio de características</h2>
+      <h3>Qué se hizo</h3>
+      <ul>
+        <li>Se obtuvieron embeddings de un subconjunto de imágenes de test.</li>
+        <li>Se aplicó PCA o t-SNE para proyectarlos a dos dimensiones.</li>
+        <li>Se representaron los puntos coloreados por clase.</li>
+        <li>Se marcaron las posiciones de los prototipos.</li>
+        <li>Se observó si el número 7 queda cerca o lejos de otros dígitos.</li>
+      </ul>
+
+      <h3>Cuestión: Explica qué aporta esta visualización para entender el método.</h3>
+      <p class="qa-a">La visualización permite ver cómo organiza el modelo las imágenes dentro del espacio de embeddings. Gracias a ella podemos comprobar si las distintas clases forman grupos diferenciados y observar dónde se sitúa el número 7 respecto al resto de dígitos.</p>
+
+      <h3>Interpretación</h3>
+      <p>Si el 7 aparece agrupado y separado de otras clases, será más fácil reconocerlo correctamente. Si aparece mezclado con otros números parecidos, como el 1 o el 9, es más probable que se produzcan errores de clasificación.</p>
+
+      <h2>Limitaciones del enfoque</h2>
+      <h3>Aspectos a comentar</h3>
+      <ul>
+        <li>Dependencia de la calidad del extractor de características.</li>
+        <li>Sensibilidad a que el support set no sea representativo.</li>
+        <li>Posible solapamiento entre clases en el espacio de embeddings.</li>
+        <li>Diferencia entre 1-shot y 5-shot en términos de robustez.</li>
+        <li>Limitaciones de usar una única distancia para decidir la clase.</li>
+      </ul>
+
+      <h3>Reflexión</h3>
+      <p>El método funciona bastante bien porque aprovecha un extractor de características que ya ha aprendido información útil sobre los dígitos. Gracias a ello, es capaz de representar una clase nueva utilizando muy pocos ejemplos. Sin embargo, el rendimiento depende mucho de la calidad de los embeddings obtenidos. Si el support set no es representativo o las clases aparecen muy mezcladas en el espacio de características, la precisión puede disminuir. Además, utilizar más ejemplos, como en el caso 5-shot, suele generar prototipos más robustos que en el caso 1-shot.</p>
+
+      <div class="page-break"></div>
+
+      <h2>Reto: Pensando en un problema real</h2>
+      <p>Imagina que trabajas en una aplicación de reconocimiento visual y aparece una nueva categoría para la que solo tienes unas pocas imágenes etiquetadas.</p>
+
+      <h3>Cuestiones</h3>
+      <ol class="preguntas">
+        <li>
+          <p><strong>¿Qué ventajas tendría usar un extractor de características preentrenado?</strong></p>
+          <p class="qa-a">Permite aprovechar lo que el modelo ya ha aprendido y reconocer nuevas clases sin necesidad de entrenarlo desde cero. Además, hace falta menos cantidad de datos.</p>
+        </li>
+        <li>
+          <p><strong>¿Qué riesgos existen si los pocos ejemplos del support set no son representativos?</strong></p>
+          <p class="qa-a">El prototipo puede no representar bien a la clase y provocar errores al clasificar nuevas imágenes.</p>
+        </li>
+        <li>
+          <p><strong>¿Qué ocurriría si el extractor no genera buenos embeddings para la nueva clase?</strong></p>
+          <p class="qa-a">Las imágenes de esa clase quedarían mezcladas con otras y sería más difícil diferenciarlas correctamente.</p>
+        </li>
+        <li>
+          <p><strong>¿Por qué el enfoque 5-shot puede ser más robusto que el enfoque 1-shot?</strong></p>
+          <p class="qa-a">Porque utiliza varios ejemplos para crear el prototipo y reduce la influencia de una única imagen que pueda ser poco representativa.</p>
+        </li>
+        <li>
+          <p><strong>¿En qué tipo de problemas reales podría ser útil esta estrategia?</strong></p>
+          <p class="qa-a">En reconocimiento de especies poco comunes, enfermedades raras, detección de defectos en productos o cualquier situación donde haya pocos ejemplos disponibles.</p>
+        </li>
+      </ol>
+
+      <h3>Interpretación</h3>
+      <p class="footer-note">El few-shot learning permite aprender nuevas clases utilizando muy pocos ejemplos. La clave está en reutilizar un buen extractor de características y comparar las imágenes mediante prototipos en lugar de volver a entrenar todo el modelo.</p>
+
+      <h2>Conclusión</h2>
+      <p>En esta práctica hemos comprobado cómo el few-shot learning permite reconocer una clase nueva utilizando muy pocos ejemplos. Para ello, se reutiliza un extractor de características entrenado previamente y se crean prototipos para representar cada clase. Los resultados muestran que el método funciona bastante bien y que utilizar 5 ejemplos proporciona mejores resultados que utilizar solo 1. También hemos visto que el rendimiento depende mucho de la calidad de los embeddings y de que los ejemplos de apoyo sean representativos.</p>
+      <p>El enfoque de redes prototípicas demuestra que no siempre es necesario reentrenar un modelo completo para aprender nuevas clases. Reutilizar un extractor de características preentrenado y aplicar técnicas de comparación por distancia en el espacio de embeddings puede ser suficiente para lograr un rendimiento razonable incluso con pocos ejemplos disponibles.</p>
+    </article>
+  </main>
+
+  <script>
+    const btnPdf = document.getElementById('btnPdf');
+    const btnPrint = document.getElementById('btnPrint');
+
+    btnPrint.addEventListener('click', () => window.print());
+    btnPdf.addEventListener('click', () => window.print());
+  </script>
+</body>
+</html>
