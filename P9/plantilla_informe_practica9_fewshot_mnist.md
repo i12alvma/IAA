@@ -62,7 +62,6 @@ En esta práctica utilizaremos distancia euclídea.
 ---
 
 ## Configuración experimental
-Completa esta tabla con los valores reales obtenidos al ejecutar el código.
 
 | Elemento | Valor |
 |---|---|
@@ -89,7 +88,6 @@ Completa esta tabla con los valores reales obtenidos al ejecutar el código.
 - Se guardó el modelo entrenado.
 
 ### Resultados
-Completa esta tabla con los resultados obtenidos.
 
 | Métrica | Valor |
 |---|---:|
@@ -148,7 +146,6 @@ El espacio de embeddings suele ser más útil porque concentra información rele
 - Se guardaron ambos prototipos.
 
 ### Resultados
-Completa esta tabla.
 
 | Configuración | Número de ejemplos | Dimensión del prototipo | Observaciones |
 |---|---:|---:|---|
@@ -179,7 +176,6 @@ La principal diferencia es que con 5 ejemplos el prototipo suele ser más fiable
 - Se calculó la precisión obtenida.
 
 ### Resultados
-Completa la tabla.
 
 | Clase | Número de prototipos | Prototipo usado | Observaciones |
 |---|---:|---|---|
@@ -211,7 +207,6 @@ Si dos clases aparecen muy separadas en el espacio de embeddings, el modelo las 
 - Se representó una gráfica de barras comparando 1-shot y 5-shot.
 
 ### Resultados
-Completa la tabla comparativa.
 
 | Configuración | Accuracy | Observaciones |
 |---|---:|---|
@@ -223,8 +218,6 @@ Completa la tabla comparativa.
 Sí, en este caso la precisión pasa de 0.8880 a 0.9400. Esto ocurre porque al utilizar más ejemplos para crear el prototipo, este representa mejor a la clase y es menos sensible a las características de una única imagen.
 
 ### Figura comparativa
-Inserta aquí la gráfica de barras generada.
-
 ![Comparación 1-shot vs 5-shot](outputs/fewshot_accuracy_comparison.png)
 
 ### Interpretación
@@ -243,7 +236,6 @@ Los resultados muestran que disponer de algunos ejemplos más ayuda bastante al 
 - Se observó si el número 7 queda cerca o lejos de otros dígitos.
 
 ### Figura
-Inserta aquí la visualización del espacio de embeddings.
 
 ![Visualización de embeddings](outputs/fewshot_embeddings_pca.png)
 
