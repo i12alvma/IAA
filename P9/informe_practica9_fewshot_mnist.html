@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Práctica 9: Few-shot Learning</title>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <style>
     :root {
       --text: #1a1a1a;
@@ -222,8 +223,7 @@
     .math {
       display: block;
       text-align: center;
-      margin: 12px 0;
-      font-style: italic;
+      margin: 16px 0;
       color: #374151;
     }
 
@@ -332,10 +332,10 @@
         <li><strong>Prototipo:</strong> representación media de una clase en el espacio de embeddings.</li>
       </ul>
       <p>Para una clase k, su prototipo se calcula como:</p>
-      <div class="math">c_k = (1/|S_k|) × Σ f(x_i) para x_i ∈ S_k</div>
-      <p>Donde S_k es el conjunto de apoyo de la clase k y f(x_i) es el embedding producido por el extractor de características.</p>
+      <div class="math">$$c_k = \frac{1}{|S_k|} \sum_{x_i \in S_k} f(x_i)$$</div>
+      <p>Donde $S_k$ es el conjunto de apoyo de la clase k y $f(x_i)$ es el embedding producido por el extractor de características.</p>
       <p>Una imagen de consulta se clasifica asignándola a la clase cuyo prototipo esté más cerca:</p>
-      <div class="math">ŷ = arg min_k d(f(x), c_k)</div>
+      <div class="math">$$\hat{y} = \arg\min_k d(f(x), c_k)$$</div>
       <p>En esta práctica utilizaremos distancia euclídea.</p>
 
       <h2>Configuración experimental</h2>
